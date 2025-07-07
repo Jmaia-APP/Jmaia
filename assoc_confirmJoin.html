@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تأكيد الانضمام للجمعية</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
+
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md text-center">
+    <h2 class="text-2xl font-bold mb-6 text-blue-700">تأكيد الانضمام للجمعية</h2>
+    <div id="turn-info" class="mb-4 text-lg text-gray-700"></div>
+    <button id="join-btn" class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition mb-4">انضمام للجمعية</button>
+    <div id="result" class="text-center text-lg font-bold mt-4"></div>
+  </div>
+  <!-- Modal -->
+  <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-8 shadow-lg text-center max-w-xs w-full">
+      <div class="text-green-600 text-4xl mb-4">✔️</div>
+      <div class="text-xl font-bold mb-4">تم الانضمام بنجاح</div>
+      <button id="modal-ok-btn" class="w-full py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-700 transition">تم</button>
+    </div>
+  </div>
+  <script>
+    // عرض رقم الدور المختار وتعطيل الزر إذا لم يتم اختيار دور
+    function updateTurnInfoAndButton() {
+      // جلب رقم الدور من turnNumber في sessionStorage أو selectedTurnId في localStorage
+      let turnNumber = null;
+      let turnObj = sessionStorage.getItem('turnNumber');
+      if (turnObj) {
+        // إذا كانت القيمة رقم خام أو كائن JSON
+        try {
+          turnNumber = isNaN(turnObj) ? JSON.parse(turnObj).turnNumber : Number(turnObj);
+        } catch {
+          turnNumber = Number(turnObj);
+        }
+      }
+      // إذا لم يوجد، جرب selectedTurnId
+      if (!turnNumber) {
+        const selectedTurnId = localStorage.getItem('selectedTurnId');
+        if (selectedTurnId && !isNaN(Number(selectedTurnId))) {
+          turnNumber = Number(selectedTurnId);
+        }
+      }
+      document.getElementById('turn-info').textContent = turnNumber ? `الدور المختار: ${turnNumber}` : 'لم يتم اختيار دور بعد';
+      document.getElementById('join-btn').disabled = !turnNumber;
+      return turnNumber;
+    }
+    let turnNumber = updateTurnInfoAndButton();
+
+    // إذا تغيرت قيمة الدور في localStorage (مثلاً عند العودة من صفحة أخرى)
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'turnNumber') {
+        turnNumber = updateTurnInfoAndButton();
+      }
+    });
+
+    document.getElementById('join-btn').onclick = async function() {
+      // تحديث turnNumber في كل مرة للضمان
+      turnNumber = updateTurnInfoAndButton();
+      const associationId = localStorage.getItem('selectedAssociationId');
+      if (!associationId) {
+        document.getElementById('result').textContent = 'لم يتم العثور على رقم الجمعية في التخزين المحلي';
+        return;
+      }
+      if (!turnNumber) {
+        document.getElementById('result').textContent = 'لم يتم اختيار دور بعد';
+        return;
+      }
+      let token = localStorage.getItem('token');
+      if (!token) {
+        token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInJvbGUiOiJ1c2VyIiwid2FsbGV0QmFsYW5jZSI6MCwiaWF0IjoxNzUwNzYxMDc2LCJleHAiOjE3NTA4NDc0NzZ9.G_lUXamShZPrIvXb8gC3nd0yinbpq9XrCE2liHvWlf0';
+      }
+      this.disabled = true;
+      document.getElementById('result').textContent = 'جاري الانضمام...';
+      try {
+        const res = await fetch(`https://api.technologytanda.com/api/associations/${associationId}/join`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ turnNumber })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          // إظهار المودال عند النجاح
+          document.getElementById('result').textContent = '';
+          document.getElementById('success-modal').classList.remove('hidden');
+          // حذف turnNumber من sessionStorage بعد نجاح الانضمام
+          sessionStorage.removeItem('turnNumber');
+          return; // لا تعيد تفعيل الزر بعد النجاح
+        } else if (res.status === 409) {
+          // معالجة حالة الدور محجوز أو تعارض
+          document.getElementById('result').textContent = data.message || 'هذا الدور محجوز بالفعل أو لا يمكن الانضمام به';
+        } else {
+          document.getElementById('result').textContent = data.message || 'حدث خطأ أثناء الانضمام';
+        }
+      } catch (e) {
+        document.getElementById('result').textContent = 'حدث خطأ أثناء الانضمام';
+      }
+      this.disabled = false;
+    };
+
+    // عند الضغط على زر "تم" في المودال
+    document.getElementById('modal-ok-btn').onclick = function() {
+      // إعادة التوجيه للصفحة الرئيسية (غير اسم الملف إذا لزم)
+      window.location.href = 'home.html';
+    };
+  </script>
+</body>
+</html>
