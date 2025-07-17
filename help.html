@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة المساعدة - جمعيتي</title>
+    <title>صفحة المساعدة - چمعية</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -727,6 +727,34 @@
             margin-left: 10px;
             font-size: 1.2rem;
         }
+        
+        /* Alert Modal Styles */
+        #alertModal .modal-content {
+            max-width: 350px;
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        #alertModalMessage {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        #closeAlertModalButton {
+            background-color: #006C35;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+            min-width: 100px;
+        }
+        #closeAlertModalButton:hover {
+            background-color: #005A2B;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -748,13 +776,13 @@
         <div class="p-6 md:p-8 bg-gray-50">
             <h2 class="text-xl font-bold text-gray-900 mb-5 text-right">استكشف خدماتنا</h2>
             <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="service-card" data-service="كارت جمعيتي">
+                <div class="service-card" data-service="كارت چمعية">
                     <div class="service-icon-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg>
                     </div>
-                    <span class="text-base font-medium">كارت جمعيتي</span>
+                    <span class="text-base font-medium">كارت چمعية</span>
                     <div class="static-shape circle"></div>
                     <div class="static-shape square"></div>
                 </div>
@@ -790,9 +818,10 @@
                 </div>
                 <div class="service-card" data-service="السحب">
                     <div class="service-icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg> -->
+                        <img src="./Assets/imgs/iconATM.svg" alt="">
                     </div>
                     <span class="text-base font-medium">السحب</span>
                     <div class="static-shape star"></div>
@@ -800,9 +829,11 @@
                 </div>
                 <div class="service-card" data-service="العقد">
                     <div class="service-icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                        </svg>
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg> -->
+
+                        <img src="./Assets/imgs/contract 1.svg" alt="">
                     </div>
                     <span class="text-base font-medium">العقد</span>
                     <div class="static-shape square"></div>
@@ -812,37 +843,37 @@
 
             <h2 class="text-xl font-bold text-gray-900 mb-5 text-right">الأسئلة الشائعة</h2>
             <div class="space-y-3 mb-8">
-                <div class="faq-question" data-question="أين توجد فروع جمعيتي؟" data-answer="تطبيق جمعيتي متوفر في جميع أنحاء المملكة العربية السعودية. يمكنك العثور على شركائنا في المدن الكبرى مثل الرياض، جدة، الدمام، مكة المكرمة، والمدينة المنورة، بالإضافة إلى العديد من المدن والمحافظات الأخرى. نسعى لتوسيع شبكتنا لتشمل كل بيت في السعودية.">
-                    <span class="text-base font-medium">أين توجد فروع جمعيتي؟</span>
+                <div class="faq-question" data-question="أين توجد فروع چمعية؟" data-answer="تطبيق چمعية متوفر في جميع أنحاء المملكة العربية السعودية. يمكنك العثور على شركائنا في المدن الكبرى مثل الرياض، جدة، الدمام، مكة المكرمة، والمدينة المنورة، بالإضافة إلى العديد من المدن والمحافظات الأخرى. نسعى لتوسيع شبكتنا لتشمل كل بيت في السعودية.">
+                    <span class="text-base font-medium">أين توجد فروع چمعية؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="لماذا أثق في المستخدمين الآخرين في جمعيتي المضمونة؟" data-answer="نحن نطبق معايير صارمة للتحقق من هوية المستخدمين لضمان بيئة آمنة وموثوقة. جميع التعاملات تخضع لمراقبة دقيقة، ونتخذ إجراءات فورية ضد أي سلوك غير لائق. يمكنك دائمًا الإبلاغ عن أي مخاوف لفريق الدعم لدينا.">
-                    <span class="text-base font-medium">لماذا أثق في المستخدمين الآخرين في جمعيتي المضمونة؟</span>
+                <div class="faq-question" data-question="لماذا أثق في المستخدمين الآخرين في چمعية المضمونة؟" data-answer="نحن نطبق معايير صارمة للتحقق من هوية المستخدمين لضمان بيئة آمنة وموثوقة. جميع التعاملات تخضع لمراقبة دقيقة، ونتخذ إجراءات فورية ضد أي سلوك غير لائق. يمكنك دائمًا الإبلاغ عن أي مخاوف لفريق الدعم لدينا.">
+                    <span class="text-base font-medium">لماذا أثق في المستخدمين الآخرين في چمعية المضمونة؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="ما هي المستندات المطلوبة؟" data-answer="تعتمد المستندات المطلوبة على نوع الخدمة التي تطلبها في جمعيتي. بشكل عام، قد تحتاج إلى بطاقة الهوية الوطنية أو الإقامة السعودية سارية المفعول. لخدمات معينة، قد نطلب وثائق إضافية لضمان الامتثال لللوائح المحلية. سيتم توضيح ذلك لك عند اختيار الخدمة.">
+                <div class="faq-question" data-question="ما هي المستندات المطلوبة؟" data-answer="تعتمد المستندات المطلوبة على نوع الخدمة التي تطلبها في چمعية. بشكل عام، قد تحتاج إلى بطاقة الهوية الوطنية أو الإقامة السعودية سارية المفعول. لخدمات معينة، قد نطلب وثائق إضافية لضمان الامتثال لللوائح المحلية. سيتم توضيح ذلك لك عند اختيار الخدمة.">
                     <span class="text-base font-medium">ما هي المستندات المطلوبة؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="لماذا أثق في جمعيتي؟" data-answer="جمعيتي مبني على الشفافية والأمان، ملتزمين باللوائح السعودية. نستخدم أحدث تقنيات التشفير لحماية بياناتك، ونوفر دعمًا فنيًا على مدار الساعة. هدفنا هو بناء مجتمع موثوق به يوفر خدمات عالية الجودة لكل مستخدم.">
-                    <span class="text-base font-medium">لماذا أثق في جمعيتي؟</span>
+                <div class="faq-question" data-question="لماذا أثق في چمعية؟" data-answer="چمعية مبني على الشفافية والأمان، ملتزمين باللوائح السعودية. نستخدم أحدث تقنيات التشفير لحماية بياناتك، ونوفر دعمًا فنيًا على مدار الساعة. هدفنا هو بناء مجتمع موثوق به يوفر خدمات عالية الجودة لكل مستخدم.">
+                    <span class="text-base font-medium">لماذا أثق في چمعية؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="هل هذا قانوني؟" data-answer="نعم، تطبيق جمعيتي يعمل وفقًا لجميع القوانين والأنظمة المعمول بها في المملكة العربية السعودية. نحن نلتزم بالمعايير الحكومية ونعمل بتراخيص رسمية لضمان تقديم خدمات آمنة وشرعية لجميع المستخدمين.">
+                <div class="faq-question" data-question="هل هذا قانوني؟" data-answer="نعم، تطبيق چمعية يعمل وفقًا لجميع القوانين والأنظمة المعمول بها في المملكة العربية السعودية. نحن نلتزم بالمعايير الحكومية ونعمل بتراخيص رسمية لضمان تقديم خدمات آمنة وشرعية لجميع المستخدمين.">
                     <span class="text-base font-medium">هل هذا قانوني؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="كيف تستخدم كود الخصم؟" data-answer="لاستخدام كود الخصم في جمعيتي، بعد اختيارك للخدمة، انتقل إلى صفحة الدفع. ستجد خانة مخصصة لإدخال كود الخصم. قم بإدخال الكود واضغط على 'تطبيق' وسيتم خصم المبلغ تلقائيًا من الإجمالي قبل إتمام الدفع.">
+                <div class="faq-question" data-question="كيف تستخدم كود الخصم؟" data-answer="لاستخدام كود الخصم في چمعية، بعد اختيارك للخدمة، انتقل إلى صفحة الدفع. ستجد خانة مخصصة لإدخال كود الخصم. قم بإدخال الكود واضغط على 'تطبيق' وسيتم خصم المبلغ تلقائيًا من الإجمالي قبل إتمام الدفع.">
                     <span class="text-base font-medium">كيف تستخدم كود الخصم؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -854,14 +885,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="ما هو تطبيق جمعيتي؟" data-answer="تطبيق جمعيتي هو منصة رقمية رائدة في المملكة العربية السعودية، تهدف إلى تسهيل وتنظيم 'الجمعيات' (التعاونيات المالية) بين الأفراد والجماعات. يوفر التطبيق بيئة آمنة وشفافة لإدارة المدفوعات، السحوبات، وتتبع المشاركات لضمان حقوق الجميع.">
-                    <span class="text-base font-medium">ما هو تطبيق جمعيتي؟</span>
+                <div class="faq-question" data-question="ما هو تطبيق چمعية؟" data-answer="تطبيق چمعية هو منصة رقمية رائدة في المملكة العربية السعودية، تهدف إلى تسهيل وتنظيم 'الجمعيات' (التعاونيات المالية) بين الأفراد والجماعات. يوفر التطبيق بيئة آمنة وشفافة لإدارة المدفوعات، السحوبات، وتتبع المشاركات لضمان حقوق الجميع.">
+                    <span class="text-base font-medium">ما هو تطبيق چمعية؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </div>
-                <div class="faq-question" data-question="ما هي آلية التخصيص في جمعيتي؟" data-answer="في جمعيتي، يمكنك تخصيص إعدادات الجمعيات لتناسب احتياجاتك، مثل تحديد مبلغ القسط، وتاريخ السداد، وعدد المشاركين. كما نوفر خيارات لتخصيص الإشعارات والتنبيهات، لضمان تجربة مستخدم فريدة ومرنة تلبي متطلباتك الشخصية.">
-                    <span class="text-base font-medium">ما هي آلية التخصيص في جمعيتي؟</span>
+                <div class="faq-question" data-question="ما هي آلية التخصيص في چمعية؟" data-answer="في چمعية، يمكنك تخصيص إعدادات الجمعيات لتناسب احتياجاتك، مثل تحديد مبلغ القسط، وتاريخ السداد، وعدد المشاركين. كما نوفر خيارات لتخصيص الإشعارات والتنبيهات، لضمان تجربة مستخدم فريدة ومرنة تلبي متطلباتك الشخصية.">
+                    <span class="text-base font-medium">ما هي آلية التخصيص في چمعية؟</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -877,7 +908,7 @@
                 <div class="faq-question cursor-pointer mx-auto max-w-full"
                     style="margin-right:0.5rem;margin-left:0.5rem;"
                     onclick="window.location.href='about.html'">
-                    <span class="text-base font-semibold" style="font-family:'Cairo',sans-serif;">عن ابلكيشن جمعيتي</span>
+                    <span class="text-base font-semibold" style="font-family:'Cairo',sans-serif;">عن ابلكيشن چمعية</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 faq-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <!-- سهم لليسار مثل الأسئلة الشائعة -->
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -1028,11 +1059,11 @@
     </div>
 
     <!-- مودال بيانات الخدمة -->
-    <div id="serviceModal" class="modal-overlay open">
+    <div id="serviceModal" class="modal-overlay">
         <div class="modal-content service-modal-content p-0" style="max-width:420px;">
             <!-- Header -->
             <div class="flex items-center justify-between px-5 py-4 border-b bg-[#006C35] rounded-t-2xl relative">
-                <h3 id="serviceModalTitle" class="text-lg md:text-xl font-bold text-black flex-1 text-right">كارت جمعيتي</h3>
+                <h3 id="serviceModalTitle" class="text-lg md:text-xl font-bold text-black flex-1 text-right">كارت چمعية</h3>
                 <button id="closeServiceModalButton" class="absolute left-4 top-1/2 -translate-y-1/2 text-black hover:text-gray-200 text-2xl focus:outline-none" title="إغلاق">
                     &times;
                 </button>
@@ -1040,31 +1071,31 @@
             <!-- Body -->
             <div id="serviceModalBody" class="service-modal-body bg-white px-5 py-6">
                 <div>
-                    <p class="mb-4 text-gray-700 text-right">كارت جمعيتي هو بطاقة رقمية أو فعلية تتيح لك الاستفادة من خدمات جمعيتي بسهولة وأمان. يمكنك من خلالها إدارة الجمعيات، دفع الأقساط، واستلام الأرباح أو المبالغ المستحقة.</p>
+                    <p class="mb-4 text-gray-700 text-right">كارت چمعية هو بطاقة رقمية أو فعلية تتيح لك الاستفادة من خدمات چمعية بسهولة وأمان. يمكنك من خلالها إدارة الجمعيات، دفع الأقساط، واستلام الأرباح أو المبالغ المستحقة.</p>
                     <h4 class="font-bold text-gray-900 mb-3 text-right">الأسئلة الشائعة:</h4>
                     <ul id="faq-list" class="space-y-2">
                         <li>
-                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إيه الأوراق المطلوبة عشان أقدر أقدم على طلب كارت جمعيتي؟', 'صورة البطاقة الشخصية، صورة شهادة الميلاد، إثبات محل الإقامة، صورة شخصية حديثة.')">
+                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إيه الأوراق المطلوبة عشان أقدر أقدم على طلب كارت چمعية؟', 'صورة البطاقة الشخصية، صورة شهادة الميلاد، إثبات محل الإقامة، صورة شخصية حديثة.')">
                                 <svg class="toggle-arrow-icon w-5 h-5 text-[#006C35]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                                 </svg>
-                                <span class="question-text flex-1 text-right">إيه الأوراق المطلوبة عشان أقدر أقدم على طلب كارت جمعيتي؟</span>
+                                <span class="question-text flex-1 text-right">إيه الأوراق المطلوبة عشان أقدر أقدم على طلب كارت چمعية؟</span>
                             </div>
                         </li>
                         <li>
-                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إزاي استلم كارت جمعيتي؟', 'بعد تقديم الطلب والموافقة عليه، يمكنك استلام الكارت من أقرب فرع لجمعيتي أو من خلال مندوب التوصيل.')">
+                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إزاي استلم كارت چمعية؟', 'بعد تقديم الطلب والموافقة عليه، يمكنك استلام الكارت من أقرب فرع لچمعية أو من خلال مندوب التوصيل.')">
                                 <svg class="toggle-arrow-icon w-5 h-5 text-[#006C35]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                                 </svg>
-                                <span class="question-text flex-1 text-right">إزاي استلم كارت جمعيتي؟</span>
+                                <span class="question-text flex-1 text-right">إزاي استلم كارت چمعية؟</span>
                             </div>
                         </li>
                         <li>
-                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إزاي أفعل كارت جمعيتي؟', 'يمكنك تفعيل الكارت من خلال تطبيق جمعيتي أو الاتصال بخدمة العملاء.')">
+                            <div class="faq-item-div flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition" onclick="showAnswer('إزاي أفعل كارت چمعية؟', 'يمكنك تفعيل الكارت من خلال تطبيق چمعية أو الاتصال بخدمة العملاء.')">
                                 <svg class="toggle-arrow-icon w-5 h-5 text-[#006C35]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                                 </svg>
-                                <span class="question-text flex-1 text-right">إزاي أفعل كارت جمعيتي؟</span>
+                                <span class="question-text flex-1 text-right">إزاي أفعل كارت چمعية؟</span>
                             </div>
                         </li>
                         <!-- ... باقي الأسئلة بنفس النمط ... -->
@@ -1075,11 +1106,19 @@
             <div class="static-shape square bottom-left"></div>
         </div>
     </div>
-    <script>
-function showAnswer(question, answer) {
-    alert(question + "\n\n" + answer);
-}
-</script>
+    
+    <!-- Alert Modal -->
+    <div id="alertModal" class="modal-overlay">
+        <div class="modal-content" style="padding-top: 36px; border-radius: 20px; max-width:350px;">
+            <h3 id="alertModalTitle" class="text-xl font-bold text-gray-900 mb-4 text-center">تنبيه</h3>
+            <p id="alertModalMessage" class="mb-4 text-gray-700 text-center"></p>
+            <div class="flex justify-center">
+                <button id="closeAlertModalButton" class="interactive-button" style="background-color:#006C35;color:#fff;">موافق</button>
+            </div>
+            <div class="static-shape circle top-right"></div>
+            <div class="static-shape square bottom-left"></div>
+        </div>
+    </div>
 
     <script>
         // --- JavaScript for Modals ---
@@ -1088,9 +1127,12 @@ function showAnswer(question, answer) {
         const callModal = document.getElementById('callModal');
         const faqModal = document.getElementById('faqModal');
         const serviceModal = document.getElementById('serviceModal');
+        const alertModal = document.getElementById('alertModal');
         const successMessage = document.getElementById('successMessage'); 
         const thankYouMessage = document.getElementById('thankYouMessage');
         const noteSuccessMessage = document.getElementById('noteSuccessMessage');
+        const alertModalMessage = document.getElementById('alertModalMessage');
+        const closeAlertModalButton = document.getElementById('closeAlertModalButton');
 
         function openModal(modalElement) {
             modalElement.classList.add('open');
@@ -1122,6 +1164,15 @@ function showAnswer(question, answer) {
                 messageElement.classList.remove('show');
                 messageElement.style.display = 'none';
             }, 3000);
+        }
+        
+        // Function to show alert in modal instead of browser alert
+        function showAlert(message, title = "تنبيه") {
+            alertModalMessage.textContent = message;
+            if (title) {
+                document.getElementById('alertModalTitle').textContent = title;
+            }
+            openModal(alertModal);
         }
 
         // Send Message Modal
@@ -1159,7 +1210,7 @@ function showAnswer(question, answer) {
                     closeModal(sendMessageModal, true);
                     showNotification(successMessage);
                 } else {
-                    alert('الرجاء كتابة رسالتك.');
+                    showAlert('الرجاء كتابة رسالتك.');
                 }
             });
         }
@@ -1189,7 +1240,7 @@ function showAnswer(question, answer) {
                     closeModal(noteModal, true);
                     showNotification(noteSuccessMessage);
                 } else {
-                    alert('الرجاء كتابة الملاحظة.');
+                    showAlert('الرجاء كتابة الملاحظة.');
                 }
             });
         }
@@ -1256,9 +1307,9 @@ function showAnswer(question, answer) {
 
         // بيانات كل خدمة
         const serviceDetails = {
-            "كارت جمعيتي": `
+            "كارت چمعية": `
                 <div>
-                    <p class="mb-4 text-gray-700">كارت جمعيتي هو بطاقة رقمية أو فعلية تتيح لك الاستفادة من خدمات جمعيتي بسهولة وأمان. يمكنك من خلالها إدارة الجمعيات، دفع الأقساط، واستلام الأرباح أو المبالغ المستحقة.</p>
+                    <p class="mb-4 text-gray-700">كارت چمعية هو بطاقة رقمية أو فعلية تتيح لك الاستفادة من خدمات چمعية بسهولة وأمان. يمكنك من خلالها إدارة الجمعيات، دفع الأقساط، واستلام الأرباح أو المبالغ المستحقة.</p>
                     <h4 class="font-bold text-gray-900 mb-3">مزايا الكارت:</h4>
                     <ul class="feature-list">
                         <li>
@@ -1278,7 +1329,7 @@ function showAnswer(question, answer) {
             `,
             "إدارية": `
                 <div>
-                    <p class="mb-4 text-gray-700">الخدمات الإدارية في جمعيتي تمكنك من إدارة جميع جوانب الجمعيات التعاونية بشكل احترافي وفقًا للأنظمة السعودية.</p>
+                    <p class="mb-4 text-gray-700">الخدمات الإدارية في چمعية تمكنك من إدارة جميع جوانب الجمعيات التعاونية بشكل احترافي وفقًا للأنظمة السعودية.</p>
                     <h4 class="font-bold text-gray-900 mb-3">المميزات الرئيسية:</h4>
                     <ul class="feature-list">
                         <li>
@@ -1416,6 +1467,28 @@ function showAnswer(question, answer) {
                 }
             });
         }
+        
+        // Alert Modal Handling
+        if (closeAlertModalButton) {
+            closeAlertModalButton.addEventListener('click', () => closeModal(alertModal));
+        }
+        if (alertModal) {
+            alertModal.addEventListener('click', (event) => {
+                if (event.target === alertModal) {
+                    closeModal(alertModal);
+                }
+            });
+        }
+        
+        // Function to show answers in alert modal
+        function showAnswer(question, answer) {
+            showAlert(`${question}\n\n${answer}`, question);
+        }
+        
+        // Prevent service modal from opening on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            serviceModal.classList.remove('open');
+        });
     </script>
 </body>
 </html>
