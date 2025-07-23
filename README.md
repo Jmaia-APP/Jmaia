@@ -54,7 +54,7 @@ FundCircleApp is a web application inspired by Money Fellows that enables users 
 1. **Clone repository**
 
    ```bash
-   git clone https://github.com/AbdelrhmanAymanFathi/FundCircleApp.git
+   git clone https://github.com/Jmaia-APP/Jmaia.git
    cd FundCircleApp
    ```
 2. **Install backend dependencies**
