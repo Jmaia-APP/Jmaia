@@ -119,7 +119,10 @@ FundCircleApp/
 ├── node_modules/            # npm dependencies (e.g., Tailwind)
 ├── dist/                    # Built frontend assets (HTML/CSS/JS)
 ├── Assets/                  # Images, icons, fonts
-├── dashboard/               # Dashboard page assets
+├── dashboard/               # Dashboard page assets (Admin Panel)
+    ├── dashboard.html
+    ├── dashboard.js
+    ├── index.html           # login (Admin)
 ├── api/                     # Frontend helpers for API calls
 ├── public/                  # (alternative folder for HTML files)
 ├── postcss.config.js        # PostCSS configuration
