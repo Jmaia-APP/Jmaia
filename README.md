@@ -55,7 +55,7 @@ FundCircleApp is a web application inspired by Money Fellows that enables users 
 
    ```bash
    git clone https://github.com/Jmaia-APP/Jmaia.git
-   cd FundCircleApp
+   cd Jmaia
    ```
 2. **Install backend dependencies**
 
