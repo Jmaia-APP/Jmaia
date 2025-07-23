@@ -237,7 +237,8 @@
     // رفع الصورة إلى السيرفر
     async function uploadImage(dataUrl) {
       let file;
-      const fallbackUrl = 'https://github.com/Jmaia-APP/Jmaia/Assets/imgs/anynoums.jpg';
+      // Use the raw.githubusercontent.com URL for CORS compatibility
+      const fallbackUrl = 'https://raw.githubusercontent.com/Jmaia-APP/Jmaia/main/Assets/imgs/anynoums.jpg';
       if (!dataUrl) {
         // استخدم صورة عامة إذا لم تتوفر صورة
         const response = await fetch(fallbackUrl);
