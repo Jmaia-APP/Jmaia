@@ -26,18 +26,41 @@ const monthlyFeeEl = document.getElementById('monthlyFee');
 const totalFeeEl = document.getElementById('totalFee');
 const nextBtn = document.getElementById('nextBtn');
 
+// Modal logic
+function showModal(message, onConfirm, onCancel) {
+  const modal = document.getElementById('customModal');
+  const msg = document.getElementById('modalMessage');
+  const confirmBtn = document.getElementById('modalConfirm');
+  const cancelBtn = document.getElementById('modalCancel');
+  msg.textContent = message;
+  modal.classList.remove('hidden');
+  function cleanup() {
+    modal.classList.add('hidden');
+    confirmBtn.removeEventListener('click', confirmHandler);
+    cancelBtn.removeEventListener('click', cancelHandler);
+  }
+  function confirmHandler() {
+    cleanup();
+    if (onConfirm) onConfirm();
+  }
+  function cancelHandler() {
+    cleanup();
+    if (onCancel) onCancel();
+  }
+  confirmBtn.addEventListener('click', confirmHandler);
+  cancelBtn.addEventListener('click', cancelHandler);
+}
+
 // جلب البيانات من الـ API
 async function fetchTurns() {
   const associationId = localStorage.getItem('selectedAssociationId');
   const token = localStorage.getItem('token');
   if (!associationId) {
-    alert('لم يتم اختيار جمعية!');
-    window.location.href = 'home.html';
+    showModal('لم يتم اختيار جمعية! سيتم إعادتك للصفحة الرئيسية.', () => { window.location.href = 'home.html'; });
     return;
   }
   if (!token) {
-    alert('يجب تسجيل الدخول أولاً');
-    window.location.href = 'login.html';
+    showModal('يجب تسجيل الدخول أولاً', () => { window.location.href = 'login.html'; });
     return;
   }
   try {
@@ -71,7 +94,7 @@ async function fetchTurns() {
     renderSummary();
   } catch (e) {
     console.error('تفاصيل الخطأ:', e);
-    alert('خطأ في تحميل الأدوار');
+    showModal('خطأ في تحميل الأدوار');
   }
 }
 
@@ -130,9 +153,9 @@ function renderTurns() {
         if (lockBtn) {
           lockBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            const confirmed = confirm('هل أنت متأكد أنك تريد اختيار هذا الدور؟');
-            if (!confirmed) return;
-            window.location.href = 'upload.html';
+            showModal('هل أنت متأكد أنك تريد اختيار هذا الدور؟', () => {
+              window.location.href = 'upload.html';
+            });
           });
         }
       }, 0);
@@ -204,9 +227,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // زر التالي
 nextBtn.addEventListener('click', function() {
   if (!selectedTurnId) return;
-  const confirmed = confirm('هل أنت متأكد أنك تريد اختيار هذا الدور؟');
-  if (!confirmed) return;
-  window.location.href = 'upload.html';
+  showModal('هل أنت متأكد أنك تريد اختيار هذا الدور؟', () => {
+    window.location.href = 'upload.html';
+  });
 });
 
 // أول تحميل
