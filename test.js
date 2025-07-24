@@ -80,21 +80,15 @@ async function fetchTurns() {
     if (turns.length === 0) throw new Error('لا يوجد أدوار متاحة');
     association = turns[0].association;
 
-    // تقسيم التابات أولاً
-    splitTabs();
-    // حساب الإجمالي
-    const totalAmount = association.monthlyAmount * turns.length;
-    // توزيع الخصم/الكاش باك حسب التاب
-    tabs.early.forEach(turn => {
-      turn.feeAmount = -Math.round(totalAmount * 0.07);
-    });
-    tabs.middle.forEach(turn => {
-      turn.feeAmount = -Math.round(totalAmount * 0.05);
-    });
-    tabs.late.forEach(turn => {
-      turn.feeAmount = Math.round(totalAmount * 0.02);
+    turns.forEach((turn, idx) => {
+      if (idx === turns.length - 1) {
+        turn.feeAmount = Math.abs(turn.feeAmount);
+      } else {
+        turn.feeAmount = -Math.abs(turn.feeAmount);
+      }
     });
 
+    splitTabs();
     renderTabs();
     renderTurns();
     renderSummary();
@@ -122,17 +116,7 @@ function renderTabs() {
 function renderTurns() {
   turnsGrid.innerHTML = '';
   tabs[selectedTab].forEach(turn => {
-    // تحديد نوع الدور
-    let percentText = '';
-    let isCashback = false;
-    if (tabs.early.includes(turn)) {
-      percentText = ' (7%)';
-    } else if (tabs.middle.includes(turn)) {
-      percentText = ' (5%)';
-    } else if (tabs.late.includes(turn)) {
-      percentText = ' (2%)';
-      isCashback = true;
-    }
+    const isLastTurn = turn === turns[turns.length - 1];
     const card = document.createElement('div');
     card.className = `turn-card border-2 rounded-xl p-3 flex flex-col gap-1 cursor-pointer relative transition ${turn.taken ? 'taken border-gray-300 bg-gray-100' : 'border-teal-400 bg-white'}`;
     card.dataset.id = turn.id;
@@ -144,12 +128,10 @@ function renderTurns() {
         <span class="font-bold">${turn.turnName}</span>
       </div>
       <div class="text-xs text-gray-500 mb-1">${formatDate(turn.scheduledDate)}</div>
-      <div class="text-sm font-bold ${isCashback ? 'text-green-700' : 'text-red-700'}">
+      <div class="text-sm font-bold ${isLastTurn ? 'text-green-700' : 'text-red-700'}">
         ${
           turn.feeAmount !== 0
-            ? (isCashback
-                ? formatAmount(Math.abs(turn.feeAmount)) + ' كاش باك' + percentText
-                : formatAmount(Math.abs(turn.feeAmount)) + ' رسوم الاشتراك' + percentText)
+            ? formatAmount(Math.abs(turn.feeAmount)) + (isLastTurn ? ' كاش باك' : ' رسوم الاشتراك')
             : 'بدون رسوم'
         }
       </div>
@@ -210,20 +192,12 @@ function renderSummary() {
   const diff = (selectedTurn ? selectedTurn.feeAmount : 0);
   const diffEl = document.getElementById('feeDiffText');
   if (selectedTurn && diff !== 0) {
-    let percentText = '';
-    if (tabs.early.includes(selectedTurn)) {
-      percentText = ' (7%)';
-    } else if (tabs.middle.includes(selectedTurn)) {
-      percentText = ' (5%)';
-    } else if (tabs.late.includes(selectedTurn)) {
-      percentText = ' (2%)';
-    }
-    if (tabs.late.includes(selectedTurn)) {
-      diffEl.innerHTML = `كاش باك ${formatAmount(diff)}${percentText}`;
+    if (isLastTurn) {
+      diffEl.innerHTML = `كاش باك ${formatAmount(diff)}`;
       diffEl.classList.remove('text-red-500', 'hidden');
       diffEl.classList.add('text-green-500');
     } else {
-      diffEl.innerHTML = `خصم قدره ${formatAmount(Math.abs(diff))}${percentText}`;
+      diffEl.innerHTML = `خصم قدره ${formatAmount(Math.abs(diff))}`;
       diffEl.classList.remove('text-green-500', 'hidden');
       diffEl.classList.add('text-red-500');
     }
