@@ -235,6 +235,10 @@
             -ms-transform: translateX(22px);
             transform: translateX(22px);
         }
+        .timeline-item-new .month-label.active-month-label {
+            color: #006C35 !important;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans text-right">
@@ -498,7 +502,8 @@
                             turns.forEach((turn, idx) => {
                                 const item = document.createElement('div');
                                 item.className = 'timeline-item-new';
-                                if (extractTurnNumber(turn.turnName) === currentTurn.currentTurnMember?.turnNumber) item.style.fontWeight = 'bold';
+                                const isActive = extractTurnNumber(turn.turnName) === currentTurn.currentTurnMember?.turnNumber;
+                                if (isActive) item.style.fontWeight = 'bold';
                                 const dot = document.createElement('div');
                                 dot.className = 'timeline-dot-new';
                                 item.appendChild(dot);
@@ -510,7 +515,7 @@
                                 const monthName = months[date.getMonth()];
                                 const year = date.getFullYear();
                                 const label = document.createElement('span');
-                                label.className = 'month-label';
+                                label.className = 'month-label' + (isActive ? ' active-month-label' : '');
                                 label.textContent = `${monthName} ${year}`;
                                 item.appendChild(label);
                                 timelineContainer.appendChild(item);
