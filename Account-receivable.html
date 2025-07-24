@@ -118,6 +118,10 @@
       box-shadow: 0 4px 16px rgba(16, 185, 129, 0.11);
       background-color: #ecfdf5;
     }
+    /* أيقونة العدسة عند تمرير الماوس */
+    .group:hover .group-hover\:opacity-100 {
+      opacity: 1 !important;
+    }
   </style>
 </head>
 
@@ -145,7 +149,10 @@
 
 
       </div>
-      <div id="uploaded-id-images" class="flex flex-wrap gap-2 mt-2"></div>
+      <div class="flex flex-col gap-2 mt-2 relative">
+        <button id="toggle-id-images-btn" class="mb-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium w-full hidden"></button>
+        <div id="uploaded-id-images" class="flex flex-col gap-2"></div>
+      </div>
 
       <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer"
         data-modal="modal-receipt">
@@ -405,14 +412,60 @@
         const data = await res.json();
         const container = document.getElementById('uploaded-id-images');
         container.innerHTML = '';
+        const toggleBtn = document.getElementById('toggle-id-images-btn');
+        let showingAll = false;
+        // إخفاء الزر افتراضياً
+        toggleBtn.classList.add('hidden');
         if (data.images && data.images.length > 0) {
-          data.images.forEach(img => {
-            const imgElem = document.createElement('img');
-            imgElem.src = `https://api.technologytanda.com/api/nationalID/${img}`;
-            imgElem.className = "w-24 h-24 object-cover rounded border border-gray-200";
-            imgElem.alt = "صورة بطاقة شخصية";
-            container.appendChild(imgElem);
-          });
+          let imagesToShow = data.images;
+          if (data.images.length > 2) {
+            imagesToShow = data.images.slice(-2);
+            toggleBtn.classList.remove('hidden');
+            toggleBtn.innerText = 'عرض كل الصور';
+          }
+          function renderImages(imgs) {
+            container.innerHTML = '';
+            imgs.forEach(img => {
+              const imgElem = document.createElement('img');
+              const wrapper = document.createElement('div');
+              wrapper.className = "relative w-full mb-2 group";
+              imgElem.src = `https://api.technologytanda.com/api/nationalID/${img}`;
+              imgElem.className = "w-full h-auto max-h-64 object-cover rounded border border-gray-200 enlargeable cursor-zoom-in";
+              imgElem.alt = "صورة بطاقة شخصية";
+              // أيقونة العدسة
+              const icon = document.createElement('span');
+              icon.innerHTML = `<svg class='absolute top-2 left-2 text-white bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity' style='width:2rem;height:2rem;z-index:10;' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8' stroke='currentColor' stroke-width='2'/><line x1='21' y1='21' x2='16.65' y2='16.65' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg>`;
+              wrapper.appendChild(imgElem);
+              wrapper.appendChild(icon);
+              container.appendChild(wrapper);
+            });
+            // إعادة تفعيل خاصية التكبير للصور الجديدة
+            document.querySelectorAll('#uploaded-id-images .enlargeable').forEach(img => {
+              img.addEventListener('click', function (e) {
+                const modal = document.getElementById('image-modal');
+                const modalImg = document.getElementById('modal-img');
+                if (modal && modalImg) {
+                  modalImg.src = this.src;
+                  modal.classList.remove('hidden');
+                }
+              });
+            });
+          }
+          renderImages(imagesToShow);
+          // زر التبديل
+          if (data.images.length > 2) {
+            toggleBtn.onclick = function() {
+              if (!showingAll) {
+                renderImages(data.images);
+                toggleBtn.innerText = 'إخفاء الصور الإضافية';
+                showingAll = true;
+              } else {
+                renderImages(data.images.slice(-2));
+                toggleBtn.innerText = 'عرض كل الصور';
+                showingAll = false;
+              }
+            };
+          }
         }
       } catch { }
     }
