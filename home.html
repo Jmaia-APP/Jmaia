@@ -260,6 +260,9 @@
 
     </div>
 
+    <!-- Available Associations/Turns List -->
+    <div id="available-associations-list" class="my-8"></div>
+
     <!-- Copy Modal (بيظهر فوق كل حاجة) -->
     <div id="copy-modal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
       <div class="bg-white rounded-lg shadow-lg px-8 py-6 text-center">
@@ -529,6 +532,75 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(() => {
         navbarImg.src = './Assets/imgs/anynoums.jpg';
       });
+  }
+});
+</script>
+
+<!-- Available Associations Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Fetch available turns for all associations
+  fetch('https://api.technologytanda.com/api/associations/available-turns', {
+    headers: {
+      'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success || !Array.isArray(data.availableTurns) || data.availableTurns.length === 0) {
+        document.getElementById('available-associations-list').innerHTML =
+          `<div class="text-center text-gray-400">لا يوجد جمعيات بأدوار متاحة حالياً.</div>`;
+        return;
+      }
+      renderAvailableAssociations(data.availableTurns);
+    }).catch(() => {
+      document.getElementById('available-associations-list').innerHTML =
+        `<div class="text-center text-gray-400">تعذر تحميل الجمعيات المتاحة.</div>`;
+    });
+
+  function renderAvailableAssociations(associations) {
+    const container = document.getElementById('available-associations-list');
+    container.innerHTML = `
+      <div class="mb-4 text-[#0FA451] font-bold text-lg text-center">
+        جمعيات بها أدوار متاحة <span class="text-xs">Available Turns</span>
+      </div>
+      <div class="space-y-4">
+        ${associations.map(a => `
+          <div class="bg-white border rounded-xl shadow px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <span class="font-bold text-[#0FA451]">${a.associationName}</span>
+                <span class="text-xs text-gray-400 ml-2">#${a.associationId}</span>
+              </div>
+              <button class="btn-choose-association bg-[#16a34a] text-white rounded px-4 py-2 font-bold text-sm" 
+                data-association-id="${a.associationId}">
+                مشاهدة الأدوار <i class="bi bi-chevron-left"></i>
+              </button>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              ${a.turns.map(t => `
+                <span class="inline-block bg-gray-100 px-2 py-1 rounded text-xs">
+                  دور ${t.turnNumber} - 
+                  <span class="font-bold">${(t.feePercent * 100).toFixed(0)}%</span>
+                  <span class="ml-1 text-gray-500">${t.category === "early" ? "مبكر" : t.category === "middle" ? "وسط" : "متأخر"}</span>
+                  <span class="ml-2 text-blue-700">(${t.feeAmount} ريال)</span>
+                  <span class="ml-2 text-green-700">(${t.monthlyAmount} شهرياً)</span>
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Handle click to go to select_turn.html
+    container.querySelectorAll('.btn-choose-association').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id = this.getAttribute('data-association-id');
+        localStorage.setItem('selectedAssociationId', id);
+        window.location.href = 'select_turn.html';
+      });
+    });
   }
 });
 </script>
