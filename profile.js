@@ -45,12 +45,22 @@
                     imgEl.src = localPlaceholder;
                 }
 
+                // Update navbar profile image on all pages
+                const navbarImg = document.getElementById('navbar-profile-img');
+                if (navbarImg) {
+                    navbarImg.src = imgEl.src;
+                }
+
                 imgEl.onerror = function () {
                     if (imgEl.src !== localPlaceholder && imgEl.src !== guaranteedPlaceholder) {
                         imgEl.src = localPlaceholder;
                     }
                     else if (imgEl.src !== guaranteedPlaceholder) {
                         imgEl.src = guaranteedPlaceholder;
+                    }
+                    // Also update navbar image fallback
+                    if (navbarImg) {
+                        navbarImg.src = imgEl.src;
                     }
                 };
 

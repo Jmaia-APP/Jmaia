@@ -93,7 +93,7 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <i class="bi bi-person-circle text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
@@ -106,7 +106,7 @@
   </div>
 
     <!-- Spacer so content isn't hidden under navbar -->
-  <div class="h-14"></div>
+  <div class="h-20"></div>
   
   <!-- Dashboard Content -->
   <div class="">
@@ -176,6 +176,33 @@
       }
     });
   </script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const token = localStorage.getItem('token');
+  const navbarImg = document.getElementById('navbar-profile-img');
+  if (token && navbarImg) {
+    fetch('https://api.technologytanda.com/api/userData/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(res => res.json())
+      .then(data => {
+        let imgUrl;
+        if (data.profileImage) {
+          imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+        } else {
+          imgUrl = './Assets/imgs/anynoums.jpg';
+        }
+        navbarImg.src = imgUrl;
+        navbarImg.onerror = function () {
+          navbarImg.src = './Assets/imgs/anynoums.jpg';
+        };
+      })
+      .catch(() => {
+        navbarImg.src = './Assets/imgs/anynoums.jpg';
+      });
+  }
+});
+</script>
 
 </body>
 
