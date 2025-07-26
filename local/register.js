@@ -21,15 +21,31 @@
     // ربط النموذج بالـ API
     document.getElementById('register-form').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const formData = new FormData(this);
       const errorEl = document.getElementById('register-error');
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
+
+      const fullName = this.querySelector('[name="fullName"]').value.trim();
+      const phone = this.querySelector('[name="phone"]').value.trim();
+      const email = this.querySelector('[name="email"]').value.trim();
+      const nationalId = this.querySelector('[name="nationalId"]').value.trim();
+      const password = this.querySelector('[name="password"]').value;
+
+      // Require at least one: email or nationalId
+      if (!email && !nationalId) {
+        errorEl.textContent = "يجب إدخال البريد الإلكتروني أو رقم البطاقة الوطنية";
+        errorEl.classList.remove('hidden');
+        return;
+      }
+
       try {
-        const res = await fetch('https://money-production-bfc6.up.railway.app/api/auth/register', {
+        const res = await fetch('http://localhost:3000/api/auth/register', {
           method: 'POST',
-          body: formData
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fullName, phone, email, nationalId, password })
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'فشل التسجيل');
+        if (!res.ok) throw new Error(data.error || data.message || 'فشل التسجيل');
         alert('✅ تم التسجيل بنجاح');
         window.location.href = 'login.html';
       } catch (err) {
