@@ -62,6 +62,40 @@
       color: #16a34a !important;
       font-weight: 700;
     }
+
+    .months-bar {
+      display: flex;
+      gap: 0.25rem;
+      justify-content: center;
+      align-items: center;
+      margin: 0.5rem 0 0.25rem 0;
+      direction: ltr;
+    }
+
+    .month-box {
+      width: 22px;
+      height: 10px;
+      border-radius: 4px;
+      background: #E5E7EB;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .month-box.active {
+      background: #0FA451;
+      box-shadow: 0 0 0 2px #0FA45122;
+    }
+
+    .month-box.user-turn {
+      background: #fff;
+      border: 2px solid #0FA451;
+      position: relative;
+    }
+
+    @media (max-width: 400px) {
+      .months-bar { gap: 0.15rem; }
+      .month-box { width: 15px; height: 8px; }
+    }
   </style>
 </head>
 
@@ -191,6 +225,17 @@
 
       <!-- Slider Container -->
       <div id="slider" class="overflow-hidden relative max-w-screen-xl mx-auto mt-8">
+        <!-- Slider Arrows -->
+        <button id="slider-arrow-left" type="button"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-80 rounded-full shadow p-2 hover:bg-[#16a34a] hover:text-white transition hidden sm:block"
+          style="font-size:1.5rem;">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button id="slider-arrow-right" type="button"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-80 rounded-full shadow p-2 hover:bg-[#16a34a] hover:text-white transition hidden sm:block"
+          style="font-size:1.5rem;">
+          <i class="bi bi-chevron-right"></i>
+        </button>
         <!-- Slides Wrapper: px-6 for edge spacing, gap-x-6 for between slides -->
         <div id="slides" class="flex transition-transform duration-300 ease-in-out select-none px-6 gap-x-6">
           <!-- Slide Instances -->
@@ -446,11 +491,9 @@
     let currentIndex = 0;
     const total = slides.children.length;
 
-    // ← Added: variables for dragging
     let startX = 0, currentTranslate = 0, prevTranslate = 0;
     let isDragging = false, animationID;
 
-    // ← Added: reposition slides & dots by index
     function setPositionByIndex() {
       currentTranslate = -currentIndex * slider.clientWidth;
       prevTranslate = currentTranslate;
@@ -461,53 +504,109 @@
       });
     }
 
-    // ← Added: animation loop for dragging
     function animation() {
       slides.style.transform = `translateX(${currentTranslate}px)`;
       if (isDragging) requestAnimationFrame(animation);
     }
 
-    // ← Added: start dragging
+    // --- Swipe/drag support (touch & mouse/pointer) ---
+    function getEventX(e) {
+      if (e.touches && e.touches.length) return e.touches[0].clientX;
+      return e.clientX;
+    }
+
     slides.addEventListener('pointerdown', e => {
       isDragging = true;
-      startX = e.clientX;
+      startX = getEventX(e);
       slides.classList.remove('transition-transform');
+      slides.style.userSelect = 'none';
       animationID = requestAnimationFrame(animation);
     });
 
-    // ← Added: during dragging
     slides.addEventListener('pointermove', e => {
       if (!isDragging) return;
-      const dx = e.clientX - startX;
+      const dx = getEventX(e) - startX;
       currentTranslate = prevTranslate + dx;
     });
 
-    // ← Added: end dragging
     slides.addEventListener('pointerup', finishDrag);
     slides.addEventListener('pointerleave', finishDrag);
     slides.addEventListener('pointercancel', finishDrag);
 
-    function finishDrag() {
+    // Touch events for mobile browsers that don't support pointer events
+    slides.addEventListener('touchstart', e => {
+      isDragging = true;
+      startX = getEventX(e);
+      slides.classList.remove('transition-transform');
+      slides.style.userSelect = 'none';
+      animationID = requestAnimationFrame(animation);
+    }, {passive: true});
+    slides.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      const dx = getEventX(e) - startX;
+      currentTranslate = prevTranslate + dx;
+    }, {passive: false});
+    slides.addEventListener('touchend', finishDrag);
+
+    // Responsive: recalculate slide position on resize
+    window.addEventListener('resize', setPositionByIndex);
+
+    function finishDrag(e) {
+      if (!isDragging) return;
       cancelAnimationFrame(animationID);
       isDragging = false;
+      slides.classList.add('transition-transform');
+      slides.style.userSelect = '';
       const movedBy = currentTranslate - prevTranslate;
-      // threshold: 20% of slider width
       if (movedBy < -slider.clientWidth * 0.2 && currentIndex < total - 1) currentIndex++;
       if (movedBy > slider.clientWidth * 0.2 && currentIndex > 0) currentIndex--;
-      slides.classList.add('transition-transform');
       setPositionByIndex();
     }
 
     // auto-slide every 4 seconds
-    setInterval(() => {
+    let autoSlide = setInterval(() => {
       currentIndex = (currentIndex + 1) % total;
       setPositionByIndex();
     }, 4000);
 
-    // adjust on resize
+    // Pause auto-slide on user interaction
+    ['pointerdown', 'touchstart', 'mouseenter'].forEach(evt =>
+      slides.addEventListener(evt, () => clearInterval(autoSlide))
+    );
+    ['pointerup', 'touchend', 'mouseleave'].forEach(evt =>
+      slides.addEventListener(evt, () => {
+        clearInterval(autoSlide);
+        autoSlide = setInterval(() => {
+          currentIndex = (currentIndex + 1) % total;
+          setPositionByIndex();
+        }, 4000);
+      })
+    );
+
+    // ← Arrow navigation
+    document.getElementById('slider-arrow-left').addEventListener('click', function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        setPositionByIndex();
+      }
+    });
+    document.getElementById('slider-arrow-right').addEventListener('click', function() {
+      if (currentIndex < total - 1) {
+        currentIndex++;
+        setPositionByIndex();
+      }
+    });
+
+    // Dot navigation
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        setPositionByIndex();
+      });
+    });
+
     window.addEventListener('resize', setPositionByIndex);
 
-    // initial setup
     setPositionByIndex();
   </script>
 
@@ -563,12 +662,14 @@
       function renderAvailableAssociations(associations) {
         const container = document.getElementById('available-associations-list');
         container.innerHTML = `
-      <div class="mb-4 text-[#0FA451] font-bold text-lg text-center">
-        جمعيات بها أدوار متاحة <span class="text-xs"></span>
-      </div>
-      <div id="associations-slider-wrapper" class="relative max-w-xs mx-auto">
-        <div id="associations-slider-pages" style="position:relative;min-height:320px;">
-          ${associations.map((a, idx) => {
+    <div class="mb-4 text-[#0FA451] font-bold text-lg text-center">
+      جمعيات بها أدوار متاحة <span class="text-xs"></span>
+    </div>
+    <div id="associations-slider-wrapper"
+      class="relative w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl xl:max-w-4xl mx-auto px-0 sm:px-2 md:px-4 lg:px-8">
+      <div id="associations-slider-pages" class="w-full"
+        style="position:relative;min-height:340px;">
+        ${associations.map((a, idx) => {
           const t = a.turns[0];
           if (!t) return '';
           const months = a.turns.length;
@@ -581,44 +682,57 @@
           const end = new Date(startYear, startMonthNum + months - 1, 1);
           const endLabel = end.toLocaleString('ar-EG', { month: 'long' }) + ' ' + end.getFullYear();
           const fee = t.feeAmount;
+          // تحديد دور المستخدم (مثلاً الدور الثالث)
+          const userTurnIndex = t.userTurnIndex !== undefined ? t.userTurnIndex : 2; // عدل حسب بياناتك
           return `
-            <div class="association-page bg-white border rounded-xl shadow px-4 py-4 flex flex-col gap-2 min-w-[320px] max-w-xs mx-auto absolute left-0 top-0 w-full transition-all duration-300"
-              style="display:${idx === 0 ? 'block' : 'none'};z-index:${10 - idx};">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-[#0FA451] font-bold text-lg">${a.associationName}</span>
-                <button class="btn-choose-association bg-[#16a34a] text-white rounded px-3 py-1 font-bold text-sm" 
-                  data-association-id="${a.associationId}">
-                  اشترك دلوقتي
-                </button>
+          <div class="association-page bg-white border rounded-xl shadow px-4 py-4 flex flex-col gap-2 min-w-[320px] w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl xl:max-w-4xl mx-auto absolute left-0 top-0 transition-all duration-300"
+            style="display:${idx === 0 ? 'block' : 'none'};z-index:${10 - idx};">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-[#0FA451] font-bold text-lg">${a.associationName}</span>
+              <button class="btn-choose-association bg-[#16a34a] text-white rounded px-3 py-1 font-bold text-sm" 
+                data-association-id="${a.associationId}">
+                اشترك دلوقتي
+              </button>
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-700 font-bold text-2xl">${total.toLocaleString('ar-EG')} ر.س</span>
+                <span class="text-gray-500 text-sm">شهريا <span class="font-bold text-[#0FA451]">${monthly.toLocaleString('ar-EG')} ر.س</span></span>
               </div>
-              <div class="flex flex-col gap-1">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-700 font-bold text-2xl">${total.toLocaleString('ar-EG')} ر.س</span>
-                  <span class="text-gray-500 text-sm">شهريا <span class="font-bold text-[#0FA451]">${monthly.toLocaleString('ar-EG')} ر.س</span></span>
+              <!-- شريط الشهور -->
+              <div class="bg-[#F7F7F9] rounded-lg px-2 py-2 mt-2 mb-1">
+                <div class="months-bar">
+                  ${Array.from({length: months}).map((_, i) => `
+                    <span class="month-box${i === userTurnIndex ? ' user-turn' : ''}">
+                      ${i === userTurnIndex ? '<i class="bi bi-person" style="color:#0FA451;font-size:12px;position:absolute;left:50%;top:50%;transform:translate(-50%,-60%);background:#fff;border-radius:50%;padding:0 1px;"></i>' : ''}
+                    </span>
+                  `).join('')}
                 </div>
-                <div class="flex justify-between items-center text-gray-600 text-sm mt-2">
-                  <span>
-                    <span class="font-bold">${months}</span> شهر
-                  </span>
-                  <span>
-                    ${startLabel} &ndash; ${endLabel}
-                  </span>
+                <div class="flex justify-between items-center text-gray-600 text-xs sm:text-sm mt-1">
+                  <span>${endLabel}</span>
+                  <span class="font-bold">${months}</span> شهر
+                  <span>${startLabel}</span>
                 </div>
-                <div class="flex justify-between items-center text-gray-600 text-sm mt-1">
-                  <span>رسوم إدارية</span>
-                  <span class="font-bold">${fee.toLocaleString('ar-EG')} ر.س</span>
+                <div class="flex justify-center items-center text-gray-500 text-xs mt-1">
+                  دورك (${a.turns[userTurnIndex]?.monthName || `${months}`})
+                  <i class="bi bi-person ms-1"></i>
                 </div>
+              </div>
+              <div class="flex justify-between items-center text-gray-600 text-sm mt-1">
+                <span>رسوم إدارية</span>
+                <span class="font-bold">${fee.toLocaleString('ar-EG')} ر.س</span>
               </div>
             </div>
-            `;
+          </div>
+          `;
         }).join('')}
-        </div>
-        <!-- تم حذف أزرار السهمين هنا -->
-        <div class="flex justify-center mt-3 gap-2">
-          ${associations.map((_, i) => `<span class="slider-dot w-2 h-2 rounded-full ${i === 0 ? 'bg-[#16a34a]' : 'bg-gray-300'} inline-block"></span>`).join('')}
-        </div>
       </div>
-    `;
+      <!-- تم حذف أزرار السهمين هنا -->
+      <div class="flex justify-center mt-3 gap-2">
+        ${associations.map((_, i) => `<span class="slider-dot w-2 h-2 rounded-full ${i === 0 ? 'bg-[#16a34a]' : 'bg-gray-300'} inline-block"></span>`).join('')}
+      </div>
+    </div>
+  `;
 
         // Navigation logic with swipe support (بدون أزرار)
         const pages = container.querySelectorAll('.association-page');
