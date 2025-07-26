@@ -1,4 +1,4 @@
-        // Function to show custom modal
+// Function to show custom modal
         function showCustomModal(message) {
             document.getElementById('modal-message').textContent = message;
             document.getElementById('custom-modal').classList.remove('hidden');
@@ -119,24 +119,30 @@
         async function toggleEditMode() {
             const fullNameInput = document.getElementById('full-name');
             const phoneInput = document.getElementById('phone');
+            const emailInput = document.getElementById('email');
             const editBtn = document.getElementById('edit-profile-btn');
+            const emailNote = document.getElementById('email-edit-note');
 
             // If in read-only mode, enable editing
             if (fullNameInput.readOnly) {
                 fullNameInput.readOnly = false;
                 phoneInput.readOnly = false;
+                emailInput.readOnly = false;
                 fullNameInput.focus();
                 editBtn.textContent = 'حفظ التغييرات';
                 editBtn.classList.remove('button-primary');
                 editBtn.classList.add('button-secondary', 'bg-green-600', 'hover:bg-green-700');
+                if (emailNote) emailNote.style.display = 'none';
             } else {
                 // Gather updated data
                 const newFullName = fullNameInput.value.trim();
                 const newPhone = phoneInput.value.trim();
+                const newEmail = emailInput.value.trim();
 
                 const formData = new FormData();
                 formData.append('fullName', newFullName);
                 formData.append('phone', newPhone);
+                formData.append('email', newEmail);
 
                 showCustomModal('جارٍ تحديث الملف الشخصي...');
 
@@ -161,9 +167,11 @@
                     // Return to read-only mode and button state
                     fullNameInput.readOnly = true;
                     phoneInput.readOnly = true;
+                    emailInput.readOnly = true;
                     editBtn.textContent = 'تعديل الملف الشخصي';
                     editBtn.classList.remove('button-secondary', 'bg-green-600', 'hover:bg-green-700');
                     editBtn.classList.add('button-primary');
+                    if (emailNote) emailNote.style.display = '';
                 }
             }
         }

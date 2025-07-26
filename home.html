@@ -167,13 +167,14 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل"
+          class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-<a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
-  Settings
-</a>        <button id="logout-btn"
+        <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+          Settings
+        </a> <button id="logout-btn"
           class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
       </div>
     </div>
@@ -188,53 +189,53 @@
     <!-- Cards Grid Wrapper -->
     <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6 mt-5">
 
-<!-- Slider Container -->
-  <div id="slider" class="overflow-hidden relative max-w-screen-xl mx-auto mt-8">
-    <!-- Slides Wrapper: px-6 for edge spacing, gap-x-6 for between slides -->
-    <div id="slides" class="flex transition-transform duration-300 ease-in-out select-none px-6 gap-x-6">
-      <!-- Slide Instances -->
-      <div class="flex-shrink-0 w-full mx-1">
-        <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
-          <img src="./Assets/imgs/screen0.png" alt="Slide 0" class="w-full h-full object-cover  mx-2" />
+      <!-- Slider Container -->
+      <div id="slider" class="overflow-hidden relative max-w-screen-xl mx-auto mt-8">
+        <!-- Slides Wrapper: px-6 for edge spacing, gap-x-6 for between slides -->
+        <div id="slides" class="flex transition-transform duration-300 ease-in-out select-none px-6 gap-x-6">
+          <!-- Slide Instances -->
+          <div class="flex-shrink-0 w-full mx-1">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <img src="./Assets/imgs/screen0.png" alt="Slide 0" class="w-full h-full object-cover  mx-2" />
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full mx-1">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <img src="./Assets/imgs/screen1.png" alt="Slide 1" class="w-full h-full object-cover  mx-2" />
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full mx-1">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <img src="./Assets/imgs/screen2.png" alt="Slide 2" class="w-full h-full object-cover  mx-2" />
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full mx-1">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <img src="./Assets/imgs/screen3.png" alt="Slide 3" class="w-full h-full object-cover  mx-2" />
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full mx-1">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
+              <img src="./Assets/imgs/screen4.png" alt="Slide 4" class="w-full h-full object-cover  mx-2" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="flex-shrink-0 w-full mx-1">
-        <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
-          <img src="./Assets/imgs/screen1.png" alt="Slide 1" class="w-full h-full object-cover  mx-2" />
-        </div>
-      </div>
-      <div class="flex-shrink-0 w-full mx-1">
-        <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
-          <img src="./Assets/imgs/screen2.png" alt="Slide 2" class="w-full h-full object-cover  mx-2" />
-        </div>
-      </div>
-      <div class="flex-shrink-0 w-full mx-1">
-        <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
-          <img src="./Assets/imgs/screen3.png" alt="Slide 3" class="w-full h-full object-cover  mx-2" />
-        </div>
-      </div>
-      <div class="flex-shrink-0 w-full mx-1">
-        <div class="aspect-video rounded-2xl overflow-hidden shadow-md">
-          <img src="./Assets/imgs/screen4.png" alt="Slide 4" class="w-full h-full object-cover  mx-2" />
-        </div>
-      </div>
-    </div>
 
-    <!-- Indicators -->
-    <div class="flex justify-center mt-2  bottom-2 left-0 right-0">
-      <div class="dot w-3 h-3 mx-1 rounded-full bg-green-600"></div>
-      <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
-      <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
-      <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
-      <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
-    </div>
-  </div>
+        <!-- Indicators -->
+        <div class="flex justify-center mt-2  bottom-2 left-0 right-0">
+          <div class="dot w-3 h-3 mx-1 rounded-full bg-green-600"></div>
+          <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
+          <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
+          <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
+          <div class="dot w-3 h-3 mx-1 rounded-full bg-gray-300"></div>
+        </div>
+      </div>
 
 
 
       <!-- Card 2 -->
       <div class="w-full bg-[#499F6882] rounded-xl p-4 shadow-md flex flex-col gap-4">
-<div class="flex items-center justify-between">
+        <div class="flex items-center justify-between">
           <img src="./Assets/imgs/Group 13986.svg" alt="" class="h-8">
           <div class="flex flex-col" dir="rtl" style="
     flex-wrap: wrap;
@@ -243,7 +244,8 @@
     align-items: flex-start;
     align-content: start;
 ">
-            <p class="text-[#1E1E1E] text-sm font-bold text-start">خصم 30 <img src="./Assets/imgs/riyal.svg" alt="ريال" style="display:inline; width:1.2em; height:1.2em; vertical-align:sub; margin:0 2px;"> ليك ولأصحابك.</p>
+            <p class="text-[#1E1E1E] text-sm font-bold text-start">خصم 30 <img src="./Assets/imgs/riyal.svg" alt="ريال"
+                style="display:inline; width:1.2em; height:1.2em; vertical-align:sub; margin:0 2px;"> ليك ولأصحابك.</p>
             <p class="text-[#1E1E1E] text-sm text-start">إبعت دعوات أكتر، واستفيد بخصومات أكبر.</p>
           </div>
         </div>
@@ -259,7 +261,8 @@
       <!-- لو عندك كروت تانية تضيفها هنا بنفس النمط -->
 
     </div>
-
+    <!-- spacer -->
+    <div class="h-8"></div>
     <!-- Available Associations/Turns List -->
     <div id="available-associations-list" class="my-8"></div>
 
@@ -509,78 +512,78 @@
   </script>
 
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const token = localStorage.getItem('token');
-  const navbarImg = document.getElementById('navbar-profile-img');
-  if (token && navbarImg) {
-    fetch('https://api.technologytanda.com/api/userData/profile', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
-      .then(res => res.json())
-      .then(data => {
-        let imgUrl;
-        if (data.profileImage) {
-          imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
-        } else {
-          imgUrl = './Assets/imgs/anynoums.jpg';
-        }
-        navbarImg.src = imgUrl;
-        navbarImg.onerror = function () {
-          navbarImg.src = './Assets/imgs/anynoums.jpg';
-        };
-      })
-      .catch(() => {
-        navbarImg.src = './Assets/imgs/anynoums.jpg';
-      });
-  }
-});
-</script>
-
-<!-- Available Associations Script -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  fetch('https://api.technologytanda.com/api/associations/available-turns', {
-    headers: {
-      'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
-    }
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (!data.success || !Array.isArray(data.availableTurns) || data.availableTurns.length === 0) {
-        document.getElementById('available-associations-list').innerHTML =
-          `<div class="text-center text-gray-400">لا يوجد جمعيات بأدوار متاحة حالياً.</div>`;
-        return;
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const navbarImg = document.getElementById('navbar-profile-img');
+      if (token && navbarImg) {
+        fetch('https://api.technologytanda.com/api/userData/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(res => res.json())
+          .then(data => {
+            let imgUrl;
+            if (data.profileImage) {
+              imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+            } else {
+              imgUrl = './Assets/imgs/anynoums.jpg';
+            }
+            navbarImg.src = imgUrl;
+            navbarImg.onerror = function () {
+              navbarImg.src = './Assets/imgs/anynoums.jpg';
+            };
+          })
+          .catch(() => {
+            navbarImg.src = './Assets/imgs/anynoums.jpg';
+          });
       }
-      renderAvailableAssociations(data.availableTurns);
-    }).catch(() => {
-      document.getElementById('available-associations-list').innerHTML =
-        `<div class="text-center text-gray-400">تعذر تحميل الجمعيات المتاحة.</div>`;
     });
+  </script>
 
-  function renderAvailableAssociations(associations) {
-    const container = document.getElementById('available-associations-list');
-    container.innerHTML = `
+  <!-- Available Associations Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('https://api.technologytanda.com/api/associations/available-turns', {
+        headers: {
+          'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success || !Array.isArray(data.availableTurns) || data.availableTurns.length === 0) {
+            document.getElementById('available-associations-list').innerHTML =
+              `<div class="text-center text-gray-400">لا يوجد جمعيات بأدوار متاحة حالياً.</div>`;
+            return;
+          }
+          renderAvailableAssociations(data.availableTurns);
+        }).catch(() => {
+          document.getElementById('available-associations-list').innerHTML =
+            `<div class="text-center text-gray-400">تعذر تحميل الجمعيات المتاحة.</div>`;
+        });
+
+      function renderAvailableAssociations(associations) {
+        const container = document.getElementById('available-associations-list');
+        container.innerHTML = `
       <div class="mb-4 text-[#0FA451] font-bold text-lg text-center">
         جمعيات بها أدوار متاحة <span class="text-xs">Available Turns</span>
       </div>
       <div id="associations-slider-wrapper" class="relative max-w-xs mx-auto">
         <div id="associations-slider-pages" style="position:relative;min-height:320px;">
           ${associations.map((a, idx) => {
-            const t = a.turns[0];
-            if (!t) return '';
-            const months = a.turns.length;
-            const monthly = t.monthlyAmount;
-            const total = monthly * months;
-            const startMonth = new Date();
-            const startYear = startMonth.getFullYear();
-            const startMonthNum = startMonth.getMonth();
-            const startLabel = startMonth.toLocaleString('ar-EG', { month: 'long' }) + ' ' + startYear;
-            const end = new Date(startYear, startMonthNum + months - 1, 1);
-            const endLabel = end.toLocaleString('ar-EG', { month: 'long' }) + ' ' + end.getFullYear();
-            const fee = t.feeAmount;
-            return `
+          const t = a.turns[0];
+          if (!t) return '';
+          const months = a.turns.length;
+          const monthly = t.monthlyAmount;
+          const total = monthly * months;
+          const startMonth = new Date();
+          const startYear = startMonth.getFullYear();
+          const startMonthNum = startMonth.getMonth();
+          const startLabel = startMonth.toLocaleString('ar-EG', { month: 'long' }) + ' ' + startYear;
+          const end = new Date(startYear, startMonthNum + months - 1, 1);
+          const endLabel = end.toLocaleString('ar-EG', { month: 'long' }) + ' ' + end.getFullYear();
+          const fee = t.feeAmount;
+          return `
             <div class="association-page bg-white border rounded-xl shadow px-4 py-4 flex flex-col gap-2 min-w-[320px] max-w-xs mx-auto absolute left-0 top-0 w-full transition-all duration-300"
-              style="display:${idx === 0 ? 'block' : 'none'};z-index:${10-idx};">
+              style="display:${idx === 0 ? 'block' : 'none'};z-index:${10 - idx};">
               <div class="flex justify-between items-center mb-2">
                 <span class="text-[#0FA451] font-bold text-lg">${a.associationName}</span>
                 <button class="btn-choose-association bg-[#16a34a] text-white rounded px-3 py-1 font-bold text-sm" 
@@ -608,80 +611,80 @@ document.addEventListener('DOMContentLoaded', function () {
               </div>
             </div>
             `;
-          }).join('')}
+        }).join('')}
         </div>
         <!-- تم حذف أزرار السهمين هنا -->
         <div class="flex justify-center mt-3 gap-2">
-          ${associations.map((_,i)=>`<span class="slider-dot w-2 h-2 rounded-full ${i===0?'bg-[#16a34a]':'bg-gray-300'} inline-block"></span>`).join('')}
+          ${associations.map((_, i) => `<span class="slider-dot w-2 h-2 rounded-full ${i === 0 ? 'bg-[#16a34a]' : 'bg-gray-300'} inline-block"></span>`).join('')}
         </div>
       </div>
     `;
 
-    // Navigation logic with swipe support (بدون أزرار)
-    const pages = container.querySelectorAll('.association-page');
-    const dots = container.querySelectorAll('.slider-dot');
-    let current = 0;
-    function showPage(idx) {
-      pages.forEach((p,i)=>p.style.display = i===idx?'block':'none');
-      dots.forEach((d,i)=>d.className = `slider-dot w-2 h-2 rounded-full inline-block ${i===idx?'bg-[#16a34a]':'bg-gray-300'}`);
-      current = idx;
-    }
-    dots.forEach((dot,i)=>dot.onclick=()=>showPage(i));
+        // Navigation logic with swipe support (بدون أزرار)
+        const pages = container.querySelectorAll('.association-page');
+        const dots = container.querySelectorAll('.slider-dot');
+        let current = 0;
+        function showPage(idx) {
+          pages.forEach((p, i) => p.style.display = i === idx ? 'block' : 'none');
+          dots.forEach((d, i) => d.className = `slider-dot w-2 h-2 rounded-full inline-block ${i === idx ? 'bg-[#16a34a]' : 'bg-gray-300'}`);
+          current = idx;
+        }
+        dots.forEach((dot, i) => dot.onclick = () => showPage(i));
 
-    // Swipe logic
-    const sliderPages = container.querySelector('#associations-slider-pages');
-    let startX = null;
-    sliderPages.addEventListener('touchstart', function(e) {
-      if (e.touches.length === 1) startX = e.touches[0].clientX;
-    });
-    sliderPages.addEventListener('touchmove', function(e) {
-      if (startX !== null && Math.abs(e.touches[0].clientX - startX) > 10) e.preventDefault();
-    }, {passive:false});
-    sliderPages.addEventListener('touchend', function(e) {
-      if (startX === null) return;
-      const endX = e.changedTouches[0].clientX;
-      const dx = endX - startX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0 && current < pages.length - 1) showPage(current + 1);
-        else if (dx > 0 && current > 0) showPage(current - 1);
+        // Swipe logic
+        const sliderPages = container.querySelector('#associations-slider-pages');
+        let startX = null;
+        sliderPages.addEventListener('touchstart', function (e) {
+          if (e.touches.length === 1) startX = e.touches[0].clientX;
+        });
+        sliderPages.addEventListener('touchmove', function (e) {
+          if (startX !== null && Math.abs(e.touches[0].clientX - startX) > 10) e.preventDefault();
+        }, { passive: false });
+        sliderPages.addEventListener('touchend', function (e) {
+          if (startX === null) return;
+          const endX = e.changedTouches[0].clientX;
+          const dx = endX - startX;
+          if (Math.abs(dx) > 40) {
+            if (dx < 0 && current < pages.length - 1) showPage(current + 1);
+            else if (dx > 0 && current > 0) showPage(current - 1);
+          }
+          startX = null;
+        });
+
+        // Mouse drag for desktop
+        let mouseDown = false, mouseStartX = null;
+        sliderPages.addEventListener('mousedown', function (e) {
+          mouseDown = true;
+          mouseStartX = e.clientX;
+        });
+        sliderPages.addEventListener('mousemove', function (e) {
+          if (mouseDown && Math.abs(e.clientX - mouseStartX) > 10) e.preventDefault();
+        });
+        sliderPages.addEventListener('mouseup', function (e) {
+          if (!mouseDown) return;
+          const dx = e.clientX - mouseStartX;
+          if (Math.abs(dx) > 40) {
+            if (dx < 0 && current < pages.length - 1) showPage(current + 1);
+            else if (dx > 0 && current > 0) showPage(current - 1);
+          }
+          mouseDown = false;
+          mouseStartX = null;
+        });
+        sliderPages.addEventListener('mouseleave', function () {
+          mouseDown = false;
+          mouseStartX = null;
+        });
+
+        container.querySelectorAll('.btn-choose-association').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-association-id');
+            localStorage.setItem('selectedAssociationId', id);
+            window.location.href = 'select_turn.html';
+          });
+        });
       }
-      startX = null;
     });
-
-    // Mouse drag for desktop
-    let mouseDown = false, mouseStartX = null;
-    sliderPages.addEventListener('mousedown', function(e) {
-      mouseDown = true;
-      mouseStartX = e.clientX;
-    });
-    sliderPages.addEventListener('mousemove', function(e) {
-      if (mouseDown && Math.abs(e.clientX - mouseStartX) > 10) e.preventDefault();
-    });
-    sliderPages.addEventListener('mouseup', function(e) {
-      if (!mouseDown) return;
-      const dx = e.clientX - mouseStartX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0 && current < pages.length - 1) showPage(current + 1);
-        else if (dx > 0 && current > 0) showPage(current - 1);
-      }
-      mouseDown = false;
-      mouseStartX = null;
-    });
-    sliderPages.addEventListener('mouseleave', function() {
-      mouseDown = false;
-      mouseStartX = null;
-    });
-
-    container.querySelectorAll('.btn-choose-association').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const id = this.getAttribute('data-association-id');
-        localStorage.setItem('selectedAssociationId', id);
-        window.location.href = 'select_turn.html';
-      });
-    });
-  }
-});
-</script>
+  </script>
 
 </body>
 
