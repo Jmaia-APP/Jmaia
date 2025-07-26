@@ -539,7 +539,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- Available Associations Script -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Fetch available turns for all associations
   fetch('https://api.technologytanda.com/api/associations/available-turns', {
     headers: {
       'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
@@ -564,36 +563,115 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="mb-4 text-[#0FA451] font-bold text-lg text-center">
         جمعيات بها أدوار متاحة <span class="text-xs">Available Turns</span>
       </div>
-      <div class="space-y-4">
-        ${associations.map(a => `
-          <div class="bg-white border rounded-xl shadow px-4 py-3">
-            <div class="flex items-center justify-between mb-2">
-              <div>
-                <span class="font-bold text-[#0FA451]">${a.associationName}</span>
-                <span class="text-xs text-gray-400 ml-2">#${a.associationId}</span>
+      <div id="associations-slider-wrapper" class="relative max-w-xs mx-auto">
+        <div id="associations-slider-pages" style="position:relative;min-height:320px;">
+          ${associations.map((a, idx) => {
+            const t = a.turns[0];
+            if (!t) return '';
+            const months = a.turns.length;
+            const monthly = t.monthlyAmount;
+            const total = monthly * months;
+            const startMonth = new Date();
+            const startYear = startMonth.getFullYear();
+            const startMonthNum = startMonth.getMonth();
+            const startLabel = startMonth.toLocaleString('ar-EG', { month: 'long' }) + ' ' + startYear;
+            const end = new Date(startYear, startMonthNum + months - 1, 1);
+            const endLabel = end.toLocaleString('ar-EG', { month: 'long' }) + ' ' + end.getFullYear();
+            const fee = t.feeAmount;
+            return `
+            <div class="association-page bg-white border rounded-xl shadow px-4 py-4 flex flex-col gap-2 min-w-[320px] max-w-xs mx-auto absolute left-0 top-0 w-full transition-all duration-300"
+              style="display:${idx === 0 ? 'block' : 'none'};z-index:${10-idx};">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-[#0FA451] font-bold text-lg">${a.associationName}</span>
+                <button class="btn-choose-association bg-[#16a34a] text-white rounded px-3 py-1 font-bold text-sm" 
+                  data-association-id="${a.associationId}">
+                  اشترك دلوقتي
+                </button>
               </div>
-              <button class="btn-choose-association bg-[#16a34a] text-white rounded px-4 py-2 font-bold text-sm" 
-                data-association-id="${a.associationId}">
-                مشاهدة الأدوار <i class="bi bi-chevron-left"></i>
-              </button>
+              <div class="flex flex-col gap-1">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700 font-bold text-2xl">${total.toLocaleString('ar-EG')} ج.م</span>
+                  <span class="text-gray-500 text-sm">شهريا <span class="font-bold text-[#0FA451]">${monthly.toLocaleString('ar-EG')} ج.م</span></span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600 text-sm mt-2">
+                  <span>
+                    <span class="font-bold">${months}</span> شهر
+                  </span>
+                  <span>
+                    ${startLabel} &ndash; ${endLabel}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600 text-sm mt-1">
+                  <span>رسوم إدارية</span>
+                  <span class="font-bold">${fee.toLocaleString('ar-EG')} ج.م</span>
+                </div>
+              </div>
             </div>
-            <div class="flex flex-wrap gap-2">
-              ${a.turns.map(t => `
-                <span class="inline-block bg-gray-100 px-2 py-1 rounded text-xs">
-                  دور ${t.turnNumber} - 
-                  <span class="font-bold">${(t.feePercent * 100).toFixed(0)}%</span>
-                  <span class="ml-1 text-gray-500">${t.category === "early" ? "مبكر" : t.category === "middle" ? "وسط" : "متأخر"}</span>
-                  <span class="ml-2 text-blue-700">(${t.feeAmount} ريال)</span>
-                  <span class="ml-2 text-green-700">(${t.monthlyAmount} شهرياً)</span>
-                </span>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
+            `;
+          }).join('')}
+        </div>
+        <!-- تم حذف أزرار السهمين هنا -->
+        <div class="flex justify-center mt-3 gap-2">
+          ${associations.map((_,i)=>`<span class="slider-dot w-2 h-2 rounded-full ${i===0?'bg-[#16a34a]':'bg-gray-300'} inline-block"></span>`).join('')}
+        </div>
       </div>
     `;
 
-    // Handle click to go to select_turn.html
+    // Navigation logic with swipe support (بدون أزرار)
+    const pages = container.querySelectorAll('.association-page');
+    const dots = container.querySelectorAll('.slider-dot');
+    let current = 0;
+    function showPage(idx) {
+      pages.forEach((p,i)=>p.style.display = i===idx?'block':'none');
+      dots.forEach((d,i)=>d.className = `slider-dot w-2 h-2 rounded-full inline-block ${i===idx?'bg-[#16a34a]':'bg-gray-300'}`);
+      current = idx;
+    }
+    dots.forEach((dot,i)=>dot.onclick=()=>showPage(i));
+
+    // Swipe logic
+    const sliderPages = container.querySelector('#associations-slider-pages');
+    let startX = null;
+    sliderPages.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 1) startX = e.touches[0].clientX;
+    });
+    sliderPages.addEventListener('touchmove', function(e) {
+      if (startX !== null && Math.abs(e.touches[0].clientX - startX) > 10) e.preventDefault();
+    }, {passive:false});
+    sliderPages.addEventListener('touchend', function(e) {
+      if (startX === null) return;
+      const endX = e.changedTouches[0].clientX;
+      const dx = endX - startX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0 && current < pages.length - 1) showPage(current + 1);
+        else if (dx > 0 && current > 0) showPage(current - 1);
+      }
+      startX = null;
+    });
+
+    // Mouse drag for desktop
+    let mouseDown = false, mouseStartX = null;
+    sliderPages.addEventListener('mousedown', function(e) {
+      mouseDown = true;
+      mouseStartX = e.clientX;
+    });
+    sliderPages.addEventListener('mousemove', function(e) {
+      if (mouseDown && Math.abs(e.clientX - mouseStartX) > 10) e.preventDefault();
+    });
+    sliderPages.addEventListener('mouseup', function(e) {
+      if (!mouseDown) return;
+      const dx = e.clientX - mouseStartX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0 && current < pages.length - 1) showPage(current + 1);
+        else if (dx > 0 && current > 0) showPage(current - 1);
+      }
+      mouseDown = false;
+      mouseStartX = null;
+    });
+    sliderPages.addEventListener('mouseleave', function() {
+      mouseDown = false;
+      mouseStartX = null;
+    });
+
     container.querySelectorAll('.btn-choose-association').forEach(btn => {
       btn.addEventListener('click', function () {
         const id = this.getAttribute('data-association-id');
