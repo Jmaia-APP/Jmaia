@@ -41,14 +41,17 @@
                 if (data.profileImage) {
                     const imageUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${new Date().getTime()}`;
                     imgEl.src = imageUrl;
+                    // تحديث صورة navbar مع كل تحميل (cache-busting)
+                    const navbarImg = document.getElementById('navbar-profile-img');
+                    if (navbarImg) {
+                        navbarImg.src = imageUrl;
+                    }
                 } else {
                     imgEl.src = localPlaceholder;
-                }
-
-                // Update navbar profile image on all pages
-                const navbarImg = document.getElementById('navbar-profile-img');
-                if (navbarImg) {
-                    navbarImg.src = imgEl.src;
+                    const navbarImg = document.getElementById('navbar-profile-img');
+                    if (navbarImg) {
+                        navbarImg.src = localPlaceholder;
+                    }
                 }
 
                 imgEl.onerror = function () {
@@ -59,6 +62,7 @@
                         imgEl.src = guaranteedPlaceholder;
                     }
                     // Also update navbar image fallback
+                    const navbarImg = document.getElementById('navbar-profile-img');
                     if (navbarImg) {
                         navbarImg.src = imgEl.src;
                     }
@@ -104,8 +108,13 @@
 
                 showCustomModal('✅ تم تحديث صورة الملف الشخصي بنجاح');
                 // Update the profile image on the page (cache-busting)
-                document.getElementById('profile-image').src = 
-                    `https://api.technologytanda.com/uploads/${data.user.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+                const newImgUrl = `https://api.technologytanda.com/uploads/${data.user.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+                document.getElementById('profile-image').src = newImgUrl;
+                // تحديث صورة navbar تلقائياً
+                const navbarImg = document.getElementById('navbar-profile-img');
+                if (navbarImg) {
+                    navbarImg.src = newImgUrl;
+                }
             } catch (err) {
                 showCustomModal('❌ ' + err.message);
             }
