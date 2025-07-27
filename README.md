@@ -92,20 +92,59 @@ JWT_SECRET=your_jwt_secret_key
 ## Backend Structure
 
 ```
-FundCircleApp/
-├── server.js                # Express entry point
-├── db/
-│   ├── index.js             # pg client setup
-│   └── migrations/          # SQL migrations
-├── models/
-│   └── userModel.js         # User data access layer
-├── routes/
-│   └── auth.js              # Auth routes
+Money
+├── config/
+│   ├── config.js
+│   └── db.js
+├── jobs/
+│   └── cron.js
 ├── middleware/
-│   └── authMiddleware.js    # JWT verification
-├── package.json             # Backend packages & scripts
-├── .env                     # Environment variables
-└── README.md                # Documentation
+│   ├── admin.js
+│   └── auth.js
+├── models/
+│   ├── association.js
+│   ├── index.js
+│   ├── notification.js
+│   ├── payment.js
+│   ├── turn.js
+│   └── user.js
+├── nationalID/
+│   └── (الملفات المتعلقة بالهوية الوطنية)
+├── routes/
+│   ├── associations.js
+│   ├── auth.js
+│   ├── nationalID.js
+│   ├── payments.js
+│   └── turns.js
+├── seeding/
+│   └── seeding.js
+├── services/
+│   ├── associationService.js
+│   ├── feeService.js
+│   ├── paymentService.js
+│   ├── roscaService.js
+│   ├── turnService.js
+│   └── userService.js
+├── tests/
+│   ├── .env
+│   ├── create_associations.js
+│   ├── create_users.js
+│   ├── dummy_profile.png
+│   ├── dummy_salary.png
+│   ├── run_payout_test.js
+│   ├── test-cron.js
+│   ├── test-turn-fee.js
+│   └── testcyle.js
+├── .gitignore
+├── Dockerfile
+├── README.md
+├── app.js
+├── docker-compose.yml
+├── e2e-test.js
+├── package-lock.json
+├── package.json
+└── postman_collection.json
+              # Documentation
 ```
 
 ---
