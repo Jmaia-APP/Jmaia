@@ -260,29 +260,31 @@
         <div class="flex gap-4 items-center">
             <!-- Notifications -->
             <div class="relative">
-                <button id="notification-toggle" onclick="location.href='https://jmaia-app.github.io/Jmaia/Notification.html'"
-                    class="focus:outline-none" title="الإشعارات / Notifications">
+                <button id="notification-toggle" onclick="location.href='Notification.html'" class="focus:outline-none"
+                    title="الإشعارات / Notifications">
                     <i
                         class="bi bi-bell-fill text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
                 </button>
             </div>
 
             <!-- Trends -->
-            <button title="الرائج / Trends" class="focus:outline-none" onclick="location.href='/Jmaia/fire.html'">
+            <button title="الرائج / Trends" class="focus:outline-none" onclick="location.href='fire.html'">
                 <i class="bi bi-fire text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
             </button>
         </div>
 
+
         <!-- User Profile -->
         <div class="relative">
             <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-                <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
+                <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل"
+                    class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
             </button>
             <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
                 <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-        <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
-  Settings
-</a>                <button id="logout-btn"
+                <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+                    Settings
+                </a> <button id="logout-btn"
                     class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
             </div>
         </div>
