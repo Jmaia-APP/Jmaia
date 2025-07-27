@@ -5,66 +5,445 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>إعدادات المدفوعات - برنامج الجمعيات السعودي</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
+    :root {
+      --main-color: #90D1CA;
+      --dark-teal: #155e63;
+      --light-teal: #e0f7fa;
+    }
+    
     .main-color {
-      color: #90D1CA;
+      color: var(--main-color);
     }
-
+    
     .bg-main {
-      background-color: #90D1CA !important;
+      background-color: var(--main-color) !important;
     }
-
+    
     .btn-main {
-      background-color: #90D1CA !important;
+      background-color: var(--main-color) !important;
       color: #fff !important;
       transition: background 0.2s;
     }
-
+    
     .btn-main:hover,
     .btn-main:focus {
       background-color: #6bbcb2 !important;
       color: #fff !important;
     }
-
+    
     .custom-header-bg {
-      background: linear-gradient(135deg, #90D1CA 60%, #e0f7fa 100%);
+      background: linear-gradient(135deg, var(--main-color) 60%, var(--light-teal) 100%);
     }
-
+    
     .setting-card {
-      @apply bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #f0f0f0;
     }
-
+    
     .input-main:focus {
-      border-color: #90D1CA;
-      box-shadow: 0 0 0 2px #90D1CA22;
+      border-color: var(--main-color);
+      box-shadow: 0 0 0 2px rgba(144, 209, 202, 0.2);
+    }
+    
+    .success-message {
+      animation: fadeInOut 2.5s ease-in-out;
+    }
+    
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .warning-message {
+      background-color: #fef3c7;
+      color: #92400e;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .error-message {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background-color: #fee2e2;
+      border-left: 4px solid #ef4444;
+      color: #b91c1c;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      z-index: 50;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rtl-support {
+      direction: rtl;
+      text-align: right;
+    }
+    
+    .wallet-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+    
+    .info-display {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 0.5rem;
     }
   </style>
+  
   <script>
-    function saveSettings(e) {
-      e.preventDefault();
-      document.getElementById('save-success').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('save-success').classList.add('hidden');
-      }, 2500);
+    // حالة التطبيق المحسنة
+    const appState = {
+      paymentMethod: null,
+      walletDetails: null,
+      isLoading: false,
+      lastFetchTime: null,
+      saveTimeout: null
+    };
+
+    // وظيفة مساعدة للحصول على token
+    function getAuthToken() {
+      return localStorage.getItem('token');
     }
-    function toggleWalletField() {
+
+    // جلب طريقة الدفع مع التحكم في التخزين المؤقت
+    async function fetchPaymentMethod(forceRefresh = false) {
+      try {
+        const token = getAuthToken();
+        if (!token) {
+          showError('يجب تسجيل الدخول أولاً');
+          return;
+        }
+        
+        // التحقق من التخزين المؤقت إذا لم يكن إجباري
+        if (!forceRefresh && appState.paymentMethod && appState.lastFetchTime && 
+            (Date.now() - appState.lastFetchTime < 30000)) {
+          return;
+        }
+        
+        appState.isLoading = true;
+        updateLoadingState();
+        
+        const response = await fetch('http://localhost:3000/api/payments/payment-method/my?_=' + Date.now(), {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          cache: 'no-store'
+        });
+        
+        if (!response.ok) {
+          throw new Error('فشل في جلب طريقة الدفع');
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          appState.paymentMethod = data.paymentMethod;
+          appState.lastFetchTime = Date.now();
+          
+          // جلب تفاصيل المحفظة من التخزين المحلي
+          const savedWallet = localStorage.getItem('walletDetails');
+          if (savedWallet) {
+            appState.walletDetails = JSON.parse(savedWallet);
+          }
+          
+          populateForm(data.paymentMethod);
+        }
+      } catch (error) {
+        console.error('خطأ في جلب طريقة الدفع:', error);
+        
+        // محاولة استخدام النسخة المحلية إذا فشل الاتصال
+        const lastPaymentMethod = localStorage.getItem('lastPaymentMethod');
+        if (lastPaymentMethod) {
+          appState.paymentMethod = JSON.parse(lastPaymentMethod);
+          populateForm(appState.paymentMethod);
+          showWarning('تم تحميل الإعدادات من الذاكرة المؤقتة');
+        } else {
+          showError('حدث خطأ أثناء جلب إعدادات الدفع');
+        }
+      } finally {
+        appState.isLoading = false;
+        updateLoadingState();
+      }
+    }
+
+    // تعبئة النموذج مع معالجة جميع الحقول
+    function populateForm(data) {
+      if (!data) {
+        // تعيين القيم الافتراضية إذا لم تكن هناك بيانات
+        document.getElementById('enable-wallet').checked = false;
+        document.getElementById('egateway-select').value = 'Fawry';
+        document.getElementById('notif-email').checked = true;
+        document.getElementById('notif-sms').checked = true;
+        toggleWalletFields(false);
+        return;
+      }
+
+      // معالجة حالة "تحويل بنكي"
+      if (data.paymentChoice === 'تحويل بنكي') {
+        document.getElementById('enable-wallet').checked = false;
+        toggleWalletFields(false);
+        document.getElementById('egateway-select').value = 'Fawry';
+        // إشعارات
+        if (data.notificationCategory) {
+          let notifEmail = false;
+          let notifSms = false;
+          if (typeof data.notificationCategory === 'string') {
+            notifEmail = data.notificationCategory.includes('email');
+            notifSms = data.notificationCategory.includes('sms');
+          } else if (Array.isArray(data.notificationCategory)) {
+            notifEmail = data.notificationCategory.includes('email');
+            notifSms = data.notificationCategory.includes('sms');
+          }
+          document.getElementById('notif-email').checked = notifEmail;
+          document.getElementById('notif-sms').checked = notifSms;
+        }
+        return;
+      }
+
+      // طريقة الدفع
+      const isWallet = data.paymentChoice === 'محفظة رقمية';
+      document.getElementById('enable-wallet').checked = isWallet;
+      toggleWalletFields(isWallet);
+
+      // بوابة الدفع
+      const eGatewaySelect = document.getElementById('egateway-select');
+      if (eGatewaySelect && data.eGateway) {
+        eGatewaySelect.value = data.eGateway;
+      }
+
+      // إشعارات
+      if (data.notificationCategory) {
+        let notifEmail = false;
+        let notifSms = false;
+
+        if (typeof data.notificationCategory === 'string') {
+          notifEmail = data.notificationCategory.includes('email');
+          notifSms = data.notificationCategory.includes('sms');
+        } else if (Array.isArray(data.notificationCategory)) {
+          notifEmail = data.notificationCategory.includes('email');
+          notifSms = data.notificationCategory.includes('sms');
+        }
+
+        document.getElementById('notif-email').checked = notifEmail;
+        document.getElementById('notif-sms').checked = notifSms;
+      }
+
+      // بيانات المحفظة
+      if (isWallet && appState.walletDetails) {
+        document.getElementById('wallet-phone').value = appState.walletDetails.phone || '';
+        document.getElementById('wallet-type').value = appState.walletDetails.provider || '';
+      }
+    }
+
+    // تبديل حقول المحفظة
+    function toggleWalletFields(show) {
       const walletSection = document.getElementById('wallet-section');
-      const walletCheckbox = document.getElementById('enable-wallet');
-      walletSection.style.display = walletCheckbox.checked ? 'block' : 'none';
+      walletSection.style.display = show ? 'block' : 'none';
+      
+      const walletPhone = document.getElementById('wallet-phone');
+      if (walletPhone) {
+        walletPhone.required = show;
+      }
     }
-    document.addEventListener('DOMContentLoaded', function () {
-      toggleWalletField();
+
+    // حفظ الإعدادات مع دعم الحقول الجديدة
+    async function savePaymentSettings(event) {
+      event.preventDefault();
+      
+      if (appState.isLoading) return;
+      
+      clearTimeout(appState.saveTimeout);
+      
+      const isWallet = document.getElementById('enable-wallet').checked;
+      const paymentChoice = isWallet ? 'محفظة رقمية' : 'Egateway';
+      const eGateway = document.getElementById('egateway-select').value;
+      
+      const notifEmail = document.getElementById('notif-email').checked;
+      const notifSms = document.getElementById('notif-sms').checked;
+      const notificationCategory = [
+        notifEmail ? 'email' : null,
+        notifSms ? 'sms' : null
+      ].filter(Boolean).join(',');
+      
+      const requestBody = {
+        paymentChoice,
+        eGateway,
+        notificationCategory: notificationCategory || 'sms'
+      };
+      
+      // إضافة تفاصيل المحفظة إذا تم اختيارها
+      if (isWallet) {
+        const walletPhone = document.getElementById('wallet-phone').value;
+        const walletProvider = document.getElementById('wallet-type').value;
+        
+        requestBody.eWalletPhone = walletPhone;
+        requestBody.eWalletProvider = walletProvider;
+        
+        // حفظ تفاصيل المحفظة محليًا
+        appState.walletDetails = {
+          phone: walletPhone,
+          provider: walletProvider
+        };
+        localStorage.setItem('walletDetails', JSON.stringify(appState.walletDetails));
+      }
+      
+      try {
+        appState.isLoading = true;
+        updateLoadingState();
+        
+        const token = getAuthToken();
+        if (!token) throw new Error('لا يوجد token مصادقة');
+        
+        const response = await fetch('http://localhost:3000/api/payments/payment-method', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(requestBody)
+        });
+        
+        if (!response.ok) throw new Error('فشل في حفظ طريقة الدفع');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // إعادة جلب البيانات مباشرة للتأكد من التحديث
+          await fetchPaymentMethod(true);
+          showSuccess('تم حفظ الإعدادات بنجاح');
+        }
+      } catch (error) {
+        console.error('خطأ في حفظ طريقة الدفع:', error);
+        showError('حدث خطأ أثناء حفظ الإعدادات');
+      } finally {
+        appState.isLoading = false;
+        updateLoadingState();
+      }
+    }
+
+    // تحديث حالة التحميل
+    function updateLoadingState() {
+      const saveButton = document.querySelector('button[type="submit"]');
+      if (saveButton) {
+        if (appState.isLoading) {
+          saveButton.disabled = true;
+          saveButton.innerHTML = `
+            <span class="loading-spinner"></span>
+            جاري الحفظ...
+          `;
+        } else {
+          saveButton.disabled = false;
+          saveButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+            حفظ الإعدادات
+          `;
+        }
+      }
+    }
+
+    // عرض رسالة نجاح
+    function showSuccess(message) {
+      const successElement = document.getElementById('save-success');
+      if (successElement) {
+        successElement.textContent = message;
+        successElement.classList.remove('hidden');
+        successElement.classList.add('success-message');
+        
+        appState.saveTimeout = setTimeout(() => {
+          successElement.classList.add('hidden');
+          successElement.classList.remove('success-message');
+        }, 2500);
+      }
+    }
+
+    // عرض رسالة تحذير
+    function showWarning(message) {
+      const warningElement = document.getElementById('warning-message');
+      if (warningElement) {
+        warningElement.textContent = message;
+        warningElement.classList.remove('hidden');
+        
+        setTimeout(() => {
+          warningElement.classList.add('hidden');
+        }, 3000);
+      }
+    }
+
+    // عرض رسالة خطأ
+    function showError(message) {
+      // إزالة أي رسائل خطأ سابقة
+      const existingErrors = document.querySelectorAll('.error-message');
+      existingErrors.forEach(el => el.remove());
+      
+      const errorElement = document.createElement('div');
+      errorElement.className = 'error-message';
+      errorElement.textContent = message;
+      document.body.appendChild(errorElement);
+      
+      setTimeout(() => {
+        errorElement.remove();
+      }, 3000);
+    }
+
+    // تهيئة الصفحة مع ضمان تحديث البيانات
+    document.addEventListener('DOMContentLoaded', function() {
+      // جلب البيانات عند فتح الصفحة
+      fetchPaymentMethod(true);
+      
+      // إعداد حدث تغيير المحفظة
+      document.getElementById('enable-wallet').addEventListener('change', function() {
+        toggleWalletFields(this.checked);
+      });
+      
+      // إعداد حدث إرسال النموذج
+      document.querySelector('form').addEventListener('submit', savePaymentSettings);
+      
+      // جلب البيانات عند عودة التركيز للصفحة
+      window.addEventListener('focus', () => {
+        if (document.visibilityState === 'visible') {
+          fetchPaymentMethod(true);
+        }
+      });
     });
   </script>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-gray-50 min-h-screen flex flex-col rtl-support">
   <!-- Header with back icon -->
   <header style="background: #fff; border-bottom: 1px solid #e2e8f0; padding: 0.75rem 0; margin-bottom: 1.5rem;">
     <div style="max-width: 960px; margin: 0 auto; display: flex; align-items: center;">
@@ -98,8 +477,11 @@
 
   <!-- Main Content -->
   <main class="flex-1 container mx-auto px-4 py-10">
-    <form class="max-w-2xl mx-auto space-y-8" onsubmit="saveSettings(event)">
-      <!-- طرق الدفع -->
+    <form class="max-w-2xl mx-auto space-y-8">
+      <!-- رسالة تحذير -->
+      <div id="warning-message" class="hidden warning-message"></div>
+      
+      <!-- Payment Methods -->
       <div class="setting-card">
         <h2 class="text-xl font-bold text-[#155e63] mb-4 flex items-center gap-2">
           <svg class="w-6 h-6 text-[#90D1CA]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -114,58 +496,74 @@
             <span>بطاقات بنكية سعودية (مدى، فيزا، ماستركارد)</span>
           </label>
           <label class="flex items-center gap-2">
-            <input type="checkbox" id="enable-wallet" class="accent-[#90D1CA]" onchange="toggleWalletField()" />
+            <input type="checkbox" id="enable-wallet" class="accent-[#90D1CA]" />
             <span>محفظة رقمية (STC Pay وغيرها)</span>
           </label>
         </div>
       </div>
-      <!-- بوابة الدفع -->
+      
+      <!-- Payment Gateway -->
       <div class="setting-card">
-        <label class="block text-gray-700 font-semibold mb-2">بوابة الدفع الإلكتروني:</label>
-        <select class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 input-main">
-          <option>HyperPay</option>
-          <option>STC Pay</option>
-          <option>PayTabs</option>
-          <option>Tap</option>
+        <label class="wallet-label">بوابة الدفع الإلكتروني:</label>
+        <select id="egateway-select" class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 input-main">
+          <option value="HyperPay">HyperPay</option>
+          <option value="STC Pay">STC Pay</option>
+          <option value="PayTabs">PayTabs</option>
+          <option value="Tap">Tap</option>
+          <option value="Fawry">Fawry</option>
         </select>
       </div>
-      <!-- بيانات المحفظة الرقمية -->
+      
+      <!-- Wallet Details -->
       <div id="wallet-section" class="setting-card" style="display:none;">
-        <label class="block text-gray-700 font-semibold mb-2">بيانات المحفظة الرقمية:</label>
-        <input type="text"
-          class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 mb-2 input-main"
-          placeholder="رقم الجوال المرتبط بالمحفظة" />
-        <select class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 input-main">
-          <option>STC Pay</option>
-          <option>محفظة الراجحي</option>
-          <option>محفظة الإنماء</option>
-        </select>
+        <label class="wallet-label">بيانات المحفظة الرقمية:</label>
+        <div class="mb-4">
+          <label class="wallet-label">رقم الجوال:</label>
+          <input type="tel" id="wallet-phone"
+            class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 input-main"
+            placeholder="05XXXXXXXX" />
+        </div>
+        
+        <div>
+          <label class="wallet-label">نوع المحفظة:</label>
+          <select id="wallet-type" class="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-[#90D1CA] py-2 px-3 input-main">
+            <option value="">اختر نوع المحفظة</option>
+            <option value="STC Pay">STC Pay</option>
+            <option value="محفظة الراجحي">محفظة الراجحي</option>
+            <option value="محفظة الإنماء">محفظة الإنماء</option>
+            <option value="محفظة سداد">محفظة سداد</option>
+            <option value="محفظة البنك الأهلي">محفظة البنك الأهلي</option>
+          </select>
+        </div>
       </div>
-      <!-- إعدادات الإشعارات -->
+      
+      <!-- Notification Settings -->
       <div class="setting-card">
-        <label class="block text-gray-700 font-semibold mb-2">إشعارات الدفع:</label>
+        <label class="wallet-label">إشعارات الدفع:</label>
         <div class="flex flex-col sm:flex-row gap-4">
           <label class="flex items-center gap-2">
-            <input type="checkbox" checked class="accent-[#90D1CA]" />
+            <input type="checkbox" id="notif-email" class="accent-[#90D1CA]" />
             <span>إرسال بريد إلكتروني عند الدفع</span>
           </label>
           <label class="flex items-center gap-2">
-            <input type="checkbox" class="accent-[#90D1CA]" />
+            <input type="checkbox" id="notif-sms" class="accent-[#90D1CA]" />
             <span>إرسال رسالة نصية (SMS)</span>
           </label>
         </div>
       </div>
-      <!-- زر الحفظ -->
+      
+      <!-- Save Button -->
       <div class="flex justify-center">
         <button type="submit"
-          class="btn-main font-semibold py-2 px-8 rounded-lg shadow transition text-lg flex items-center gap-2">
+          class="btn-main font-semibold py-3 px-10 rounded-lg shadow transition text-lg flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M5 13l4 4L19 7" />
           </svg>
           حفظ الإعدادات
         </button>
       </div>
-      <!-- رسالة نجاح -->
+      
+      <!-- Success Message -->
       <div id="save-success" class="hidden text-center">
         <span class="inline-block bg-[#90D1CA] text-white rounded-lg px-6 py-2 mt-2 shadow">
           تم حفظ الإعدادات بنجاح!

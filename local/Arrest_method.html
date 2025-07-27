@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>طريقة القبض</title>
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
   <!-- Google Fonts (Tajawal) -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -88,7 +90,7 @@
               <span class="text-md font-bold">كارت مدفوع مقدما</span>
               <span class="badge-solid">بدون رسوم</span>
             </div>
-            <span class="text-xs text-gray-600 mt-1">القبض بكارت مدفوع مقدما. الحد الأقصى للبطاقات 100,000 ج.م</span>
+            <span class="text-xs text-gray-600 mt-1">القبض بكارت مدفوع مقدما. الحد الأقصى للبطاقات 100,000 ر.س</span>
           </div>
         </label>
       </div>
@@ -109,6 +111,7 @@
       <!-- Next Button -->
       <button
         type="submit"
+        id="next-btn"
         class="w-full mt-6 bg-white border border-teal-400 hover:bg-teal-50 text-black font-bold py-3 rounded-3xl custom-shadow text-lg transition flex items-center justify-center"
         style="margin-bottom: 10px;"
       >
@@ -176,21 +179,60 @@
     });
 
     // توجيه عند الضغط على التالي إذا option 1 أو 2 أو 3 محدد
-    document.getElementById('arrest-method-form').addEventListener('submit', function(e) {
+    document.getElementById('arrest-method-form').addEventListener('submit', async function(e) {
       e.preventDefault();
+      const btn = document.getElementById('next-btn');
+      btn.disabled = true;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '... جاري الحفظ ...';
+
+      let paymentChoice = '';
+      let redirectUrl = '';
       if (document.getElementById('wallet').checked) {
-        window.location.href = 'Electronic_wallet.html';
+        paymentChoice = 'محفظة رقمية';
+        redirectUrl = 'Electronic_wallet.html';
+      } else if (document.getElementById('card').checked) {
+        paymentChoice = 'كارت مدفوع مقدما';
+        redirectUrl = 'Paid-card copy.html';
+      } else if (document.getElementById('bank').checked) {
+        paymentChoice = 'تحويل بنكي';
+        redirectUrl = 'iban_acoount.html';
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
         return;
       }
-      if (document.getElementById('card').checked) {
-        window.location.href = 'Paid-card.html';
-        return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+          headers['Authorization'] = 'Bearer ' + token;
+        }
+        const res = await fetch('http://localhost:3000/api/payments/payment-method', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ paymentChoice })
+        });
+        const data = await res.json();
+        if (res.status === 401) {
+          alert('يجب تسجيل الدخول أولاً. الرجاء تسجيل الدخول ثم المحاولة مرة أخرى.');
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          return;
+        }
+        if (data.success) {
+          window.location.href = redirectUrl;
+        } else {
+          alert('حدث خطأ أثناء الحفظ: ' + (data.message || ''));
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }
+      } catch (err) {
+        alert('تعذر الاتصال بالخادم. حاول مرة أخرى.');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
       }
-      if (document.getElementById('bank').checked) {
-        window.location.href = 'iban_acoount.html';
-        return;
-      }
-      // ...يمكنك إضافة توجيه لباقي الخيارات هنا إذا أردت...
     });
   </script>
 </body>

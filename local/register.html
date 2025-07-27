@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تسجيل حساب جديد</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
     body {
@@ -89,12 +91,12 @@
 
       <!-- Step 2: National ID & Password -->
       <div id="step-2" class="step hidden">
-        <label class="block mb-2 text-gray-700 font-bold">الرقم القومي</label>
+        <label class="block mb-2 text-gray-700 font-bold">رقم الهوية</label>
         <input
           name="nationalId"
           required
           class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          placeholder="أدخل الرقم القومي"
+          placeholder="أدخل رقم الهوية"
         />
 
         <label class="block mt-4 mb-2 text-gray-700 font-bold">كلمة المرور</label>
@@ -121,9 +123,9 @@
     <div class="bg-gray-50 py-4 px-6 text-center text-gray-500 text-sm">
       <p>
         بالنقر على "تسجيل"، أنت توافق على
-        <a href="#" class="text-teal-600 hover:underline">شروط الخدمة</a>
+        <a href="./privacy.html" class="text-teal-600 hover:underline">شروط الخدمة</a>
         و
-        <a href="#" class="text-teal-600 hover:underline">سياسة الخصوصية</a>
+        <a href="./terms.html" class="text-teal-600 hover:underline">سياسة الخصوصية</a>
       </p>
       <p class="mt-2">
         لديك حساب بالفعل؟

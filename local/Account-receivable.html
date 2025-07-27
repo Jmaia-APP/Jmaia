@@ -1,238 +1,294 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جاهزية حسابك للقبض</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جاهزية حسابك للقبض</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-      <link rel="stylesheet" href="./mainLayout.css">
   <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Pure CSS for fine-tuning if needed */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* خط عام مقارب */
-            background-color: #f0f2f5; /* لون خلفية خفيف */
-            margin: 0; /* إزالة أي هوامش افتراضية من الـ body */
-            padding: 0; /* إزالة أي مسافات داخلية افتراضية من الـ body */
-        }
-        /* Custom styles for the checkmark icon in "الاقساط المستحقة" */
-        .checked-icon-container {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #d1fae5; /* Light green background for checkmark */
-            border-radius: 50%;
-        }
-        .checked-icon-container i {
-            color: #0d9488; /* Darker green for the checkmark */
-            font-size: 1rem;
-        }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./mainLayout.css">
+  <link rel="stylesheet" href="dist/tailwind.css">
+  <style>
+    body {
+      /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5  ; */
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Custom styles for the nav icons if default Tailwind is not enough */
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4px 0; /* تقليل البادينج ليناسب الارتفاع 50px */
-            color: #000000; /* Default icon and text color to black */
-            font-size: 0.65rem; /* تصغير حجم النص ليتناسب مع الارتفاع */
-            flex-grow: 1; /* لجعل العناصر تتوزع بالتساوي */
-            text-align: center; /* Center align text for nav items */
-        }
-        .nav-item i {
-            font-size: 1.15rem; /* Icon size */
-            margin-bottom: 2px; /* تقليل المسافة بين الأيقونة والنص */
-            color: #000000; /* Ensure icon is black by default */
-        }
-        .nav-item.active {
-            color: #000000; /* Active text color to black */
-        }
-        .nav-item.active i {
-             color: #000000; /* Active icon color to black */
-        }
-        .nav-item.active .nav-icon-highlight {
-            background-color: #90d1ca; /* Active highlight color */
-            border-radius: 50%;
-            padding: 6px; /* Adjust padding to make it a circular background for 50px height */
-            color: #000000; /* Black icon on highlight background */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            bottom: 8px; /* Adjust to move it slightly up for 50px height */
-        }
-        .nav-item.active .nav-icon-highlight i {
-            font-size: 1.35rem; /* Make icon inside highlight a bit larger for 50px height */
-            color: #000000; /* Ensure icon is black when highlighted */
-        }
-        .nav-icon-highlight { /* Default styles for non-active highlight to ensure consistency */
-             background-color: transparent;
-             padding: 0;
-             border-radius: 0;
-             box-shadow: none;
-             color: inherit;
-             position: static;
-        }
+    .checked-icon-container {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #d1fae5;
+      border-radius: 50%;
+    }
 
-        /* Specific styles for the "الاقساط المستحقة" section */
-        .installments-header {
-            background-color: #e6ffed; /* لون أخضر فاتح جداً مائل للأبيض */
-            color: #059669; /* لون أخضر داكن للنص */
-            border-radius: 8px; /* زوايا دائرية */
-            padding: 1rem; /* مسافة داخلية */
-            margin-bottom: 20px; /* Add margin to push content up and allow more scroll */
-        }
-        .installments-header .fa-coins {
-            color: #059669; /* لون أيقونة العملات أخضر داكن */
-        }
+    .checked-icon-container i {
+      color: #0d9488;
+      font-size: 1rem;
+    }
 
-        /* Hover effect for document boxes */
-        .document-box {
-            transition: all 0.2s ease-in-out;
-        }
-        .document-box:hover {
-            background-color: #f0fdf4; /* Lighter green on hover */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Enhanced shadow */
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 0;
+      color: #000000;
+      font-size: 0.65rem;
+      flex-grow: 1;
+      text-align: center;
+    }
 
-        /* Ensure more scrollable area for content */
-        .flex-grow.container {
-            padding-bottom: 80px; /* Increased padding to give more scroll space above navbar */
-        }
-    </style>
+    .nav-item i {
+      font-size: 1.15rem;
+      margin-bottom: 2px;
+      color: #000000;
+    }
+
+    .nav-item.active {
+      color: #000000;
+    }
+
+    .nav-item.active i {
+      color: #000000;
+    }
+
+    .nav-item.active .nav-icon-highlight {
+      background-color: #90d1ca;
+      border-radius: 50%;
+      padding: 6px;
+      color: #000000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      bottom: 8px;
+    }
+
+    .nav-item.active .nav-icon-highlight i {
+      font-size: 1.35rem;
+      color: #000000;
+    }
+
+    .nav-icon-highlight {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      color: inherit;
+      position: static;
+    }
+
+    .installments-header {
+      background-color: #e6ffed;
+      color: #059669;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .installments-header .fa-coins {
+      color: #059669;
+    }
+
+    .document-box {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .document-box:hover {
+      background-color: #f0fdf4;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .flex-grow.container {
+      padding-bottom: 80px;
+    }
+
+    .installment-item {
+      transition: box-shadow .15s;
+    }
+
+    .installment-item:hover {
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.11);
+      background-color: #ecfdf5;
+    }
+    /* أيقونة العدسة عند تمرير الماوس */
+    .group:hover .group-hover\:opacity-100 {
+      opacity: 1 !important;
+    }
+  </style>
 </head>
+
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <div class="flex-grow container mx-auto p-4 max-w-md bg-white shadow-lg rounded-lg mb-4 overflow-y-auto">
+  <div class="flex-grow container mx-auto p-4 max-w-md bg-white shadow-lg rounded-lg mb-4 overflow-y-auto">
 
-        <div class="flex items-center pb-4 border-b border-gray-200">
-            <button onclick="window.history.back()" class="ml-2 text-gray-500 hover:text-gray-700 text-xl focus:outline-none" aria-label="رجوع">
-                <i class="fas fa-arrow-right"></i>
-            </button>
-            <h1 class="text-lg font-semibold text-gray-800 text-right flex-grow">جاهزية حسابك للقبض</h1>
+    <div class="flex items-center pb-4 border-b border-gray-200">
+      <button onclick="window.history.back()" class="ml-2 text-gray-500 hover:text-gray-700 text-xl focus:outline-none"
+        aria-label="رجوع">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <h1 class="text-lg font-semibold text-gray-800 text-right flex-grow">جاهزية حسابك للقبض</h1>
+    </div>
+
+    <div class="mt-4 space-y-4" dir="ltr">
+      <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer"
+        data-modal="modal-id-card">
+        <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
+
+        <div class="flex-grow text-end">
+          <p class="text-sm font-medium text-gray-700">البطاقة الشخصية</p>
+          <p class="text-xs text-gray-500 mt-1">محتاج ترفع صورة بطاقتك الشخصية السارية</p>
         </div>
 
-        <div class="mt-4 space-y-4" dir="ltr">
-            <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer" data-modal="modal-id-card">
-                <i class="fas fa-chevron-right text-gray-400 text-xl mr-3 ml-2"></i>
-                <div class="flex-grow">
-                    <p class="text-sm font-medium text-gray-700">البطاقة الشخصية</p>
-                    <p class="text-xs text-gray-500 mt-1">محتاج ترفع صورة بطاقتك الشخصية السارية</p>
-                </div>
-                <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
-            </div>
 
-            <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer" data-modal="modal-receipt">
-                <i class="fas fa-chevron-right text-gray-400 text-xl mr-3 ml-2"></i>
-                <div class="flex-grow">
-                    <p class="text-sm font-medium text-gray-700">إيصال إلتزام السداد</p>
-                    <p class="text-xs text-gray-500 mt-1">ستحتاج إلي التوقيع علي مذكرة التأمين أولاً ،إذا قمت بالتوقيع عليها . فتجاهل ذلك</p>
-                </div>
-                <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
-            </div>
+      </div>
+      <div class="flex flex-col gap-2 mt-2 relative">
+        <button id="toggle-id-images-btn" class="mb-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium w-full hidden"></button>
+        <div id="uploaded-id-images" class="flex flex-col gap-2"></div>
+      </div>
 
-            <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer" data-modal="modal-method">
-                <i class="fas fa-chevron-right text-gray-400 text-xl mr-3 ml-2"></i>
-                <div class="flex-grow">
-                    <p class="text-sm font-medium text-gray-700">اختيار طريقة القبض</p>
-                    <p class="text-xs text-gray-500 mt-1">لازم تختار وسيلة قبض عشان تقدر تستلم مبلغ القبض</p>
-                </div>
-                <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
-            </div>
+      <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer"
+        data-modal="modal-receipt">
+        <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
 
-            <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer" data-modal="modal-contract">
-                <i class="fas fa-chevron-right text-gray-400 text-xl mr-3 ml-2"></i>
-                <div class="flex-grow">
-                    <p class="text-sm font-medium text-gray-700">العقد</p>
-                    <p class="text-xs text-gray-500 mt-1">محتاج ترفع مستند التزام السداد</p>
-                </div>
-                <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
-            </div>
+        <div class="flex-grow text-end">
+          <p class="text-sm font-medium text-gray-700">إيصال إلتزام السداد</p>
+          <p class="text-xs text-gray-500 mt-1">ستحتاج إلي التوقيع علي مذكرة التأمين أولاً ،إذا قمت بالتوقيع عليها .
+            فتجاهل ذلك</p>
         </div>
+      </div>
+      <div class="flex justify-end mt-2 mb-2">
+        <img src="Assets/imgs/slip.webp" alt="إيصال إلتزام السداد"
+          class="w-32 h-auto rounded border border-gray-200 enlargeable cursor-pointer">
+      </div>
 
-        <div class="mt-8 flex items-center p-4 installments-header">
-            <div class="checked-icon-container ml-4">
-                <i class="fas fa-check"></i>
-            </div>
-            <h2 class="text-base font-semibold flex-grow">الاقساط المستحقة</h2>
-            <i class="fas fa-coins text-2xl mr-2"></i>
+      <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer"
+        data-modal="modal-method">
+        <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
+
+        <div class="flex-grow text-end">
+          <p class="text-sm font-medium text-gray-700">اختيار طريقة القبض</p>
+          <p class="text-xs text-gray-500 mt-1">لازم تختار وسيلة قبض عشان تقدر تستلم مبلغ القبض</p>
         </div>
-
-        <div class="h-20"></div>
-
-    </div>
-
-    <!-- Modals -->
-    <!-- Modal: البطاقة الشخصية -->
-    <div id="modal-id-card" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
-        <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal" data-modal="modal-id-card">
-          <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-lg font-semibold mb-2 text-right">رفع صورة البطاقة الشخصية</h3>
-        <p class="text-sm text-gray-600 mb-4 text-right">محتاج ترفع صورة بطاقتك الشخصية السارية</p>
-        <input id="id-card-file" type="file" accept="image/*" class="mb-4" />
-        <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onclick="handleUpload('id-card')">رفع</button>
       </div>
-    </div>
-    <!-- Modal: إيصال إلتزام السداد -->
-    <div id="modal-receipt" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
-        <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal" data-modal="modal-receipt">
-          <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-lg font-semibold mb-2 text-right">رفع إيصال إلتزام السداد</h3>
-        <p class="text-sm text-gray-600 mb-4 text-right">ستحتاج إلي التوقيع علي مذكرة التأمين أولاً ،إذا قمت بالتوقيع عليها . فتجاهل ذلك</p>
-        <input id="receipt-file" type="file" accept="image/*,application/pdf" class="mb-4" />
-        <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onclick="handleUpload('receipt')">رفع</button>
+
+      <div class="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm document-box cursor-pointer"
+        data-modal="modal-contract">
+        <i class="fas fa-cloud-upload-alt text-green-500 text-2xl mr-2"></i>
+
+        <div class="flex-grow text-end">
+          <p class="text-sm font-medium text-gray-700">العقد</p>
+          <p class="text-xs text-gray-500 mt-1">محتاج ترفع مستند التزام السداد</p>
+        </div>
       </div>
-    </div>
-    <!-- Modal: اختيار طريقة القبض -->
-    <div id="modal-method" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
-        <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal" data-modal="modal-method">
-          <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-lg font-semibold mb-2 text-right">اختيار طريقة القبض</h3>
-        <p class="text-sm text-gray-600 mb-4 text-right">لازم تختار وسيلة قبض عشان تقدر تستلم مبلغ القبض</p>
-        <select id="method-select" class="mb-4 border rounded p-2">
-          <option>حساب بنكي</option>
-          <option>محفظة إلكترونية</option>
-          <option>نقدي</option>
-        </select>
-        <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onclick="handleUpload('method')">تأكيد</button>
-      </div>
-    </div>
-    <!-- Modal: العقد -->
-    <div id="modal-contract" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
-        <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal" data-modal="modal-contract">
-          <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-lg font-semibold mb-2 text-right">رفع مستند التزام السداد</h3>
-        <p class="text-sm text-gray-600 mb-4 text-right">محتاج ترفع مستند التزام السداد</p>
-        <input id="contract-file" type="file" accept="image/*,application/pdf" class="mb-4" />
-        <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700" onclick="handleUpload('contract')">رفع</button>
+      <div class="flex justify-end mt-2 mb-2">
+        <img src="Assets/imgs/slip2.webp" alt="مستند التزام السداد"
+          class="w-32 h-auto rounded border border-gray-200 enlargeable cursor-pointer">
       </div>
     </div>
 
-    <!-- Success Modal -->
-    <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-xs p-6 flex flex-col items-center">
-        <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
-        <div class="text-lg font-semibold mb-2 text-center">تم الحفظ بنجاح</div>
-        <div class="text-sm text-gray-600 mb-4 text-center">سيتم إعادتك للصفحة السابقة</div>
-      </div>
-    </div>
+<div class="mt-8 flex items-center justify-between p-4 installments-header" dir="rtl">
+  <!-- الجهة اليمين: العنوان + أيقونة -->
+  <div class="flex items-center gap-2">
+    <h2 class="text-base font-semibold">الأقساط المستحقة</h2>
+    <i class="fas fa-coins text-2xl text-yellow-600"></i>
+  </div>
 
+  <!-- الجهة الشمال: الأيقونة -->
+  <div class="checked-icon-container">
+    <i class="fas fa-check text-green-600"></i>
+  </div>
+</div>
+
+
+    <div id="installment-log" class="flex flex-col gap-3"></div>
+    <div class="h-20"></div>
+
+  </div>
+
+  <!-- Modals -->
+  <!-- ... all your modals unchanged ... -->
+  <!-- Modal: البطاقة الشخصية -->
+  <div id="modal-id-card" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
+      <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal"
+        data-modal="modal-id-card">
+        <i class="fas fa-times"></i>
+      </button>
+      <h3 class="text-lg font-semibold mb-2 text-right">رفع صورة البطاقة الشخصية</h3>
+      <p class="text-sm text-gray-600 mb-4 text-right">محتاج ترفع صورة بطاقتك الشخصية السارية</p>
+      <input id="id-card-file" type="file" accept="image/*" class="mb-4" />
+      <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+        onclick="handleUpload('id-card')">رفع</button>
+    </div>
+  </div>
+  <!-- Modal: إيصال إلتزام السداد -->
+  <div id="modal-receipt" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
+      <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal"
+        data-modal="modal-receipt">
+        <i class="fas fa-times"></i>
+      </button>
+      <h3 class="text-lg font-semibold mb-2 text-right">رفع إيصال إلتزام السداد</h3>
+      <p class="text-sm text-gray-600 mb-4 text-right">ستحتاج إلي التوقيع علي مذكرة التأمين أولاً ،إذا قمت بالتوقيع
+        عليها . فتجاهل ذلك</p>
+      <input id="receipt-file" type="file" accept="image/*,application/pdf" class="mb-4" />
+      <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+        onclick="handleUpload('receipt')">رفع</button>
+    </div>
+  </div>
+  <!-- Modal: اختيار طريقة القبض -->
+  <div id="modal-method" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
+      <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal"
+        data-modal="modal-method">
+        <i class="fas fa-times"></i>
+      </button>
+      <h3 class="text-lg font-semibold mb-2 text-right">اختيار طريقة القبض</h3>
+      <p class="text-sm text-gray-600 mb-4 text-right">لازم تختار وسيلة قبض عشان تقدر تستلم مبلغ القبض</p>
+      <select id="method-select" class="mb-4 border rounded p-2">
+        <option>حساب بنكي</option>
+        <option>محفظة إلكترونية</option>
+        <option>نقدي</option>
+      </select>
+      <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+        onclick="handleUpload('method')">تأكيد</button>
+    </div>
+  </div>
+  <!-- Modal: العقد -->
+  <div id="modal-contract" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-md p-6 relative flex flex-col">
+      <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-700 text-2xl close-modal"
+        data-modal="modal-contract">
+        <i class="fas fa-times"></i>
+      </button>
+      <h3 class="text-lg font-semibold mb-2 text-right">رفع مستند التزام السداد</h3>
+      <p class="text-sm text-gray-600 mb-4 text-right">محتاج ترفع مستند التزام السداد</p>
+      <input id="contract-file" type="file" accept="image/*,application/pdf" class="mb-4" />
+      <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
+        onclick="handleUpload('contract')">رفع</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90vw] max-w-xs p-6 flex flex-col items-center">
+      <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
+      <div class="text-lg font-semibold mb-2 text-center">تم الحفظ بنجاح</div>
+      <div class="text-sm text-gray-600 mb-4 text-center">سيتم إعادتك للصفحة السابقة</div>
+    </div>
+  </div>
 
   <!-- Navbar Bottom -->
-  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg" style="background-color:#90D1CA;" dir="rtl">
+  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg"
+    style="background-color:#90D1CA;" dir="rtl">
 
     <div onclick="location.href='home.html'" class="p-0">
       <i class="bi bi-house-door-fill text-xl "></i>
@@ -244,10 +300,7 @@
       <div class="label">جمعياتي</div>
     </div>
 
-    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3" >
-      <!-- <span class="material-symbols-outlined text-3xl">
-        arrow_circle_left
-      </span> -->
+    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3">
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
       <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
     </div>
@@ -261,67 +314,299 @@
       <i class="bi bi-file-earmark-check-fill text-xl"></i>
       <div class="label">المدفوعات</div>
     </div>
-
   </div>
-    <script>
-      // Modal open/close logic
-      document.querySelectorAll('.document-box').forEach(box => {
-        box.addEventListener('click', function() {
-          const modalId = this.getAttribute('data-modal');
-          document.getElementById(modalId).classList.remove('hidden');
-        });
-      });
-      document.querySelectorAll('.close-modal').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const modalId = this.getAttribute('data-modal');
-          document.getElementById(modalId).classList.add('hidden');
-        });
-      });
-      // Close modal on background click
-      document.querySelectorAll('[id^="modal-"]').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-          if (e.target === this) this.classList.add('hidden');
-        });
-      });
 
-      // Handle upload/save and show modal then go back
-      function handleUpload(type) {
-        let data = {};
-        if (type === 'id-card') {
-          const fileInput = document.getElementById('id-card-file');
-          if (fileInput.files.length > 0) {
-            data['idCard'] = fileInput.files[0].name;
+  <script>
+    // Modal open/close logic and uploads remain unchanged
+    document.querySelectorAll('.document-box').forEach(box => {
+      box.addEventListener('click', function () {
+        const modalId = this.getAttribute('data-modal');
+        document.getElementById(modalId).classList.remove('hidden');
+      });
+    });
+    document.querySelectorAll('.close-modal').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const modalId = this.getAttribute('data-modal');
+        document.getElementById(modalId).classList.add('hidden');
+      });
+    });
+    document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+      modal.addEventListener('click', function (e) {
+        if (e.target === this) this.classList.add('hidden');
+      });
+    });
+    async function handleUpload(type) {
+      let data = {};
+      if (type === 'id-card') {
+        const fileInput = document.getElementById('id-card-file');
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const formData = new FormData();
+          formData.append('nationalIdImage', file);
+          try {
+            const res = await fetch('http://localhost:3000/api/nationalID/upload', {
+              method: 'POST',
+              body: formData
+            });
+            if (!res.ok) throw new Error('Upload failed');
+            const result = await res.json();
+            data['idCard'] = result.filePath;
+          } catch (e) {
+            alert('فشل رفع صورة البطاقة. حاول مرة أخرى.');
+            return;
           }
-        } else if (type === 'receipt') {
-          const fileInput = document.getElementById('receipt-file');
-          if (fileInput.files.length > 0) {
-            data['receipt'] = fileInput.files[0].name;
+        } else {
+          alert('يرجى اختيار صورة البطاقة');
+          return;
+        }
+      } else if (type === 'receipt') {
+        const fileInput = document.getElementById('receipt-file');
+        if (fileInput.files.length > 0) {
+          data['receipt'] = fileInput.files[0].name;
+        }
+      } else if (type === 'method') {
+        const select = document.getElementById('method-select');
+        data['method'] = select.value;
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('يرجى تسجيل الدخول أولاً');
+          return;
+        }
+        try {
+          const res = await fetch('http://localhost:3000/api/payments/update-payment-method/7', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ qabdMethod: select.value })
+          });
+          if (!res.ok) throw new Error('فشل تحديث طريقة الدفع');
+          const result = await res.json();
+          if (!result.success) throw new Error(result.message || 'فشل تحديث طريقة الدفع');
+        } catch (e) {
+          alert(e.message || 'حدث خطأ أثناء تحديث طريقة الدفع');
+          return;
+        }
+      } else if (type === 'contract') {
+        const fileInput = document.getElementById('contract-file');
+        if (fileInput.files.length > 0) {
+          data['contract'] = fileInput.files[0].name;
+        }
+      }
+      let prev = {};
+      try { prev = JSON.parse(localStorage.getItem('accountReceivable') || '{}'); } catch { }
+      localStorage.setItem('accountReceivable', JSON.stringify({ ...prev, ...data }));
+      document.querySelectorAll('[id^="modal-"]').forEach(m => m.classList.add('hidden'));
+      document.getElementById('success-modal').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('success-modal').classList.add('hidden');
+        window.history.back();
+      }, 1200);
+    }
+    async function fetchNationalIdImages() {
+      try {
+        const res = await fetch('http://localhost:3000/api/nationalID/all');
+        if (!res.ok) return;
+        const data = await res.json();
+        const container = document.getElementById('uploaded-id-images');
+        container.innerHTML = '';
+        const toggleBtn = document.getElementById('toggle-id-images-btn');
+        let showingAll = false;
+        // إخفاء الزر افتراضياً
+        toggleBtn.classList.add('hidden');
+        if (data.images && data.images.length > 0) {
+          let imagesToShow = data.images;
+          if (data.images.length > 2) {
+            imagesToShow = data.images.slice(-2);
+            toggleBtn.classList.remove('hidden');
+            toggleBtn.innerText = 'عرض كل الصور';
           }
-        } else if (type === 'method') {
-          const select = document.getElementById('method-select');
-          data['method'] = select.value;
-        } else if (type === 'contract') {
-          const fileInput = document.getElementById('contract-file');
-          if (fileInput.files.length > 0) {
-            data['contract'] = fileInput.files[0].name;
+          function renderImages(imgs) {
+            container.innerHTML = '';
+            imgs.forEach(img => {
+              const imgElem = document.createElement('img');
+              const wrapper = document.createElement('div');
+              wrapper.className = "relative w-full mb-2 group";
+              imgElem.src = `http://localhost:3000/api/nationalID/${img}`;
+              imgElem.className = "w-full h-auto max-h-64 object-cover rounded border border-gray-200 enlargeable cursor-zoom-in";
+              imgElem.alt = "صورة بطاقة شخصية";
+              // أيقونة العدسة
+              const icon = document.createElement('span');
+              icon.innerHTML = `<svg class='absolute top-2 left-2 text-white bg-black bg-opacity-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity' style='width:2rem;height:2rem;z-index:10;' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8' stroke='currentColor' stroke-width='2'/><line x1='21' y1='21' x2='16.65' y2='16.65' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg>`;
+              wrapper.appendChild(imgElem);
+              wrapper.appendChild(icon);
+              container.appendChild(wrapper);
+            });
+            // إعادة تفعيل خاصية التكبير للصور الجديدة
+            document.querySelectorAll('#uploaded-id-images .enlargeable').forEach(img => {
+              img.addEventListener('click', function (e) {
+                const modal = document.getElementById('image-modal');
+                const modalImg = document.getElementById('modal-img');
+                if (modal && modalImg) {
+                  modalImg.src = this.src;
+                  modal.classList.remove('hidden');
+                }
+              });
+            });
+          }
+          renderImages(imagesToShow);
+          // زر التبديل
+          if (data.images.length > 2) {
+            toggleBtn.onclick = function() {
+              if (!showingAll) {
+                renderImages(data.images);
+                toggleBtn.innerText = 'إخفاء الصور الإضافية';
+                showingAll = true;
+              } else {
+                renderImages(data.images.slice(-2));
+                toggleBtn.innerText = 'عرض كل الصور';
+                showingAll = false;
+              }
+            };
           }
         }
-        // Save to localStorage (append or update)
-        let prev = {};
-        try { prev = JSON.parse(localStorage.getItem('accountReceivable') || '{}'); } catch {}
-        localStorage.setItem('accountReceivable', JSON.stringify({...prev, ...data}));
-
-        // Hide all modals
-        document.querySelectorAll('[id^="modal-"]').forEach(m => m.classList.add('hidden'));
-        // Show success modal
-        document.getElementById('success-modal').classList.remove('hidden');
-        // Redirect after short delay
-        setTimeout(() => {
-          document.getElementById('success-modal').classList.add('hidden');
-          window.history.back();
-        }, 1200);
+      } catch { }
+    }
+    fetchNationalIdImages();
+    async function fetchCurrentPaymentMethod() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      try {
+        const res = await fetch('http://localhost:3000/api/payments/payment-method/my', {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success && data.paymentMethod && data.paymentMethod.qabdMethod) {
+          const select = document.getElementById('method-select');
+          if (select) {
+            for (let i = 0; i < select.options.length; i++) {
+              if (select.options[i].text === data.paymentMethod.qabdMethod) {
+                select.selectedIndex = i;
+                break;
+              }
+            }
+          }
+        }
+      } catch { }
+    }
+    fetchCurrentPaymentMethod();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.enlargeable').forEach(img => {
+        img.addEventListener('click', function (e) {
+          const modal = document.getElementById('image-modal');
+          const modalImg = document.getElementById('modal-img');
+          if (modal && modalImg) {
+            modalImg.src = this.src;
+            modal.classList.remove('hidden');
+          }
+        });
+      });
+      const imageModal = document.getElementById('image-modal');
+      if (imageModal) {
+        imageModal.addEventListener('click', function (e) {
+          if (e.target === this) this.classList.add('hidden');
+        });
       }
-    </script>
+      const closeImageModal = document.getElementById('close-image-modal');
+      if (closeImageModal) {
+        closeImageModal.addEventListener('click', function () {
+          document.getElementById('image-modal').classList.add('hidden');
+        });
+      }
+    });
+  </script>
+
+  <!-- الاقساط المستحقة - Fetch and render from backend -->
+  <script>
+    async function fetchInstallments() {
+      const token = localStorage.getItem('token');
+      let installments = [];
+      try {
+        const res = await fetch('http://localhost:3000/api/turns/my-turn', {
+          headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        });
+        const data = await res.json();
+        if (data.success && data.turns) {
+          installments = data.turns;
+        }
+      } catch (e) { }
+      renderInstallmentLog(installments);
+    }
+
+    function renderInstallmentLog(installments) {
+      const container = document.getElementById('installment-log');
+      container.innerHTML = '';
+      if (!installments.length) {
+        container.innerHTML = '<div class="text-gray-500 text-center">لا يوجد أقساط مستحقة حالياً</div>';
+        return;
+      }
+      installments.forEach(inst => {
+        const turn = inst.turnName || `الدور ${inst.turnNumber}`;
+        const date = new Date(inst.scheduledDate).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+        const fee = inst.monthlyAmount !== undefined ? inst.monthlyAmount : '—';
+        const payout = (inst.currentTurn && inst.currentTurn.totalPayout !== undefined) ? inst.currentTurn.totalPayout : '';
+        const feeAmount = (inst.currentTurn && inst.currentTurn.feeAmount !== undefined) ? inst.currentTurn.feeAmount : '';
+        const finalAmount = (inst.currentTurn && inst.currentTurn.finalAmount !== undefined) ? inst.currentTurn.finalAmount : '';
+        const received = (inst.currentTurn &&
+          inst.currentTurn.currentTurnMember &&
+          inst.currentTurn.currentTurnMember.hasReceived)
+          ? '<span class="text-green-600 font-semibold">تم الاستلام</span>'
+          : '<span class="text-red-500 font-semibold">لم يتم الاستلام</span>';
+
+        container.innerHTML += `
+<div class="installment-item flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-4 rounded-xl shadow border border-gray-200 gap-4" dir="ltr">
+
+  <!-- الجزء الأيسر: بيانات القسط -->
+  <div class="flex flex-col text-end">
+    <span class="font-semibold text-base text-gray-800">${turn}</span>
+    <span class="text-xs text-gray-500 mt-1">تاريخ الاستحقاق: ${date}</span>
+  </div>
+
+  <!-- الجزء الأيمن: المبالغ -->
+  <div class="flex flex-col text-end gap-1">
+    <span class="font-bold text-sm sm:text-base">
+      المبلغ المستحق: <span class="text-green-700">${fee} ر.س</span>
+    </span>
+
+    ${received}
+
+    ${payout ? `
+    <span class="text-xs text-gray-500">
+      إجمالي القبض: ${payout} ر.س
+    </span>` : ""}
+
+    ${feeAmount ? `
+    <span class="text-xs text-gray-500">
+      رسوم الاشتراك: ${feeAmount} ر.س
+    </span>` : ""}
+
+    ${finalAmount ? `
+    <span class="text-xs text-gray-500">
+      و الصافي بعد الرسوم: ${finalAmount} ر.س
+    </span>` : ""}
+  </div>
+</div>
+
+        `;
+      });
+    }
+
+    fetchInstallments();
+  </script>
+
+  <!-- مودال تكبير الصورة -->
+  <div id="image-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+    <span id="close-image-modal" class="absolute top-4 left-4 text-white text-3xl cursor-pointer"
+      style="z-index:60;">&times;</span>
+    <img id="modal-img" src="" alt="صورة مكبرة"
+      class="max-h-[80vh] max-w-[90vw] rounded shadow-lg border-4 border-white" style="z-index:55;">
+  </div>
+
 </body>
+
 </html>

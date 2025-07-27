@@ -12,7 +12,7 @@ if (!token) {
 async function loadMyAssociations() {
   try {
     const res = await fetch(
-      "https://money-production-bfc6.up.railway.app/api/associations/my-associations",
+      "http://localhost:3000/api/associations/my-associations",
       {
         headers: { Authorization: "Bearer " + token },
       }
@@ -45,17 +45,19 @@ async function loadMyAssociations() {
       );
 
       const card = document.createElement("div");
-      card.className = "max-w-md mx-auto bg-white border rounded-2xl shadow p-4 text-right font-sans mb-4 cursor-pointer";
+      card.className = "mx-2 bg-white border rounded-2xl shadow p-4 text-right font-sans mb-4 cursor-pointer";
       card.setAttribute('data-association-id', a.id);
 
       card.innerHTML = `
         <div class="flex items-center justify-between mb-2">
-          <p class="text-green-600 text-2xl font-medium">${a.name}</p>
-          <div class="text-2xl font-bold text-gray-800">${a.monthlyAmount.toLocaleString("en-EG")} SAR</div>
+          
+         <div class="text-2xl font-bold text-gray-800">
+  ${(a.monthlyAmount * a.duration).toLocaleString("ar-EG")} ريال سعودي
+</div>
         </div>
 
-        <div class="text-blue-600 text-sm mb-4">
-          ${a.monthlyAmount.toLocaleString("en-EG")} SAR monthly
+        <div class="text-blue-600 text-sm mb-4" dir="rtl">
+        ${a.monthlyAmount.toLocaleString("ar-EG")} ريال سعودي بالشهر 
         </div>
 
         <div class="bg-gray-100 rounded-xl p-3 mb-4">
@@ -87,7 +89,6 @@ async function loadMyAssociations() {
           <span>${(a.discountAmount || 0).toLocaleString("en-EG")} SAR</span>
         </div>
 
-        <div class="text-sm text-gray-500 text-center mt-2">No fees</div>
       `;
       listEl.appendChild(card);
     });

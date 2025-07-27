@@ -5,10 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payments</title>
+    <!-- Bootstrap Icons  Local & Tailwind-->
+  <link rel="stylesheet" href="./Assets/bootstrap-icons/font/bootstrap-icons.css">
+  
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="./mainLayout.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
   <!-- Font Awesome (لأيقونات الكروت) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
@@ -440,7 +446,7 @@
       </div>
 
       <!-- Trends -->
-      <button title="الرائج / Trends" class="focus:outline-none">
+      <button title="الرائج / Trends" class="focus:outline-none" onclick="location.href='./fire.html'">
         <i class="bi bi-fire text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
       </button>
     </div>
@@ -448,7 +454,7 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <i class="bi bi-person-circle text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
@@ -463,7 +469,7 @@
   <div class="h-10"></div>
 
   <div class="container py-4">
-    <h2 class="text-center mb-4">Payments</h2>
+    <!-- <h2 class="text-center mb-4">Payments</h2> -->
 
     <!-- Error Message -->
     <div id="errorMessage" class="error-message"></div>
@@ -516,10 +522,10 @@
                 <i class="fas fa-lock"></i>
                 <span class="card-text">سياسة المدفوعات</span>
             </a>
-            <a href="#" class="card">
+            <!-- <a href="#" class="card">
                 <i class="fas fa-dollar-sign"></i>
                 <span class="card-text">تاريخ الدفع</span>
-            </a>
+            </a> -->
             <a href="./help.html" class="card">
                 <i class="fas fa-handshake"></i>
                 <span class="card-text">المساعدة</span>
@@ -530,7 +536,7 @@
 
 
         <!-- Spacer so content isn't hidden under navbar -->
-  <div class="h-30"></div>
+  <div class="h-24"></div>
 
 
   <!-- Navbar Bottom -->
@@ -580,30 +586,34 @@
 
     // Helper: close both
     function closeAll() {
-      notifDropdown.classList.add("hidden");
-      profMenu.classList.add("hidden");
+      if (notifDropdown) notifDropdown.classList.add("hidden");
+      if (profMenu) profMenu.classList.add("hidden");
     }
 
     // Toggle notifications
     notifToggle.addEventListener("click", (e) => {
       e.stopPropagation();
-      profMenu.classList.add("hidden");
-      notifDropdown.classList.toggle("hidden");
+      if (profMenu) profMenu.classList.add("hidden");
+      if (notifDropdown) notifDropdown.classList.toggle("hidden");
     });
 
     // Toggle profile menu
     profToggle.addEventListener("click", (e) => {
       e.stopPropagation();
-      notifDropdown.classList.add("hidden");
-      profMenu.classList.toggle("hidden");
+      if (notifDropdown) notifDropdown.classList.add("hidden");
+      if (profMenu) profMenu.classList.toggle("hidden");
     });
 
     // Click outside closes all
     document.addEventListener("click", closeAll);
 
     // Prevent clicks inside dropdown from closing
-    notifDropdown.addEventListener("click", (e) => e.stopPropagation());
-    profMenu.addEventListener("click", (e) => e.stopPropagation());
+    if (notifDropdown) {
+      notifDropdown.addEventListener("click", (e) => e.stopPropagation());
+    }
+    if (profMenu) {
+      profMenu.addEventListener("click", (e) => e.stopPropagation());
+    }
 
     // Logout
     if (logoutBtn) {
@@ -613,6 +623,34 @@
       });
     }
   });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const token = localStorage.getItem('token');
+  const navbarImg = document.getElementById('navbar-profile-img');
+  if (token && navbarImg) {
+    fetch('http://localhost:3000/api/userData/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(res => res.json())
+      .then(data => {
+        let imgUrl;
+        if (data.profileImage) {
+          imgUrl = `http://localhost:3000/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+        } else {
+          imgUrl = './Assets/imgs/anynoums.jpg';
+        }
+        navbarImg.src = imgUrl;
+        navbarImg.onerror = function () {
+          navbarImg.src = './Assets/imgs/anynoums.jpg';
+        };
+      })
+      .catch(() => {
+        navbarImg.src = './Assets/imgs/anynoums.jpg';
+      });
+  }
+});
 </script>
 
 </body>

@@ -5,6 +5,10 @@
   <title>اختيار دورك</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
+
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Tajawal', sans-serif; background: #f8fafc; }
@@ -48,7 +52,7 @@
         <span id="monthlyFee">-</span>
       </div>
       <div class="flex justify-between text-sm">
-        <span>إجمالي الضربية</span>
+        <span>رسوم الاشتراك</span>
         <span id="Fee">-</span>
       </div>
       <div id="feeDiffText" class="text-xs text-gray-500 text-left pr-2"></div>
@@ -58,6 +62,15 @@
       </div>
     </div>
     <button id="nextBtn" class="w-full py-3 rounded-full bg-teal-500 text-white font-bold text-lg mt-2 transition hover:bg-teal-600 disabled:opacity-50" disabled>التالي</button>
+  </div>
+  <div id="customModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-2xl shadow-lg max-w-xs w-full p-6 text-center">
+      <div id="modalMessage" class="mb-4 text-lg font-bold text-gray-800"></div>
+      <div class="flex justify-center gap-3 mt-6">
+        <button id="modalCancel" class="px-4 py-2 rounded bg-gray-200 text-gray-700 font-bold">إلغاء</button>
+        <button id="modalConfirm" class="px-4 py-2 rounded bg-teal-500 text-white font-bold">تأكيد</button>
+      </div>
+    </div>
   </div>
     <!-- <script src="./MainLayout.js"></script> -->
   <script src="./select_turn.js"></script>

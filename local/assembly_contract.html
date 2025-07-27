@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عقد الجمعية</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
@@ -180,12 +184,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-1">رسوم التوصيل</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">
-                        يتم دفع رسوم التعاقد للمندوب وبتكون 150ج.
-                    </p>
-                </div>
+<div>
+  <h3 class="text-lg font-semibold text-gray-800 mb-1">رسوم التوصيل</h3>
+  <p class="text-sm text-gray-600 leading-relaxed flex items-center flex-wrap gap-1">
+    يتم دفع رسوم التعاقد للمندوب وبتكون 
+    <span class="flex items-center gap-1">
+      50 <img src="./Assets/imgs/riyal.svg" alt="" class="w-4 h-4 inline-block">
+    </span>.
+  </p>
+</div>
+
             </div>
 
             <div class="section-item">
@@ -198,7 +206,7 @@
                     <h3 class="text-lg font-semibold text-gray-800 mb-1">إيصال التزام السداد</h3>
                     <p class="text-sm text-gray-600 leading-relaxed">
                         مطلوب توقيع إيصال التزام السداد مع العقد
-                        لضمان حق كل المستخدمين وتقدر تستبرده بعد
+                        لضمان حق كل المستخدمين وتقدر تسترده بعد
                         انتهاء الجمعية.
                     </p>
                 </div>
@@ -206,7 +214,7 @@
         </div>
 
         <div class="flex flex-col gap-3" id="contract-actions">
-          <button onclick="window.location.href='assoc_confirmJoin.html'" class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition">اكد الانضمام الي الجمعيه</button>
+          <button onclick="window.location.href='assoc_confirmJoin.html'" class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition">اكد الانضمام الي الجمعية</button>
           <button onclick="window.print()" class="w-full py-3 rounded-lg bg-gray-200 text-green-800 font-bold hover:bg-gray-300 transition">طباعة العقد</button>
           <button id="address-btn" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition mt-2">اكتب عنوان للتوصيل</button>
           <div id="address-sent-msg" class="hidden text-center text-green-700 font-bold mt-3">تم ارسال العنوان و تابع الاخطارات</div>

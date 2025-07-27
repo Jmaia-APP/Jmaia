@@ -29,53 +29,62 @@ function moveToJoined($card) {
 
 // Fetch suggestions
 $('.btn-next').on('click', function() {
-  const amount = parseFloat($('.input-amount').val());
-  if (!amount || amount < 1) {
+  const totalPayout = parseFloat($('.input-amount').val());
+  if (!totalPayout || totalPayout < 1) {
     return alert('Please enter a valid amount (minimum 1).');
   }
   const $container = $('#suggestionsContainer');
   $container.empty();
+
+  // Message area
+  let $msg = $('#suggestionsMessage');
+  if ($msg.length === 0) {
+    $msg = $('<div id="suggestionsMessage" class="col-span-full text-center text-green-700 font-bold mb-2"></div>');
+    $container.before($msg);
+  }
+  $msg.text('');
 
   $.ajax({
     type: 'POST',
     url: 'http://localhost:3000/api/payments/pay/suggest',
     contentType: 'application/json',
     headers: { Authorization: 'Bearer ' + token },
-    data: JSON.stringify({ amount }),
+    data: JSON.stringify({ enter: totalPayout }),
     success: function(res) {
       const suggestions = res.suggestions || [];
+      // Show API message if present
+      if (res.message) {
+        $msg.text(res.message);
+      } else {
+        $msg.text('');
+      }
       if (!res.success || suggestions.length === 0) {
         return $container.html(
           '<p class="col-span-full text-center text-gray-500">No suggestions found.</p>'
         );
       }
       // استخدم grid responsive
-      $container.removeClass().addClass('grid gap-4 px-2 mb-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5');
+      $container
+        .removeClass()
+        .addClass('grid gap-4 px-2 mb-4 grid-cols-2');
       suggestions.forEach(assoc => {
-        // Find the largest members group in totalPayouts
-        let maxMembersGroup = null;
-        if (Array.isArray(assoc.totalPayouts) && assoc.totalPayouts.length > 0) {
-          maxMembersGroup = assoc.totalPayouts.reduce((a, b) => (a.members > b.members ? a : b));
-        }
-        // Get the last payout's total from that group
-        let total = assoc.monthlyAmount;
-        if (maxMembersGroup && Array.isArray(maxMembersGroup.payouts) && maxMembersGroup.payouts.length > 0) {
-          total = maxMembersGroup.payouts[maxMembersGroup.payouts.length - 1].total;
-        }
-        // Build card (new design)
         const $card = $(`
           <div class="association-card card max-w-[160px] w-full bg-white border border-teal-400 rounded-lg shadow p-0 text-center font-sans cursor-pointer select-none transition hover:shadow-lg flex flex-col mx-auto" data-association-id="${assoc.id}">
             <div class="flex justify-between items-start px-3 pt-3">
               <span class="inline-block w-5 h-5 border-2 border-teal-400 rounded-full"></span>
               <div class="flex flex-col items-end">
                 <span class="text-lg font-bold text-gray-800">${assoc.duration}</span>
-                <span class="text-base font-bold text-gray-900" style="font-family: Tajawal, sans-serif;">شهور</span>
+                <span class="text-base font-bold text-gray-900">شهور</span>
               </div>
             </div>
             <div class="border-t border-teal-400 my-2"></div>
             <div class="flex flex-col items-center justify-center py-2">
-              <span class="text-xl font-bold text-gray-800">${Number(total).toLocaleString("ar-EG")}</span>
-              <span class="text-base font-bold text-gray-900" style="font-family: Tajawal, sans-serif;">إجمالي الاستلام</span>
+              <span class="text-xl font-bold text-gray-800">
+                إجمالي القبض: ${assoc.totalPayout.toLocaleString("ar-EG")} ر.س
+              </span>
+              <span class="text-sm font-bold text-green-700 mt-2">
+                ${assoc.monthlyAmount.toLocaleString("ar-EG")} <span class="text-base font-bold text-green-700">ر.س/شهر</span>
+              </span>
             </div>
             <button class="join-button absolute inset-0 opacity-0" data-id="${assoc.id}" tabindex="-1" aria-label="انضم"></button>
           </div>

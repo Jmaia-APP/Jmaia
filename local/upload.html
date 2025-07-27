@@ -19,7 +19,10 @@
       }
     })(console.warn);
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
+
   <style>
     .upload-box {
       border: 2px solid #16a34a;
@@ -106,7 +109,7 @@
       </div>
 
       <!-- Trends -->
-      <button title="الرائج / Trends" class="focus:outline-none">
+      <button title="الرائج / Trends" class="focus:outline-none" onclick="location.href='./fire.html'">
         <i class="bi bi-fire text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
       </button>
     </div>
@@ -114,12 +117,13 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <i class="bi bi-person-circle text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-        <button class="block text-sm w-full text-left py-1 hover:text-green-600">Settings</button>
-        <button id="logout-btn"
+<a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+  Settings
+</a>        <button id="logout-btn"
           class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
       </div>
     </div>
@@ -295,7 +299,7 @@
         // إعادة التوجيه بعد 5 ثواني
         setTimeout(() => {
           window.location.href = 'Arrest_method.html';
-        }, 5000);
+        }, 1000);
       } else {
         throw new Error(data.error || 'فشل في رفع المستند');
       }
@@ -310,6 +314,34 @@
     }
   });
   </script>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const token = localStorage.getItem('token');
+  const navbarImg = document.getElementById('navbar-profile-img');
+  if (token && navbarImg) {
+    fetch('http://localhost:3000/api/userData/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(res => res.json())
+      .then(data => {
+        let imgUrl;
+        if (data.profileImage) {
+          imgUrl = `http://localhost:3000/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+        } else {
+          imgUrl = './Assets/imgs/anynoums.jpg';
+        }
+        navbarImg.src = imgUrl;
+        navbarImg.onerror = function () {
+          navbarImg.src = './Assets/imgs/anynoums.jpg';
+        };
+      })
+      .catch(() => {
+        navbarImg.src = './Assets/imgs/anynoums.jpg';
+      });
+  }
+});
+</script>
 
 </body>
 </html>

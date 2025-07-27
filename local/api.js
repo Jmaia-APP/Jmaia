@@ -1,6 +1,7 @@
 // API utility functions
 const API_BASE_URL = 'http://localhost:3000/api';
 
+
 // Get the stored token
 const getToken = () => localStorage.getItem('token');
 
@@ -133,4 +134,4 @@ window.api = {
   getAssociationId,
   setAssociationId,
   removeAssociationId
-};
+}; 

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Fellows</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Light gray background */
+        }
+
+        /* Custom styles for rounded corners and shadows */
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            /* Blue color for buttons */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            /* Fully rounded */
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+    </style>
+</head>
+
+<body class="p-4 sm:p-6 md:p-8">
+    <!-- Header Section -->
+    <header class="flex items-center justify-between mb-6">
+
+        <div class="flex items-center align-center space-x-2 rtl:space-x-reverse" onclick="history.back()" style="cursor: pointer;">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
+                </path>
+            </svg>
+            <span class="text-lg font-semibold text-gray-800">عرض جديد يهمك</span>
+
+        </div>
+
+        <div class="flex items-center">
+            <!-- <span class="text-lg font-semibold text-gray-800">5:36</span> -->
+            <!-- Add battery and signal icons if needed, using custom SVG or Font Awesome -->
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-md mx-auto space-y-6">
+        <!-- Invite Friends Card -->
+        <div class="bg-white rounded-xl overflow-hidden card-shadow">
+            <img src="./Assets/imgs/x.png" alt="Invite Friends Banner" class="w-full h-auto object-cover rounded-t-xl">
+            <div class="p-4 sm:p-6 text-right"> <!-- Changed text-center to text-right -->
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">!! إحصل علي 30 ريال سعودي علي كل دعوه</h2>
+                <p class="text-gray-600 mb-4 text-sm sm:text-base">
+                    ادع اصدقاءك الآن واستمتع بخصم 30 ريال عند دفع اول قسط لهم! كلما زادت الدعوات التي ترسلها زاد خصمك.
+                </p>
+                <a href="#" class="inline-block btn bg-[#00CA95] px-4 py-2 text-white rounded-full hover:bg-[#00b58c]">!ادعُ الآن</a>
+            </div>
+        </div>
+
+        <!-- WhatsApp Channel Card -->
+        <div class="bg-white rounded-xl overflow-hidden card-shadow">
+            <img src="./Assets/imgs/y.png" alt="WhatsApp Channel Banner"
+                class="w-full h-auto object-cover rounded-t-xl">
+            <div class="p-4 sm:p-6 text-right"> <!-- Changed text-center to text-right -->
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">چمعيه الآن علي واتساب</h2>
+                <p class="text-gray-600 mb-4 text-sm sm:text-base">
+                    چمعيه الآن علي واتساب! تابعنا للحصول علي جميع التحديثات. </p>
+                <a href="#" class="inline-block btn bg-[#00CA95] px-4 py-2 text-white rounded-full hover:bg-[#00b58c]">!اشترك الآن</a>
+            </div>
+        </div>
+
+        <!-- October Circles Card -->
+        <div class="bg-white rounded-xl overflow-hidden card-shadow">
+            <img src="./Assets/imgs/z.png" alt="October Circles Banner"
+                class="w-full h-auto object-cover rounded-t-xl">
+            <div class="p-4 sm:p-6 text-right"> <!-- Changed text-center to text-right -->
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+                    <!-- <span class="inline-block align-middle text-2xl sm:text-3xl">🙁</span> -->
+                    خصومات تصل إلى %50
+                </h2>
+                <p class="text-gray-600 mb-4 text-sm sm:text-base">
+                    استفد من أفضل العروض الحصرية والخصومات المميزة لفترة محدودة
+                    <!-- <br>
+                    الرمز الترويجي: <span class="font-bold text-blue-600">June50Z</span> -->
+                </p>
+                <a href="#" class="inline-block btn bg-[#00CA95] px-4 py-2 text-white rounded-full hover:bg-[#00b58c]">!انضم الآن</a>
+            </div>
+        </div>
+
+        <!-- September Circles Card -->
+        <div class="bg-white rounded-xl overflow-hidden card-shadow">
+            <img src="./Assets/imgs/z.png" alt="October Circles Banner"
+                class="w-full h-auto object-cover rounded-t-xl">
+            <div class="p-4 sm:p-6 text-right"> <!-- Changed text-center to text-right -->
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+                    <!-- <span class="inline-block align-middle text-2xl sm:text-3xl">🙁</span> -->
+                    خصومات تصل إلى %50
+                </h2>
+                <p class="text-gray-600 mb-4 text-sm sm:text-base">
+                    استفد من أفضل العروض الحصرية والخصومات المميزة لفترة محدودة
+                    <br>
+                    الرمز الترويجي: <span class="font-bold text-blue-600">June50Z</span>
+                </p>
+                <a href="#" class="inline-block btn bg-[#00CA95] px-4 py-2 text-white rounded-full hover:bg-[#00b58c]">!انضم الآن</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple JavaScript for any future interactivity -->
+    <script type="module">
+        // You can add JavaScript functionality here if needed.
+        // For example, handling click events or dynamic content loading.
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('الصفحة جاهزة!');
+        });
+    </script>
+</body>
+
+</html>

@@ -7,8 +7,9 @@ function formatDate(dateString) {
   ];
   return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
+
 function formatAmount(amount) {
-  return `${amount.toLocaleString(undefined, {maximumFractionDigits: 0})} رس`;
+  return `${amount.toLocaleString(undefined, { maximumFractionDigits: 0 })} <img src="./Assets/imgs/riyal.svg" alt="ر.س" class="inline w-4 h-4 align-text-bottom" />`;
 }
 
 // State
@@ -25,22 +26,45 @@ const monthlyFeeEl = document.getElementById('monthlyFee');
 const totalFeeEl = document.getElementById('totalFee');
 const nextBtn = document.getElementById('nextBtn');
 
+// Modal logic
+function showModal(message, onConfirm, onCancel) {
+  const modal = document.getElementById('customModal');
+  const msg = document.getElementById('modalMessage');
+  const confirmBtn = document.getElementById('modalConfirm');
+  const cancelBtn = document.getElementById('modalCancel');
+  msg.textContent = message;
+  modal.classList.remove('hidden');
+  function cleanup() {
+    modal.classList.add('hidden');
+    confirmBtn.removeEventListener('click', confirmHandler);
+    cancelBtn.removeEventListener('click', cancelHandler);
+  }
+  function confirmHandler() {
+    cleanup();
+    if (onConfirm) onConfirm();
+  }
+  function cancelHandler() {
+    cleanup();
+    if (onCancel) onCancel();
+  }
+  confirmBtn.addEventListener('click', confirmHandler);
+  cancelBtn.addEventListener('click', cancelHandler);
+}
+
 // جلب البيانات من الـ API
 async function fetchTurns() {
   const associationId = localStorage.getItem('selectedAssociationId');
   const token = localStorage.getItem('token');
   if (!associationId) {
-    alert('لم يتم اختيار جمعية!');
-    window.location.href = 'home.html';
+    showModal('لم يتم اختيار جمعية! سيتم إعادتك للصفحة الرئيسية.', () => { window.location.href = 'home.html'; });
     return;
   }
   if (!token) {
-    alert('يجب تسجيل الدخول أولاً');
-    window.location.href = 'login.html';
+    showModal('يجب تسجيل الدخول أولاً', () => { window.location.href = 'login.html'; });
     return;
   }
   try {
-    const res = await fetch(`https://money-production-bfc6.up.railway.app/api/turns/public/${associationId}`, {
+    const res = await fetch(`http://localhost:3000/api/turns/public/${associationId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -49,44 +73,37 @@ async function fetchTurns() {
       throw new Error('Network response was not ok: ' + res.status);
     }
     const data = await res.json();
-    if (!Array.isArray(data)) {
-      throw new Error('البيانات المستلمة ليست مصفوفة');
+    if (!Array.isArray(data.turns)) {
+      throw new Error('البيانات المستلمة لا تحتوي على مصفوفة أدوار');
     }
-    turns = data;
+    turns = data.turns;
     if (turns.length === 0) throw new Error('لا يوجد أدوار متاحة');
     association = turns[0].association;
-    // حساب الرسوم حسب نوع الدور
-    calculateFees();
+
+    // تقسيم التابات أولاً
     splitTabs();
+    // حساب الإجمالي
+    const totalAmount = association.monthlyAmount * turns.length;
+    // توزيع الخصم/الكاش باك حسب التاب
+    tabs.early.forEach(turn => {
+      turn.feeAmount = -Math.round(totalAmount * 0.07);
+    });
+    tabs.middle.forEach(turn => {
+      turn.feeAmount = -Math.round(totalAmount * 0.05);
+    });
+    tabs.late.forEach(turn => {
+      turn.feeAmount = Math.round(totalAmount * 0.02);
+    });
+
     renderTabs();
     renderTurns();
     renderSummary();
   } catch (e) {
     console.error('تفاصيل الخطأ:', e);
-    alert('خطأ في تحميل الأدوار');
+    showModal('خطأ في تحميل الأدوار');
   }
 }
 
-// حساب الرسوم حسب نوع الدور
-function calculateFees() {
-  if (!association) return;
-  const n = turns.length;
-  const perTab = Math.ceil(n / 3);
-  const totalAmount = association.monthlyAmount * n;
-  turns.forEach((turn, idx) => {
-    let percent = 0;
-    if (idx < perTab) {
-      percent = -0.07; // خصم 7%
-    } else if (idx < perTab * 2) {
-      percent = -0.05; // خصم 5%
-    } else {
-      percent = 0.02; // كاش باك 2%
-    }
-    turn.feeAmount = Math.round(association.monthlyAmount * n * percent);
-  });
-}
-
-// تقسيم الأدوار Tabs تلقائياً
 function splitTabs() {
   const n = turns.length;
   const perTab = Math.ceil(n / 3);
@@ -105,6 +122,17 @@ function renderTabs() {
 function renderTurns() {
   turnsGrid.innerHTML = '';
   tabs[selectedTab].forEach(turn => {
+    // تحديد نوع الدور
+    let percentText = '';
+    let isCashback = false;
+    if (tabs.early.includes(turn)) {
+      percentText = ' (7%)';
+    } else if (tabs.middle.includes(turn)) {
+      percentText = ' (5%)';
+    } else if (tabs.late.includes(turn)) {
+      percentText = ' (2%)';
+      isCashback = true;
+    }
     const card = document.createElement('div');
     card.className = `turn-card border-2 rounded-xl p-3 flex flex-col gap-1 cursor-pointer relative transition ${turn.taken ? 'taken border-gray-300 bg-gray-100' : 'border-teal-400 bg-white'}`;
     card.dataset.id = turn.id;
@@ -116,13 +144,13 @@ function renderTurns() {
         <span class="font-bold">${turn.turnName}</span>
       </div>
       <div class="text-xs text-gray-500 mb-1">${formatDate(turn.scheduledDate)}</div>
-      <div class="text-sm font-bold text-teal-700">
+      <div class="text-sm font-bold ${isCashback ? 'text-green-700' : 'text-red-700'}">
         ${
-          turn.feeAmount > 0
-            ? formatAmount(turn.feeAmount) + ' رسوم'
-            : (turn.feeAmount < 0
-              ? formatAmount(turn.feeAmount) + ' خصم'
-              : 'بدون رسوم')
+          turn.feeAmount !== 0
+            ? (isCashback
+                ? formatAmount(Math.abs(turn.feeAmount)) + ' كاش باك' + percentText
+                : formatAmount(Math.abs(turn.feeAmount)) + ' رسوم الاشتراك' + percentText)
+            : 'بدون رسوم'
         }
       </div>
       ${turn.taken ? `<div class="absolute top-2 left-2 flex items-center gap-1 text-xs lock"><svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm6-10V7a4 4 0 10-8 0v2" /></svg> غير متاح</div>` 
@@ -134,29 +162,18 @@ function renderTurns() {
         selectedTurnId = turn.id;
         nextBtn.disabled = false;
         renderTurns();
-        renderSummary(); // Update summary on selection
-
-        // --- New code to mimic the old behavior: ---
-        // Extract turnNumber from turnName (e.g. "الدور 3" => 3)
-        const match = turn.turnName.match(/\d+/);
-        const turnNumber = match ? parseInt(match[0], 10) : null;
-        if (turnNumber) {
-          localStorage.setItem('turnNumber', JSON.stringify({ turnNumber }));
-        }
+        renderSummary();
+        storeTurnNumber(turn.turnName);
       });
 
-      // Add lock button event
       setTimeout(() => {
         const lockBtn = card.querySelector('.lock-btn');
         if (lockBtn) {
           lockBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            const confirmed = confirm('هل أنت متأكد أنك تريد اختيار هذا الدور؟');
-            if (!confirmed) return;
-            // هنا ضع منطق الحجز الفعلي (API)
-            // مثال:
-            // await window.api.turns.select(association.id, turn.id);
-            window.location.href = 'upload.html';
+            showModal('هل أنت متأكد أنك تريد اختيار هذا الدور؟', () => {
+              window.location.href = 'upload.html';
+            });
           });
         }
       }, 0);
@@ -168,44 +185,60 @@ function renderTurns() {
 function renderSummary() {
   if (!association) return;
   durationEl.textContent = turns.length + ' شهور';
-  monthlyFeeEl.textContent = formatAmount(association.monthlyAmount);
+  monthlyFeeEl.innerHTML = formatAmount(association.monthlyAmount);
 
-  // Show feeAmount of selected turn, or '-' if none selected
   const selectedTurn = turns.find(t => t.id === selectedTurnId);
-  document.getElementById('Fee').textContent = selectedTurn
+  const isLastTurn = selectedTurn === turns[turns.length - 1];
+
+  document.getElementById('Fee').innerHTML = selectedTurn
     ? formatAmount(selectedTurn.feeAmount)
     : '-';
 
-  // إجمالي القبض = القسط الشهري × المدة ± الرسوم
   let total = association.monthlyAmount * turns.length;
   if (selectedTurn) {
-    total += selectedTurn.feeAmount;
+    if (isLastTurn) {
+      total = total + selectedTurn.feeAmount;
+    } else {
+      total = total - Math.abs(selectedTurn.feeAmount);
+    }
   }
-  totalFeeEl.textContent = selectedTurn
+
+  totalFeeEl.innerHTML = selectedTurn
     ? formatAmount(total)
     : '-';
 
-  // Show difference text
   const diff = (selectedTurn ? selectedTurn.feeAmount : 0);
   const diffEl = document.getElementById('feeDiffText');
-  if (selectedTurn) {
-    if (diff > 0) {
-      diffEl.textContent = `كاش باك ${formatAmount(diff)}`;
+  if (selectedTurn && diff !== 0) {
+    let percentText = '';
+    if (tabs.early.includes(selectedTurn)) {
+      percentText = ' (7%)';
+    } else if (tabs.middle.includes(selectedTurn)) {
+      percentText = ' (5%)';
+    } else if (tabs.late.includes(selectedTurn)) {
+      percentText = ' (2%)';
+    }
+    if (tabs.late.includes(selectedTurn)) {
+      diffEl.innerHTML = `كاش باك ${formatAmount(diff)}${percentText}`;
       diffEl.classList.remove('text-red-500', 'hidden');
       diffEl.classList.add('text-green-500');
-    } else if (diff < 0) {
-      diffEl.textContent = `خصم قدره ${formatAmount(-diff)}`;
+    } else {
+      diffEl.innerHTML = `خصم قدره ${formatAmount(Math.abs(diff))}${percentText}`;
       diffEl.classList.remove('text-green-500', 'hidden');
       diffEl.classList.add('text-red-500');
-    } else {
-      diffEl.textContent = '';
-      diffEl.classList.add('hidden');
     }
   } else {
-    diffEl.textContent = '';
+    diffEl.innerHTML = '';
     diffEl.classList.add('hidden');
   }
 }
+
+// دالة مساعدة لتخزين رقم الدور
+const storeTurnNumber = turnName => {
+  const match = turnName.match(/\d+/);
+  const turnNumber = match ? parseInt(match[0], 10) : null;
+  if (turnNumber) sessionStorage.setItem('turnNumber', turnNumber);
+};
 
 // التبديل بين التابات
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -213,16 +246,19 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     selectedTab = btn.dataset.tab;
     renderTabs();
     renderTurns();
-    renderSummary(); // Update summary on tab switch
+    renderSummary();
   });
 });
 
 // زر التالي
 nextBtn.addEventListener('click', function() {
   if (!selectedTurnId) return;
-  alert('تم اختيار الدور رقم: ' + selectedTurnId + '\nتم الانضمام للجمعية بنجاح!');
-  window.location.href = "home.html";
+  showModal('هل أنت متأكد أنك تريد اختيار هذا الدور؟', () => {
+    window.location.href = 'upload.html';
+  });
 });
 
 // أول تحميل
+fetchTurns();
+fetchTurns();
 fetchTurns();

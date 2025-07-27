@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تأكيد الانضمام للجمعية</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Tailwind -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link rel="stylesheet" href="dist/tailwind.css">
+
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md text-center">
@@ -13,25 +17,33 @@
     <button id="join-btn" class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition mb-4">انضمام للجمعية</button>
     <div id="result" class="text-center text-lg font-bold mt-4"></div>
   </div>
+  <!-- Modal -->
+  <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-8 shadow-lg text-center max-w-xs w-full">
+      <div class="text-green-600 text-4xl mb-4">✔️</div>
+      <div class="text-xl font-bold mb-4">تم الانضمام بنجاح</div>
+      <button id="modal-ok-btn" class="w-full py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-700 transition">تم</button>
+    </div>
+  </div>
   <script>
     // عرض رقم الدور المختار وتعطيل الزر إذا لم يتم اختيار دور
     function updateTurnInfoAndButton() {
-      // جلب رقم الدور من turnNumber أو selectedTurnId
+      // جلب رقم الدور من turnNumber في sessionStorage أو selectedTurnId في localStorage
       let turnNumber = null;
-      const turnObj = localStorage.getItem('turnNumber');
+      let turnObj = sessionStorage.getItem('turnNumber');
       if (turnObj) {
+        // إذا كانت القيمة رقم خام أو كائن JSON
         try {
-          turnNumber = JSON.parse(turnObj).turnNumber;
-        } catch {}
+          turnNumber = isNaN(turnObj) ? JSON.parse(turnObj).turnNumber : Number(turnObj);
+        } catch {
+          turnNumber = Number(turnObj);
+        }
       }
       // إذا لم يوجد، جرب selectedTurnId
       if (!turnNumber) {
         const selectedTurnId = localStorage.getItem('selectedTurnId');
-        if (selectedTurnId) {
-          // إذا كان رقم فقط أو نص رقم
-          if (!isNaN(Number(selectedTurnId))) {
-            turnNumber = Number(selectedTurnId);
-          }
+        if (selectedTurnId && !isNaN(Number(selectedTurnId))) {
+          turnNumber = Number(selectedTurnId);
         }
       }
       document.getElementById('turn-info').textContent = turnNumber ? `الدور المختار: ${turnNumber}` : 'لم يتم اختيار دور بعد';
@@ -66,7 +78,7 @@
       this.disabled = true;
       document.getElementById('result').textContent = 'جاري الانضمام...';
       try {
-        const res = await fetch(`https://money-production-bfc6.up.railway.app/api/associations/${associationId}/join`, {
+        const res = await fetch(`http://localhost:3000/api/associations/${associationId}/join`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -75,11 +87,29 @@
           body: JSON.stringify({ turnNumber })
         });
         const data = await res.json();
-        document.getElementById('result').textContent = data.message || 'تم التسجيل!';
+        if (res.ok) {
+          // إظهار المودال عند النجاح
+          document.getElementById('result').textContent = '';
+          document.getElementById('success-modal').classList.remove('hidden');
+          // حذف turnNumber من sessionStorage بعد نجاح الانضمام
+          sessionStorage.removeItem('turnNumber');
+          return; // لا تعيد تفعيل الزر بعد النجاح
+        } else if (res.status === 409) {
+          // معالجة حالة الدور محجوز أو تعارض
+          document.getElementById('result').textContent = data.message || 'هذا الدور محجوز بالفعل أو لا يمكن الانضمام به';
+        } else {
+          document.getElementById('result').textContent = data.message || 'حدث خطأ أثناء الانضمام';
+        }
       } catch (e) {
         document.getElementById('result').textContent = 'حدث خطأ أثناء الانضمام';
       }
       this.disabled = false;
+    };
+
+    // عند الضغط على زر "تم" في المودال
+    document.getElementById('modal-ok-btn').onclick = function() {
+      // إعادة التوجيه للصفحة الرئيسية (غير اسم الملف إذا لزم)
+      window.location.href = 'home.html';
     };
   </script>
 </body>
