@@ -1,3 +1,4 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -24,8 +25,10 @@
 
     <!-- Form -->
     <form id="login-form" class="p-6">
-      <!-- National ID -->
-      <label for="login-username" class="block mb-2 text-gray-700 font-bold">البريد الإلكتروني أو رقم الهوية</label>
+      <!-- National ID or Email -->
+      <label for="login-username" class="block mb-2 text-gray-700 font-bold">
+        البريد الإلكتروني أو رقم الهوية
+      </label>
       <input
         id="login-username"
         name="loginInput"
@@ -36,7 +39,9 @@
       />
 
       <!-- Password -->
-      <label for="login-password" class="block mb-2 text-gray-700 font-bold">كلمة المرور</label>
+      <label for="login-password" class="block mb-2 text-gray-700 font-bold">
+        كلمة المرور
+      </label>
       <input
         id="login-password"
         name="password"
@@ -57,6 +62,25 @@
         تسجيل الدخول
       </button>
 
+      <!-- Biometric Login Button -->
+      <div class="mt-4 flex justify-center space-x-2 rtl:space-x-reverse">
+        <button
+          id="biometric-login"
+          type="button"
+          class="flex items-center py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg"
+               class="h-5 w-5 ml-2 rtl:ml-0 rtl:mr-2"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 11c.22 0 .42.03.62.08M12 11c-.22 0-.42.03-.62.08M15 12v3m-6-3v3m9-3a9 9 0 10-9 9 9 9 0 009-9z"/>
+          </svg>
+          بالبصمة / Biometric
+        </button>
+      </div>
+
       <!-- Link to Register -->
       <p class="mt-6 text-center text-gray-500 text-sm">
         ليس لديك حساب؟
@@ -65,8 +89,6 @@
     </form>
   </div>
 
-  <script src="./login.js">
-
-  </script>
+  <script src="./login.js"></script>
 </body>
 </html>
