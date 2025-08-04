@@ -1,0 +1,47 @@
+# Jekyll configuration file
+# Exclude directories and files that shouldn't be processed
+
+exclude:
+  - node_modules
+  - local/node_modules
+  - .git
+  - .vscode
+  - dist
+  - local/dist
+  - Assets
+  - local/Assets
+  - package-lock.json
+  - local/package-lock.json
+  - package.json
+  - local/package.json
+  - postcss.config.js
+  - local/postcss.config.js
+  - tailwind.config.js
+  - local/tailwind.config.js
+  - .hintrc
+  - guide.txt
+  - local/guide.txt
+
+# Site settings
+title: Jmaia
+description: Jmaia Application
+baseurl: ""
+url: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: null 
