@@ -223,7 +223,7 @@ document.getElementById('createUserForm').onsubmit = async e => {
   const body = Object.fromEntries(new FormData(form));
 
   try {
-    const res = await axios.post("https://api.technologytanda.com/api/admin/create-user", body);
+    const res = await axios.post("https://api.technologytanda.com/api/userData/admin/create-user", body);
     
     if (res.data.message === "User created successfully") {
       alert("تم إنشاء المستخدم بنجاح");
@@ -246,6 +246,13 @@ function renderUserRow(user, index) {
     ? `<button onclick="openApproveProfileModal(${user.id})" class="action-btn bg-blue-600 text-white">مراجعة المستند</button>`
     : '—';
 
+  // Add a delete button at the end
+  const deleteButton = `
+    <button onclick="openDeleteUserModal(${user.id}, '${user.fullName.replace(/'/g, "\\'")}')" class="action-btn bg-red-100 text-red-700 hover:bg-red-200">
+      حذف
+    </button>
+  `;
+
   return `
     <tr class="hover:bg-gray-50" data-user-id="${user.id}">
       <td class="px-4 py-3 text-sm whitespace-nowrap">${index + 1}</td>
@@ -265,6 +272,7 @@ function renderUserRow(user, index) {
       <td class="px-4 py-3 text-sm whitespace-nowrap">${user.role}</td>
       <td class="px-4 py-3 text-sm whitespace-nowrap">${new Date(user.createdAt).toLocaleDateString('ar-EG')}</td>
       <td class="px-4 py-3 text-sm whitespace-nowrap">${salarySlipCell}</td>
+      <td class="px-4 py-3 text-sm whitespace-nowrap">${deleteButton}</td>
     </tr>
   `;
 }
@@ -834,6 +842,27 @@ async function testAssociationCycle(assocId, requiredMembers) {
     alert('حدث خطأ أثناء تنفيذ الدورة: ' + (error.response?.data?.message || error.message));
   }
 }
+function openDeleteUserModal(userId, userName) {
+  document.getElementById('deleteUserId').value = userId;
+  document.getElementById('deleteUserName').textContent = `هل أنت متأكد أنك تريد حذف المستخدم: ${userName}؟`;
+  document.getElementById('deleteUserModal').classList.remove('hidden');
+}
+
+function closeDeleteUserModal() {
+  document.getElementById('deleteUserModal').classList.add('hidden');
+}
+
+async function confirmDeleteUser() {
+  const userId = document.getElementById('deleteUserId').value;
+  try {
+    await axios.delete(`https://api.technologytanda.com/api/userData/admin/delete-user/${userId}`);
+    closeDeleteUserModal();
+    alert('تم حذف المستخدم بنجاح');
+    fetchAndRenderUsers();
+  } catch (error) {
+    alert('حدث خطأ أثناء حذف المستخدم');
+  }
+}
 
 // Expose functions to window
 window.loadAssociations = loadAssociations;
@@ -862,6 +891,9 @@ window.closeUserDetailsModal = closeUserDetailsModal;
 window.openTopupModalForUser = openTopupModalForUser;
 window.openNotificationModalForUser = openNotificationModalForUser;
 window.testAssociationCycle = testAssociationCycle;
+window.openDeleteUserModal = openDeleteUserModal;
+window.closeDeleteUserModal = closeDeleteUserModal;
+window.confirmDeleteUser = confirmDeleteUser;
 
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded', () => {
