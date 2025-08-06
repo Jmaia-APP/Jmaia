@@ -57,6 +57,25 @@ const assocApi = 'https://api.technologytanda.com/api/associations';
 const userApi = 'https://api.technologytanda.com/api/admin/create-user';
 const usersApi = 'https://api.technologytanda.com/api/userData/users';
 
+// === Fee Overrides UI ===
+function toggleOverrides() {
+  const cont = document.getElementById('overridesContainer');
+  cont.classList.toggle('hidden');
+}
+
+function addOverrideField() {
+  const list = document.getElementById('feeOverridesList');
+  const index = list.children.length + 1;
+  const field = document.createElement('div');
+  field.className = "flex gap-2 mb-1";
+  field.innerHTML = `
+    <input type="number" min="1" placeholder="رقم الدور" class="border p-1 rounded w-1/4 override-turn" />
+    <input type="number" step="0.01" placeholder="نسبة الخصم (مثال 0.07)" class="border p-1 rounded w-2/4 override-fee" />
+    <button type="button" class="text-red-500" onclick="this.parentNode.remove()"><i class="bi bi-x"></i></button>
+  `;
+  list.appendChild(field);
+}
+
 // --- Main functions ---
 function renderAssociationCard(assoc) {
   const startDate = new Date(assoc.startDate).toLocaleDateString('ar-EG');
@@ -128,27 +147,46 @@ function closeCreateAssociationModal() {
   document.getElementById('createAssociationModal').classList.add('hidden'); 
 }
 
-document.getElementById('createAssociationForm').onsubmit = async e => {
+document.getElementById('createAssociationForm').onsubmit = async function(e) {
   e.preventDefault();
-  const form = e.target; 
+  const form = e.target;
   const body = {
     name: form.name.value,
     monthlyAmount: +form.monthlyAmount.value,
+    maxMembers: +form.maxMembers.value,
     duration: +form.duration.value,
     type: form.type.value,
-    maxMembers: +form.maxMembers.value,
     startDate: form.startDate.value
   };
-  
+  // Only add percentages if they have a value!
+  if(form.earlyFeePercent.value !== "")  body.earlyFeePercent = +form.earlyFeePercent.value;
+  if(form.middleFeePercent.value !== "") body.middleFeePercent = +form.middleFeePercent.value;
+  if(form.lateFeePercent.value !== "")   body.lateFeePercent = +form.lateFeePercent.value;
+
+  // Collect feeOverrides if present
+  const overrideFields = document.querySelectorAll('.override-turn');
+  if (overrideFields.length > 0) {
+    const overrides = {};
+    overrideFields.forEach((turnInput) => {
+      const feeInput = turnInput.parentNode.querySelector('.override-fee');
+      const turn = turnInput.value;
+      const fee = feeInput.value;
+      if(turn && fee !== '') overrides[turn] = +fee;
+    });
+    if (Object.keys(overrides).length > 0) {
+      body.feeOverrides = overrides;
+    }
+  }
+  // (OPTIONAL) If you want to always send feeOverrides but as null:
+  // else body.feeOverrides = null;
+
   try {
     const res = await axios.post(assocApi, body);
-    if (res.data && res.data.association) {
-      alert(`تم إنشاء الجمعية بنجاح (ID: ${res.data.association.id})`);
-      closeCreateAssociationModal();
-      loadAssociations();
-    }
-  } catch (error) {
-    alert('حدث خطأ أثناء إنشاء الجمعية: ' + (error.response?.data?.message || error.message));
+    alert(res.data.message || 'تم إنشاء الجمعية!');
+    closeCreateAssociationModal();
+    loadAssociations();
+  } catch (err) {
+    alert('فشل في إنشاء الجمعية: ' + (err.response?.data?.message || err.message));
   }
 };
 
@@ -894,6 +932,8 @@ window.testAssociationCycle = testAssociationCycle;
 window.openDeleteUserModal = openDeleteUserModal;
 window.closeDeleteUserModal = closeDeleteUserModal;
 window.confirmDeleteUser = confirmDeleteUser;
+window.toggleOverrides = toggleOverrides;
+window.addOverrideField = addOverrideField;
 
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded', () => {
@@ -934,3 +974,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', function() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'index.html'; // back to login
+  });
+}
+
+const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+if (logoutBtnMobile) {
+  logoutBtnMobile.addEventListener('click', function () {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'index.html';
+  });
+}

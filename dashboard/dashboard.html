@@ -395,8 +395,17 @@
         </button>
       </nav>
     </div>
-    <div class="text-sm text-white mt-4 mb-6 text-center">
-      <span class="sidebar-label">© 2025 FundCircle</span>
+    <div class="flex flex-col">
+      <div class="flex-grow"></div> <!-- pushes logout to the bottom -->
+      <div class="mb-4 flex justify-center">
+        <button id="logoutBtn"
+          class="w-11/12 action-btn bg-red-600 text-white hover:bg-red-700 transition sidebar-label">
+          <i class="bi bi-box-arrow-right ml-2"></i> تسجيل الخروج
+        </button>
+      </div>
+      <div class="text-sm text-white mb-6 text-center">
+        <span class="sidebar-label">© 2025 FundCircle</span>
+      </div>
     </div>
   </aside>
 
@@ -523,6 +532,31 @@
               <option value="6">6 أعضاء</option>
               <option value="10">10 أعضاء</option>
             </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">نسبة خصم الدور المبكر (%)</label>
+            <input name="earlyFeePercent" type="number" step="0.01" placeholder="مثال: 0.07" class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#129990] focus:border-[#129990]" />
+            <div class="text-xs text-gray-500 mt-1">اختياري: يمكنك ترك الحقول فارغة في حال عدم وجود خصم/زيادة دور.</div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">نسبة خصم الدور المتوسط (%)</label>
+            <input name="middleFeePercent" type="number" step="0.01" placeholder="مثال: 0.05" class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#129990] focus:border-[#129990]" />
+            <div class="text-xs text-gray-500 mt-1">اختياري: يمكنك ترك الحقول فارغة في حال عدم وجود خصم/زيادة دور.</div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">نسبة خصم الدور المتأخر (%)</label>
+            <input name="lateFeePercent" type="number" step="0.01" placeholder="مثال: -0.02" class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#129990] focus:border-[#129990]" />
+            <div class="text-xs text-gray-500 mt-1">اختياري: يمكنك ترك الحقول فارغة في حال عدم وجود خصم/زيادة دور.</div>
+          </div>
+          <!-- Collapsible Fee Overrides -->
+          <div>
+            <button type="button" onclick="toggleOverrides()" class="text-[#129990] underline text-sm mb-1">تخصيص خصم دور (اختياري)</button>
+            <div id="overridesContainer" class="hidden mt-2 space-y-2">
+              <div id="feeOverridesList"></div>
+              <button type="button" onclick="addOverrideField()" class="action-btn bg-[#129990] text-white text-xs">
+                <i class="bi bi-plus-circle"></i> إضافة دور مخصص
+              </button>
+            </div>
           </div>
           <div class="flex justify-end space-x-2 rtl:space-x-reverse">
             <button type="button" onclick="closeCreateAssociationModal()" class="action-btn bg-gray-300">إلغاء</button>
@@ -824,6 +858,12 @@
         <button onclick="openTopupModal(); closeMobileMenu();" class="w-full flex items-center gap-3 px-4 py-2 rounded transition-colors bg-[#129990] hover:bg-[#0f7a7a] text-white">
           <i class="bi bi-wallet2 text-xl"></i>
           <span>شحن الرصيد</span>
+        </button>
+        <!-- Add mobile logout button here -->
+        <button id="logoutBtnMobile"
+          class="w-full flex items-center gap-3 px-4 py-2 rounded transition-colors bg-red-600 hover:bg-red-700 text-white mt-6">
+          <i class="bi bi-box-arrow-right text-xl"></i>
+          <span>تسجيل الخروج</span>
         </button>
       </nav>
     </div>

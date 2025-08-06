@@ -82,18 +82,9 @@ async function fetchTurns() {
 
     // تقسيم التابات أولاً
     splitTabs();
-    // حساب الإجمالي
-    const totalAmount = association.monthlyAmount * turns.length;
-    // توزيع الخصم/الكاش باك حسب التاب
-    tabs.early.forEach(turn => {
-      turn.feeAmount = -Math.round(totalAmount * 0.07);
-    });
-    tabs.middle.forEach(turn => {
-      turn.feeAmount = -Math.round(totalAmount * 0.05);
-    });
-    tabs.late.forEach(turn => {
-      turn.feeAmount = Math.round(totalAmount * 0.02);
-    });
+
+    // !!! NO feeAmount calculation here !!!
+    // feeAmount is used directly from backend
 
     renderTabs();
     renderTurns();
@@ -112,6 +103,22 @@ function splitTabs() {
   tabs.late = turns.slice(perTab * 2);
 }
 
+// Helper to get percent for each turn
+function getTurnPercent(turn) {
+  // Can compare to monthlyAmount or totalAmount
+  const totalAmount = association.monthlyAmount * turns.length;
+  let percent = Math.abs(turn.feeAmount) / totalAmount * 100;
+  // Optional: round to nearest integer for display
+  return Math.round(percent);
+}
+
+// Helper to get discount/cashback text
+function getTurnType(turn) {
+  if (turn.feeAmount < 0) return 'كاش باك';
+  else if (turn.feeAmount > 0) return 'رسوم الاشتراك';
+  else return 'بدون رسوم';
+}
+
 function renderTabs() {
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.remove('active');
@@ -122,17 +129,14 @@ function renderTabs() {
 function renderTurns() {
   turnsGrid.innerHTML = '';
   tabs[selectedTab].forEach(turn => {
-    // تحديد نوع الدور
     let percentText = '';
-    let isCashback = false;
-    if (tabs.early.includes(turn)) {
-      percentText = ' (7%)';
-    } else if (tabs.middle.includes(turn)) {
-      percentText = ' (5%)';
-    } else if (tabs.late.includes(turn)) {
-      percentText = ' (2%)';
-      isCashback = true;
+    // Only show percent if not zero fee
+    if (turn.feeAmount !== 0) {
+      percentText = ` (${getTurnPercent(turn)}%)`;
     }
+    let turnType = getTurnType(turn);
+    let isCashback = turn.feeAmount < 0;
+
     const card = document.createElement('div');
     card.className = `turn-card border-2 rounded-xl p-3 flex flex-col gap-1 cursor-pointer relative transition ${turn.taken ? 'taken border-gray-300 bg-gray-100' : 'border-teal-400 bg-white'}`;
     card.dataset.id = turn.id;
@@ -210,16 +214,9 @@ function renderSummary() {
   const diff = (selectedTurn ? selectedTurn.feeAmount : 0);
   const diffEl = document.getElementById('feeDiffText');
   if (selectedTurn && diff !== 0) {
-    let percentText = '';
-    if (tabs.early.includes(selectedTurn)) {
-      percentText = ' (7%)';
-    } else if (tabs.middle.includes(selectedTurn)) {
-      percentText = ' (5%)';
-    } else if (tabs.late.includes(selectedTurn)) {
-      percentText = ' (2%)';
-    }
-    if (tabs.late.includes(selectedTurn)) {
-      diffEl.innerHTML = `كاش باك ${formatAmount(diff)}${percentText}`;
+    let percentText = ` (${getTurnPercent(selectedTurn)}%)`;
+    if (diff < 0) {
+      diffEl.innerHTML = `كاش باك ${formatAmount(Math.abs(diff))}${percentText}`;
       diffEl.classList.remove('text-red-500', 'hidden');
       diffEl.classList.add('text-green-500');
     } else {
@@ -259,6 +256,4 @@ nextBtn.addEventListener('click', function() {
 });
 
 // أول تحميل
-fetchTurns();
-fetchTurns();
 fetchTurns();
