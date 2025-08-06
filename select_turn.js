@@ -188,29 +188,39 @@ function renderTurns() {
 
 function renderSummary() {
   if (!association) return;
+
+  // إجمالي مدة الجمعية
   durationEl.textContent = turns.length + ' شهور';
+  // مبلغ القسط الشهري
   monthlyFeeEl.innerHTML = formatAmount(association.monthlyAmount);
 
+  // الدور المحدد حالياً
   const selectedTurn = turns.find(t => t.id === selectedTurnId);
-  const isLastTurn = selectedTurn === turns[turns.length - 1];
 
+  // احصل على رسوم العقد (قد تكون صفر إذا غير موجودة)
+  const contractFee = association.contractDeliveryFee || 0;
+
+  // رسوم الدور كما أرسلت من السيرفر
   document.getElementById('Fee').innerHTML = selectedTurn
     ? formatAmount(selectedTurn.feeAmount)
     : '-';
 
+  // المبلغ المجمع (الكل دفع)
   let total = association.monthlyAmount * turns.length;
+
+  // حساب المبلغ النهائي بعد خصم رسوم الدور ورسوم العقد
   if (selectedTurn) {
-    if (isLastTurn) {
-      total = total + selectedTurn.feeAmount;
-    } else {
-      total = total - Math.abs(selectedTurn.feeAmount);
-    }
+    // دائماً اطرح رسوم الدور (إذا كانت سالبة تضيف للمبلغ - كاش باك)
+    // دائماً اطرح رسوم العقد
+    total = total - selectedTurn.feeAmount - contractFee;
   }
 
+  // عرض المبلغ النهائي
   totalFeeEl.innerHTML = selectedTurn
     ? formatAmount(total)
     : '-';
 
+  // فرق الرسوم (عرض الكاش باك أو الخصم بالنسبة المئوية)
   const diff = (selectedTurn ? selectedTurn.feeAmount : 0);
   const diffEl = document.getElementById('feeDiffText');
   if (selectedTurn && diff !== 0) {
@@ -228,7 +238,18 @@ function renderSummary() {
     diffEl.innerHTML = '';
     diffEl.classList.add('hidden');
   }
+
+  // توضيح رسوم العقد تحت المبلغ النهائي إذا كنت تريد:
+  const contractEl = document.getElementById('contractFeeText');
+  if (contractEl && selectedTurn) {
+    contractEl.innerHTML = contractFee > 0
+      ? `تم خصم رسوم عقد قدرها ${formatAmount(contractFee)}`
+      : '';
+    contractEl.classList.toggle('hidden', contractFee <= 0);
+  }
 }
+
+
 
 // دالة مساعدة لتخزين رقم الدور
 const storeTurnNumber = turnName => {
