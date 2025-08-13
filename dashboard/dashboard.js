@@ -317,41 +317,110 @@ function renderUserRow(user, index) {
 
 let usersAutoRefreshInterval = null;
 
-// Load users
-async function loadUsers() {
-  document.getElementById('contentContainer').innerHTML = document.getElementById('usersTemplate').innerHTML;
-  const container = document.getElementById('usersContainer');
-  container.innerHTML = '<tr><td colspan="9" class="text-center p-6"><div class="loading-spinner mx-auto"></div><p class="mt-2 text-gray-600">جاري تحميل المستخدمين...</p></td></tr>';
-  
-  // Clear any previous interval
-  if (usersAutoRefreshInterval) clearInterval(usersAutoRefreshInterval);
-  
-  // First load
-  await fetchAndRenderUsers();
-  
-  // Auto refresh every 10 seconds
-  usersAutoRefreshInterval = setInterval(fetchAndRenderUsers, 10000);
+// Load users (with search + pagination)
+const API_BASE_USERS = usersApi; // reuse existing constant
+let usersState = { page: 1, pageSize: 10, q: '', totalPages: 1, total: 0 };
+
+function updateUsersCounters({ total, currentPage, totalPages, pageSize }) {
+  const elTotal = document.getElementById('usersTotal');
+  const elPage = document.getElementById('usersCurrentPage');
+  const elPages = document.getElementById('usersTotalPages');
+  const elPageSize = document.getElementById('usersPageSize');
+  if (elTotal) elTotal.textContent = total;
+  if (elPage) elPage.textContent = currentPage;
+  if (elPages) elPages.textContent = totalPages;
+  if (elPageSize && Number(elPageSize.value) !== Number(pageSize)) elPageSize.value = pageSize;
+  const prevBtn = document.getElementById('usersPrev');
+  const nextBtn = document.getElementById('usersNext');
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
 }
 
-async function fetchAndRenderUsers() {
+function debounce(fn, ms = 400) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}
+
+function initUsersControls() {
+  const userSearchInput = document.getElementById('userSearch');
+  const prevBtn = document.getElementById('usersPrev');
+  const nextBtn = document.getElementById('usersNext');
+  const pageSizeSelect = document.getElementById('usersPageSize');
+
+  if (userSearchInput) {
+    userSearchInput.addEventListener('input', debounce(() => {
+      const q = userSearchInput.value || '';
+      fetchAndRenderUsers(1, usersState.pageSize, q);
+    }, 400));
+  }
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (usersState.page > 1) fetchAndRenderUsers(usersState.page - 1, usersState.pageSize, usersState.q);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      fetchAndRenderUsers(usersState.page + 1, usersState.pageSize, usersState.q);
+    });
+  }
+  if (pageSizeSelect) {
+    pageSizeSelect.addEventListener('change', () => {
+      const size = Number(pageSizeSelect.value) || 10;
+      fetchAndRenderUsers(1, size, usersState.q);
+    });
+  }
+}
+
+function renderUsersList(users, offsetIndex) {
+  const container = document.getElementById('usersContainer');
+  if (!container) return;
+  if (!users || users.length === 0) {
+    container.innerHTML = '<tr><td colspan="9" class="text-center p-6 text-gray-500">لا يوجد مستخدمين</td></tr>';
+    return;
+  }
+  container.innerHTML = users.map((u, i) => renderUserRow(u, i + offsetIndex)).join('');
+}
+
+async function loadUsers(page = usersState.page, pageSize = usersState.pageSize, q = usersState.q) {
+  document.getElementById('contentContainer').innerHTML = document.getElementById('usersTemplate').innerHTML;
+  const container = document.getElementById('usersContainer');
+  if (container) {
+    container.innerHTML = '<tr><td colspan="9" class="text-center p-6"><div class="loading-spinner mx-auto"></div><p class="mt-2 text-gray-600">جاري تحميل المستخدمين...</p></td></tr>';
+  }
+  if (usersAutoRefreshInterval) clearInterval(usersAutoRefreshInterval);
+  initUsersControls();
+  await fetchAndRenderUsers(page, pageSize, q);
+}
+
+async function fetchAndRenderUsers(page = usersState.page, pageSize = usersState.pageSize, q = usersState.q) {
   try {
-    const container = document.getElementById('usersContainer');
-    if (!container) return;
-    
-    const res = await axios.get(usersApi);
-    let users = res.data;
+    usersState.page = page;
+    usersState.pageSize = pageSize;
+    usersState.q = q;
 
-    // If API returns {data: [...]}
-    if (users && users.data && Array.isArray(users.data)) {
-      users = users.data;
-    }
+    const params = { page: String(page), pageSize: String(pageSize) };
+    if (q && String(q).trim()) params.q = String(q).trim();
 
-    if (!users || users.length === 0) {
-      container.innerHTML = '<tr><td colspan="9" class="text-center p-6 text-gray-500">لا يوجد مستخدمين</td></tr>';
-      return;
-    }
-    
-    container.innerHTML = users.map((u, i) => renderUserRow(u, i)).join('');
+    const res = await axios.get(API_BASE_USERS, { params });
+    const payload = res.data || {};
+    const list = Array.isArray(payload) ? payload : (Array.isArray(payload.data) ? payload.data : []);
+
+    const meta = {
+      total: payload.total ?? (payload.pagination?.total ?? list.length ?? 0),
+      currentPage: payload.currentPage ?? (payload.pagination?.currentPage ?? page),
+      totalPages: payload.totalPages ?? (payload.pagination?.totalPages ?? 1),
+      pageSize: payload.pageSize ?? (payload.pagination?.pageSize ?? pageSize)
+    };
+
+    const startIndex = (meta.currentPage - 1) * meta.pageSize;
+    renderUsersList(list, startIndex);
+    updateUsersCounters(meta);
+
+    usersState.total = meta.total;
+    usersState.totalPages = meta.totalPages;
   } catch (err) {
     console.error('خطأ في جلب المستخدمين:', err);
     const container = document.getElementById('usersContainer');
