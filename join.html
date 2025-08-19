@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>انضم إلى الجمعية</title>
-    <link rel="stylesheet" href="mainLayout.css" />
+  <link rel="stylesheet" href="mainLayout.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Tailwind CSS local -->
   <link rel="stylesheet" href="dist/tailwind.css">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Bootstrap Icons  Local & Tailwind-->
+  <!-- Bootstrap Icons  Local & Tailwind-->
   <link rel="stylesheet" href="./Assets/bootstrap-icons/font/bootstrap-icons.css">
   <!-- Google Material Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -25,7 +25,7 @@
         'opsz' 24
     }
 
-     /* Bottom Navbar */
+    /* Bottom Navbar */
     .bottom-navbar {
       position: fixed;
       bottom: 0;
@@ -62,14 +62,12 @@
       color: #16a34a !important;
       font-weight: 700;
     }
-  
   </style>
 </head>
 
 <body class="bg-gray-50">
   <!-- Navbar Top (unchanged) -->
- <div style="background-color:#90D1CA; padding-left: 1.5rem; padding-right: 1.5rem;" class="navbar fixed top-0 left-0 w-full z-50 flex justify-between items-center py-2 shadow-md rounded-b-lg" dir="ltr">
-
+  <div style="background-color:#90D1CA; padding-left: 1.5rem; padding-right: 1.5rem;" class="navbar fixed top-0 left-0 w-full z-50 flex justify-between items-center py-2 shadow-md rounded-b-lg" dir="ltr">
 
     <!-- Left icons -->
     <div class="flex gap-4 items-center">
@@ -79,16 +77,6 @@
           title="الإشعارات / Notifications">
           <i class="bi bi-bell-fill text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
         </button>
-        <!-- <div id="notification-dropdown" class="hidden absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-md z-50 p-3">
-          <div class="flex justify-between items-center border-b pb-2 mb-2">
-            <span class="font-bold text-sm text-gray-700">الإشعارات</span>
-            <span class="bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">0</span>
-          </div>
-          <div class="text-center text-gray-500">
-            <i class="bi bi-bell-slash text-2xl mb-1"></i>
-            <p class="text-sm">لا توجد إشعارات جديدة</p>
-          </div>
-        </div> -->
       </div>
 
       <!-- Trends -->
@@ -104,9 +92,10 @@
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-<a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
-  Settings
-</a>        <button id="logout-btn"
+        <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+          Settings
+        </a>
+        <button id="logout-btn"
           class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
       </div>
     </div>
@@ -117,12 +106,11 @@
   <!-- Main Content -->
   <main class="max-w-md w-full mx-auto px-4 pt-4 pb-20 text-end" dir="ltr">
     <h2 class="text-center text-xl font-bold text-gray-800 mb-6">انضم إلى الجمعية</h2>
-    <!-- Arrow Section using Material Symbols Outlined -->
+    <!-- Arrow Section -->
     <div class="flex flex-col items-center mb-6 space-y-1 text-gray-400 h-8">
-      <!-- <span class="material-symbols-outlined text-4xl md:text-4xl">keyboard_double_arrow_down</span>
-      <span class="material-symbols-outlined text-4xl md:text-4xl">keyboard_double_arrow_down</span>
-      <span class="material-symbols-outlined text-4xl md:text-4xl">keyboard_double_arrow_down</span> -->
+      <!-- arrows removed -->
     </div>
+
     <!-- Option 1 -->
     <a href="association_amount.html" class="block mb-4">
       <div class="flex items-center p-4 w-full bg-white rounded-2xl shadow hover:shadow-lg transition relative">
@@ -132,13 +120,14 @@
         <div class="flex-1">
           <div class="font-semibold text-lg text-gray-700">إشتراك في جمعية</div>
           <div class="text-gray-600 text-sm leading-relaxed">
-اختر الدور الذي تريده بمبالغ استلام تصل إلى 15,000 ر.س في الجمعية الواحدة.
-
+            اختر الدور الذي تريده بمبالغ استلام تصل إلى 15,000 ر.س في الجمعية الواحدة.
           </div>
         </div>
       </div>
     </a>
-    <!-- Option 2 -->
+
+    <!-- Option 2 (COMMENTED OUT) -->
+    <!--
     <button onclick="location.href='./Tahwish-Association.html'" type="button" class="block w-full mb-4">
       <div class="flex items-center p-4 w-full bg-white rounded-2xl shadow hover:shadow-lg transition relative">
         <div class="ml-2">
@@ -152,9 +141,11 @@
         </div>
       </div>
     </button>
+    -->
+
   </main>
 
-  <!-- Navbar Bottom (unchanged) -->
+  <!-- Navbar Bottom -->
   <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg" style="background-color:#90D1CA; color:#212529; padding-bottom: 9.1px;" dir="rtl">
     <div onclick="location.href='home.html'" class="p-0">
       <i class="bi bi-house-door-fill  text-xl "></i>
@@ -166,7 +157,7 @@
       <div class="label">جمعياتي</div>
     </div>
 
-    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3 text-[#008D10]" >
+    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3 text-[#008D10]">
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
       <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
     </div>
@@ -195,32 +186,32 @@
     });
   </script>
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const token = localStorage.getItem('token');
-  const navbarImg = document.getElementById('navbar-profile-img');
-  if (token && navbarImg) {
-    fetch('https://api.technologytanda.com/api/userData/profile', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
-      .then(res => res.json())
-      .then(data => {
-        let imgUrl;
-        if (data.profileImage) {
-          imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
-        } else {
-          imgUrl = './Assets/imgs/anynoums.jpg';
-        }
-        navbarImg.src = imgUrl;
-        navbarImg.onerror = function () {
-          navbarImg.src = './Assets/imgs/anynoums.jpg';
-        };
-      })
-      .catch(() => {
-        navbarImg.src = './Assets/imgs/anynoums.jpg';
-      });
-  }
-});
-</script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const navbarImg = document.getElementById('navbar-profile-img');
+      if (token && navbarImg) {
+        fetch('https://api.technologytanda.com/api/userData/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(res => res.json())
+          .then(data => {
+            let imgUrl;
+            if (data.profileImage) {
+              imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+            } else {
+              imgUrl = './Assets/imgs/anynoums.jpg';
+            }
+            navbarImg.src = imgUrl;
+            navbarImg.onerror = function () {
+              navbarImg.src = './Assets/imgs/anynoums.jpg';
+            };
+          })
+          .catch(() => {
+            navbarImg.src = './Assets/imgs/anynoums.jpg';
+          });
+      }
+    });
+  </script>
   <script src="./join.js"></script>
   <script src="./MainLayout.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
