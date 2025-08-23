@@ -151,7 +151,7 @@ FundCircleApp/
     ├── join_association.html
     ├── login.html
     ├── mainLayout.html
-    ├── National_id.html
+    ├── assoc_confirmJoin.html
     ├── Notification.html
     ├── Paid-card.html
     ├── Paid-card_copy.html

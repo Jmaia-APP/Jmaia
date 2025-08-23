@@ -159,12 +159,12 @@
         save.classList.toggle('opacity-50', !ok);
       }
       [bank,name,acc].forEach(el=>{el.addEventListener('input',validate);el.addEventListener('change',validate);});
-      document.querySelector(`#${prefix?'ibanSection':'accountSection'} form`).addEventListener('submit',e=>{e.preventDefault(); if(!save.disabled) window.location.href='National_id.html';});
+      document.querySelector(`#${prefix?'ibanSection':'accountSection'} form`).addEventListener('submit',e=>{e.preventDefault(); if(!save.disabled) window.location.href='assoc_confirmJoin.html';});
       validate();
     }
     setupValidation(''); setupValidation('Iban');
     // Skip and header redirects
-    document.querySelectorAll('form button[type="button"]').forEach(btn=>btn.addEventListener('click',()=>window.location.href='National_id.html'));
+    document.querySelectorAll('form button[type="button"]').forEach(btn=>btn.addEventListener('click',()=>window.location.href='assoc_confirmJoin.html'));
     document.getElementById('backToArrest').onclick = ()=>window.location.href='Arrest_method.html';
   </script>
 </body>
