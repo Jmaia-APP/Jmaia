@@ -32,13 +32,14 @@ document.querySelectorAll('[data-step-back]').forEach(btn => {
 });
 
 // =======================
-// منطق خطوة الشروط (الخطوة 3)
+/* منطق خطوة الشروط (الخطوة 0) */
 // =======================
 const termsBox = document.getElementById('terms-box');
 const scrollHint = document.getElementById('scroll-hint');
 const agreeTerms = document.getElementById('agree-terms');
 const agreePrivacy = document.getElementById('agree-privacy');
-const submitBtn = document.getElementById('submit-btn');
+const nextFromTermsBtn = document.getElementById('to-step-1'); // زر التالي من الشروط
+const submitBtn = document.getElementById('submit-btn');       // زر تسجيل في الخطوة الأخيرة
 
 let scrolledToEnd = termsBox ? false : true;
 
@@ -47,12 +48,19 @@ function setCheckboxesEnabled(enabled) {
   if (agreePrivacy) agreePrivacy.disabled = !enabled;
 }
 
-function updateSubmitState() {
+function termsAccepted() {
   const okTerms =
     (agreeTerms ? agreeTerms.checked : true) &&
     (agreePrivacy ? agreePrivacy.checked : true);
-  const canSubmit = scrolledToEnd && okTerms;
-  if (submitBtn) submitBtn.disabled = !canSubmit;
+  return scrolledToEnd && okTerms;
+}
+
+function updateButtonsState() {
+  // تفعيل/تعطيل زر "التالي" في خطوة الشروط
+  if (nextFromTermsBtn) nextFromTermsBtn.disabled = !termsAccepted();
+
+  // لأمان إضافي: ممكن أيضًا منع التسجيل إن لم تكن الشروط مقبولة
+  if (submitBtn) submitBtn.disabled = !termsAccepted();
 }
 
 // فعّل مباشرة إذا لم يكن قابلاً للتمرير
@@ -63,7 +71,7 @@ function enableIfNotScrollable() {
     scrolledToEnd = true;
     setCheckboxesEnabled(true);
     if (scrollHint) scrollHint.textContent = 'المحتوى قصير ✅ يمكنك الآن تفعيل الموافقة';
-    updateSubmitState();
+    updateButtonsState();
   }
 }
 
@@ -88,7 +96,7 @@ function setupBottomObserver() {
           scrolledToEnd = true;
           setCheckboxesEnabled(true);
           if (scrollHint) scrollHint.textContent = 'تم الوصول إلى نهاية المحتوى ✅ يمكنك الآن تفعيل الموافقة';
-          updateSubmitState();
+          updateButtonsState();
         }
       });
     },
@@ -103,7 +111,7 @@ function setupBottomObserver() {
       scrolledToEnd = true;
       setCheckboxesEnabled(true);
       if (scrollHint) scrollHint.textContent = 'تم الوصول إلى نهاية المحتوى ✅ يمكنك الآن تفعيل الموافقة';
-      updateSubmitState();
+      updateButtonsState();
     }
   });
 
@@ -112,8 +120,8 @@ function setupBottomObserver() {
   ro.observe(termsBox);
 }
 
-agreeTerms?.addEventListener('change', updateSubmitState);
-agreePrivacy?.addEventListener('change', updateSubmitState);
+agreeTerms?.addEventListener('change', updateButtonsState);
+agreePrivacy?.addEventListener('change', updateButtonsState);
 
 // =======================
 // ربط النموذج بالـ API
@@ -136,14 +144,15 @@ document.getElementById('register-form').addEventListener('submit', async functi
   if (!email && !nationalId) {
     const msg = "يجب إدخال البريد الإلكتروني أو رقم البطاقة الوطنية";
     if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } else { alert(msg); }
+    showStep(2); // البريد/الهاتف
     return;
   }
 
   // منع الإرسال حتى استيفاء الشروط
-  if (termsBox && (!scrolledToEnd || !agreeTerms?.checked || !agreePrivacy?.checked)) {
-    const msg = 'يرجى قراءة الشروط حتى النهاية والموافقة على البنود لإتمام التسجيل.';
+  if (termsBox && !termsAccepted()) {
+    const msg = 'يرجى قراءة الشروط حتى النهاية والموافقة على البنود قبل إتمام التسجيل.';
     if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } else { alert(msg); }
-    showStep(3);
+    showStep(0);
     return;
   }
 
@@ -151,13 +160,13 @@ document.getElementById('register-form').addEventListener('submit', async functi
   if (phone && !/^\d{10,15}$/.test(phone)) {
     const msg = 'يرجى إدخال رقم هاتف صحيح (10–15 رقم).';
     if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } else { alert(msg); }
-    showStep(1);
+    showStep(2);
     return;
   }
   if (password.length < 8) {
     const msg = 'كلمة المرور يجب أن تكون 8 أحرف/أرقام على الأقل.';
     if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } else { alert(msg); }
-    showStep(2);
+    showStep(3);
     return;
   }
 
@@ -179,8 +188,8 @@ document.getElementById('register-form').addEventListener('submit', async functi
   }
 });
 
-// بدء على الخطوة الأولى وضبط الشروط
+// بدء على الخطوة الأولى (الشروط) وضبط المنطق
 showStep(0);
 setupBottomObserver();
 enableIfNotScrollable();
-updateSubmitState();
+updateButtonsState();
