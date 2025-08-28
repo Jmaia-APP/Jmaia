@@ -84,7 +84,7 @@ async function loadMyAssociations() {
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927C9.469 1.891 10.53 1.891 10.95 2.927l1.286 3.262 3.516.272c1.074.083 1.51 1.396.729 2.14l-2.624 2.418.783 3.447c.24 1.06-.84 1.916-1.79 1.387L10 13.187l-3.4 2.666c-.95.528-2.03-.327-1.79-1.387l.783-3.447-2.624-2.418c-.78-.744-.345-2.057.729-2.14l3.516-.272 1.286-3.262z"/>
             </svg>
-            Installment Discount
+            خصم الأقساط
           </div>
           <span>${(a.discountAmount || 0).toLocaleString("en-EG")} SAR</span>
         </div>
