@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
-  <title>رفع مفردات المرتب</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="mainLayout.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_circle_left" />
+  <title>رفع كشف الراتب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="mainLayout.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_circle_left" />
   <!-- Suppress tailwind warning -->
   <script>
-    console.warn = (function(originalWarn) {
-      return function(msg) {
+    console.warn = (function (originalWarn) {
+      return function (msg) {
         if (!msg.includes('cdn.tailwindcss.com')) {
           originalWarn(msg);
         }
@@ -34,6 +35,7 @@
       text-align: center;
       box-shadow: 0 2px 12px 0 #00000012;
     }
+
     .upload-icon {
       border: 1.5px solid #16a34a;
       border-radius: 50%;
@@ -46,6 +48,7 @@
       font-size: 2rem;
       color: #16a34a;
     }
+
     .upload-btn {
       border: 1.5px solid #16a34a;
       border-radius: 22px;
@@ -59,14 +62,17 @@
       transition: background 0.2s, color 0.2s;
       display: block;
     }
+
     .upload-btn:hover {
       background: #16a34a;
       color: #fff;
     }
+
     .bottom-navbar .active-footer .label {
       color: #16a34a;
       font-weight: 700;
     }
+
     .notification-dropdown {
       display: none;
       min-width: 220px;
@@ -76,12 +82,14 @@
       right: 0;
       top: 36px;
     }
+
     .notification-dropdown.active {
       display: block;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
   <!-- Navbar Top -->
@@ -93,7 +101,8 @@
     <div class="flex gap-4 items-center">
       <!-- Notifications -->
       <div class="relative">
-        <button id="notification-toggle" onclick="location.href='./Notification.html'" class="focus:outline-none" title="الإشعارات / Notifications">
+        <button id="notification-toggle" onclick="location.href='./Notification.html'" class="focus:outline-none"
+          title="الإشعارات / Notifications">
           <i class="bi bi-bell-fill text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
         </button>
         <!-- <div id="notification-dropdown" class="hidden absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-md z-50 p-3">
@@ -117,13 +126,14 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل"
+          class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-<a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
-  Settings
-</a>        <button id="logout-btn"
+        <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+          Settings
+        </a> <button id="logout-btn"
           class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
       </div>
     </div>
@@ -132,29 +142,32 @@
   <!-- Spacer so content isn't hidden under navbar -->
   <div class="h-8"></div>
 
-<!-- Main Content -->
-<div class="flex justify-center items-center min-h-[60vh]">
-  <div class="border-2 border-dashed border-[#16a34a] rounded-xl bg-white p-8 w-[320px] text-center shadow-md">
-    <div class="flex justify-center mb-4">
-      <div class="border border-[#16a34a] rounded-full w-14 h-14 flex items-center justify-center text-3xl text-[#16a34a]">
-        <i class="bi bi-upload"></i>
+  <!-- Main Content -->
+  <div class="flex justify-center items-center min-h-[60vh]">
+    <div class="border-2 border-dashed border-[#16a34a] rounded-xl bg-white p-8 w-[320px] text-center shadow-md">
+      <div class="flex justify-center mb-4">
+        <div
+          class="border border-[#16a34a] rounded-full w-14 h-14 flex items-center justify-center text-3xl text-[#16a34a]">
+          <i class="bi bi-upload"></i>
+        </div>
       </div>
+      <div class="mb-4 font-medium text-black">الرجاء رفع صورة من كشف الراتب الخاص بك.</div>
+      <!-- زر اختيار الصورة -->
+      <input type="file" id="salary-slip" accept="image/*" class="hidden">
+      <label for="salary-slip" id="choose-label"
+        class="block border border-[#16a34a] rounded-full px-6 py-2 text-[#16a34a] font-bold cursor-pointer transition hover:bg-[#16a34a] hover:text-white w-fit mx-auto">
+        اختر صورة
+      </label>
+      <!-- زر رفع -->
+      <button id="upload-btn" class="upload-btn mt-4" style="display:none;">رفع المستند</button>
+      <div id="upload-message" class="mt-4 text-green-600 font-bold"></div>
+      <div id="preview-container" class="mt-2"></div>
     </div>
-    <div class="mb-4 font-medium text-black">من فضلك ارفع صورة من كشف الراتب الخاص بك.</div>
-    <!-- زر اختيار الصورة -->
-    <input type="file" id="salary-slip" accept="image/*" class="hidden">
-    <label for="salary-slip" id="choose-label" class="block border border-[#16a34a] rounded-full px-6 py-2 text-[#16a34a] font-bold cursor-pointer transition hover:bg-[#16a34a] hover:text-white w-fit mx-auto">
-      اختر صورة
-    </label>
-    <!-- زر رفع -->
-    <button id="upload-btn" class="upload-btn mt-4" style="display:none;">رفع المستند</button>
-    <div id="upload-message" class="mt-4 text-green-600 font-bold"></div>
-    <div id="preview-container" class="mt-2"></div>
   </div>
-</div>
-<!-- end Main Content -->
+  <!-- end Main Content -->
   <!-- Navbar Bottom -->
-  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg" style="background-color:#90D1CA;" dir="rtl">
+  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg"
+    style="background-color:#90D1CA;" dir="rtl">
 
     <div onclick="location.href='home.html'" class="p-0">
       <i class="bi bi-house-door-fill text-xl "></i>
@@ -166,12 +179,12 @@
       <div class="label">جمعياتي</div>
     </div>
 
-    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3" >
+    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3">
       <!-- <span class="material-symbols-outlined text-3xl">
         arrow_circle_left
       </span> -->
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
-      <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
+      <div class="label" style="color:#16a34a; font-weight:700;">انضم الآن</div>
     </div>
 
     <div onclick="location.href='./wallet.html'" class="p-0">
@@ -185,163 +198,164 @@
     </div>
 
   </div>
-    <!-- end Navbar Bottom -->
+  <!-- end Navbar Bottom -->
   <!-- ...existing code... -->
   <script src="./MainLayout.js"></script>
-  
+
   <script>
-  // عناصر الصفحة
-  const fileInput = document.getElementById('salary-slip');
-  const uploadBtn = document.getElementById('upload-btn');
-  const uploadMsg = document.getElementById('upload-message');
-  const previewContainer = document.getElementById('preview-container');
-  const chooseLabel = document.getElementById('choose-label');
+    // عناصر الصفحة
+    const fileInput = document.getElementById('salary-slip');
+    const uploadBtn = document.getElementById('upload-btn');
+    const uploadMsg = document.getElementById('upload-message');
+    const previewContainer = document.getElementById('preview-container');
+    const chooseLabel = document.getElementById('choose-label');
 
-  let selectedFile = null;
+    let selectedFile = null;
 
-  // تحقق من التوكن 
-  function checkAuth() {
-    const token = localStorage.getItem('token');
-    let userId = null;
-    try {
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (user && user.id) userId = user.id;
-    } catch {}
-    if (!token || !userId) {
-      uploadMsg.textContent = 'يجب تسجيل الدخول أولاً.';
-      uploadMsg.className = 'mt-4 text-red-600 font-bold';
-      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-      return false;
-    }
-    return { token, userId };
-  }
-
-  // عند اختيار صورة
-  fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    previewContainer.innerHTML = '';
-    uploadMsg.textContent = '';
-    if (file) {
-      selectedFile = file;
-      // عرض معاينة للصورة
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      img.className = "mx-auto rounded-lg mt-2 mb-2 max-h-40";
-      previewContainer.appendChild(img);
-      uploadBtn.style.display = 'block';
-      chooseLabel.textContent = 'تغيير الصورة';
-    } else {
-      selectedFile = null;
-      uploadBtn.style.display = 'none';
-      chooseLabel.textContent = 'اختر صورة';
-    }
-  });
-
-  // تحقق من التوكن عند تحميل الصفحة
-  document.addEventListener('DOMContentLoaded', checkAuth);
-
-  // عند الضغط على زر رفع المستند
-  uploadBtn.addEventListener('click', async () => {
-    uploadMsg.textContent = '';
-    if (!selectedFile) {
-      uploadMsg.textContent = 'يرجى اختيار صورة أولاً.';
-      uploadMsg.className = 'mt-4 text-red-600 font-bold';
-      return;
+    // تحقق من التوكن 
+    function checkAuth() {
+      const token = localStorage.getItem('token');
+      let userId = null;
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.id) userId = user.id;
+      } catch { }
+      if (!token || !userId) {
+        uploadMsg.textContent = 'يجب تسجيل الدخول أولاً.';
+        uploadMsg.className = 'mt-4 text-red-600 font-bold';
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return false;
+      }
+      return { token, userId };
     }
 
-    let userId = null;
-    try {
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (user && user.id) userId = user.id;
-    } catch {}
-    const token = localStorage.getItem('token');
-    console.log('رفع المستند: userId=', userId, 'token=', token, 'selectedFile=', selectedFile);
+    // عند اختيار صورة
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      previewContainer.innerHTML = '';
+      uploadMsg.textContent = '';
+      if (file) {
+        selectedFile = file;
+        // عرض معاينة للصورة
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.className = "mx-auto rounded-lg mt-2 mb-2 max-h-40";
+        previewContainer.appendChild(img);
+        uploadBtn.style.display = 'block';
+        chooseLabel.textContent = 'تغيير الصورة';
+      } else {
+        selectedFile = null;
+        uploadBtn.style.display = 'none';
+        chooseLabel.textContent = 'اختر صورة';
+      }
+    });
 
-    if (!token || !userId) {
-      uploadMsg.textContent = 'يجب تسجيل الدخول أولاً.';
-      uploadMsg.className = 'mt-4 text-red-600 font-bold';
-      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-      return;
-    }
+    // تحقق من التوكن عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', checkAuth);
 
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = 'جاري الرفع...';
+    // عند الضغط على زر رفع المستند
+    uploadBtn.addEventListener('click', async () => {
+      uploadMsg.textContent = '';
+      if (!selectedFile) {
+        uploadMsg.textContent = 'يرجى اختيار صورة أولاً.';
+        uploadMsg.className = 'mt-4 text-red-600 font-bold';
+        return;
+      }
 
-    try {
-      const formData = new FormData();
-      formData.append('salarySlipImage', selectedFile, selectedFile.name);
-      formData.append('userId', String(userId));
+      let userId = null;
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.id) userId = user.id;
+      } catch { }
+      const token = localStorage.getItem('token');
+      console.log('رفع المستند: userId=', userId, 'token=', token, 'selectedFile=', selectedFile);
 
-      const res = await fetch('https://api.technologytanda.com/api/userData/upload-documents', {
-        method: 'POST',
-        body: formData,
-        headers: {
+      if (!token || !userId) {
+        uploadMsg.textContent = 'يجب تسجيل الدخول أولاً.';
+        uploadMsg.className = 'mt-4 text-red-600 font-bold';
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return;
+      }
 
-          // الحل: تأكد أن التوكن يُرسل هكذا بالضبط
-          'Authorization': 'Bearer ' + token
-        }
-      });
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = 'جاري الرفع...';
 
-      const data = await res.json();
-      console.log('رد السيرفر:', data);
+      try {
+        const formData = new FormData();
+        formData.append('salarySlipImage', selectedFile, selectedFile.name);
+        formData.append('userId', String(userId));
 
-      if (res.ok && data.user && data.user.salarySlipImage) {
-        uploadMsg.innerHTML = `
+        const res = await fetch('https://api.technologytanda.com/api/userData/upload-documents', {
+          method: 'POST',
+          body: formData,
+          headers: {
+
+            // الحل: تأكد أن التوكن يُرسل هكذا بالضبط
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        const data = await res.json();
+        console.log('رد السيرفر:', data);
+
+        if (res.ok && data.user && data.user.salarySlipImage) {
+          uploadMsg.innerHTML = `
           <span class="text-green-600">${data.message || 'تم رفع المستند بنجاح وجاري المراجعة.'}</span>
           <div class="mt-4 text-gray-500 text-sm">تم رفع الصورة بنجاح، ستظهر بعد مراجعة الإدارة.</div>
         `;
-        previewContainer.innerHTML = '';
-        uploadBtn.style.display = 'none';
-        chooseLabel.textContent = 'اختر صورة';
-        fileInput.value = '';
-        selectedFile = null;
-        localStorage.setItem('hasUploadedDocuments', 'true');
-        // إعادة التوجيه بعد 5 ثواني
-        setTimeout(() => {
-          window.location.href = 'Arrest_method.html';
-        }, 1000);
-      } else {
-        throw new Error(data.error || 'فشل في رفع المستند');
+          previewContainer.innerHTML = '';
+          uploadBtn.style.display = 'none';
+          chooseLabel.textContent = 'اختر صورة';
+          fileInput.value = '';
+          selectedFile = null;
+          localStorage.setItem('hasUploadedDocuments', 'true');
+          // إعادة التوجيه بعد 5 ثواني
+          setTimeout(() => {
+            window.location.href = 'Arrest_method.html';
+          }, 1000);
+        } else {
+          throw new Error(data.error || 'فشل في رفع المستند');
+        }
+      } catch (err) {
+        uploadMsg.textContent = (err.message && err.message !== 'Something went wrong!')
+          ? err.message
+          : 'حدث خطأ أثناء رفع الملف. تأكد من أن الصورة أقل من 5 ميجا وأن نوعها صحيح.';
+        uploadMsg.className = 'mt-4 text-red-600 font-bold';
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'رفع المستند';
       }
-    } catch (err) {
-      uploadMsg.textContent = (err.message && err.message !== 'Something went wrong!')
-        ? err.message
-        : 'حدث خطأ أثناء رفع الملف. تأكد من أن الصورة أقل من 5 ميجا وأن نوعها صحيح.';
-      uploadMsg.className = 'mt-4 text-red-600 font-bold';
-    } finally {
-      uploadBtn.disabled = false;
-      uploadBtn.textContent = 'رفع المستند';
-    }
-  });
+    });
   </script>
 
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const token = localStorage.getItem('token');
-  const navbarImg = document.getElementById('navbar-profile-img');
-  if (token && navbarImg) {
-    fetch('https://api.technologytanda.com/api/userData/profile', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
-      .then(res => res.json())
-      .then(data => {
-        let imgUrl;
-        if (data.profileImage) {
-          imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
-        } else {
-          imgUrl = './Assets/imgs/anynoums.jpg';
-        }
-        navbarImg.src = imgUrl;
-        navbarImg.onerror = function () {
-          navbarImg.src = './Assets/imgs/anynoums.jpg';
-        };
-      })
-      .catch(() => {
-        navbarImg.src = './Assets/imgs/anynoums.jpg';
-      });
-  }
-});
-</script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const navbarImg = document.getElementById('navbar-profile-img');
+      if (token && navbarImg) {
+        fetch('https://api.technologytanda.com/api/userData/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(res => res.json())
+          .then(data => {
+            let imgUrl;
+            if (data.profileImage) {
+              imgUrl = `https://api.technologytanda.com/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+            } else {
+              imgUrl = './Assets/imgs/anynoums.jpg';
+            }
+            navbarImg.src = imgUrl;
+            navbarImg.onerror = function () {
+              navbarImg.src = './Assets/imgs/anynoums.jpg';
+            };
+          })
+          .catch(() => {
+            navbarImg.src = './Assets/imgs/anynoums.jpg';
+          });
+      }
+    });
+  </script>
 
 </body>
+
 </html>

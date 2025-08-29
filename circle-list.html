@@ -32,18 +32,21 @@
       box-shadow: 0 2px 10px #0001;
       font-size: 13px;
     }
+
     .bottom-navbar .label {
       margin-top: 3px;
       font-weight: 500;
       text-align: center;
       line-height: 1.1;
     }
+
     .bottom-navbar>div {
       flex: 1 1 0;
       text-align: center;
       cursor: pointer;
       padding: 7px 0 0 0;
     }
+
     .bottom-navbar .active-footer,
     .bottom-navbar .active-footer .label {
       color: #16a34a !important;
@@ -62,7 +65,8 @@
     <div class="flex gap-4 items-center">
       <!-- Notifications -->
       <div class="relative">
-        <button id="notification-toggle" onclick="location.href='./Notification.html'" class="focus:outline-none" title="الإشعارات / Notifications">
+        <button id="notification-toggle" onclick="location.href='./Notification.html'" class="focus:outline-none"
+          title="الإشعارات / Notifications">
           <i class="bi bi-bell-fill text-2xl text-black hover:text-[#16a34a] transition-colors duration-200"></i>
         </button>
       </div>
@@ -76,7 +80,8 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل"
+          class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
@@ -101,7 +106,8 @@
 
   <div class="h-20"></div>
   <!-- Navbar Bottom -->
-  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg" style="background-color:#90D1CA;" dir="rtl">
+  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg"
+    style="background-color:#90D1CA;" dir="rtl">
     <div onclick="location.href='home.html'" class="p-0 ">
       <i class="bi bi-house-door-fill  text-xl "></i>
       <div class="label ">الرئيسية</div>
@@ -110,9 +116,9 @@
       <i class="bi bi-people-fill text-xl text-[#008D10]"></i>
       <div class="label text-[#008D10]">جمعياتي</div>
     </div>
-    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3" >
+    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3">
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
-      <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
+      <div class="label" style="color:#16a34a; font-weight:700;">انضم الآن</div>
     </div>
     <div onclick="location.href='./wallet.html'" class="p-0">
       <i class="bi bi-credit-card-fill text-xl"></i>
@@ -209,7 +215,7 @@
         txt = txt.replace(monthRegex, m => monthsMap[m] || m);
         // months / month
         txt = txt.replace(/\bmonths\b/gi, "أشهر")
-                 .replace(/\bmonth\b/gi, "شهر");
+          .replace(/\bmonth\b/gi, "شهر");
         // تحويل كل الأرقام
         txt = txt.replace(/\d+/g, d => toArabicDigits(d));
         return txt;
@@ -245,4 +251,5 @@
   </script>
 
 </body>
+
 </html>
