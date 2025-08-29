@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بطاقة چمعية - الأسئلة</title>
-  <!-- Tailwind -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link rel="stylesheet" href="dist/tailwind.css">
+    <title>بطاقة جمعية - الأسئلة</title>
+    <!-- Tailwind -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="dist/tailwind.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Cairo', sans-serif; /* استخدام خط القاهرة لتحسين المظهر */
-            background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec); /* تدرج لوني ناعم للخلفية */
+            font-family: 'Cairo', sans-serif;
+            /* استخدام خط القاهرة لتحسين المظهر */
+            background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+            /* تدرج لوني ناعم للخلفية */
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 1rem; /* إضافة padding للبودي لضمان المسافة على الشاشات الصغيرة */
-            box-sizing: border-box; /* التأكد من أن البادينج لا يضيف عرضًا إضافيًا */
+            padding: 1rem;
+            /* إضافة padding للبودي لضمان المسافة على الشاشات الصغيرة */
+            box-sizing: border-box;
+            /* التأكد من أن البادينج لا يضيف عرضًا إضافيًا */
         }
 
         .card-container {
             background-color: #ffffff;
-            border-radius: 1.5rem; /* زوايا مستديرة أكثر */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* ظل أعمق وأكثر نعومة */
+            border-radius: 1.5rem;
+            /* زوايا مستديرة أكثر */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            /* ظل أعمق وأكثر نعومة */
             padding: 1.5rem;
             width: 100%;
-            max-width: 380px; /* زيادة عرض الكارت قليلاً ليكون احترافياً */
+            max-width: 380px;
+            /* زيادة عرض البطاقة قليلاً ليكون احترافياً */
             box-sizing: border-box;
-            opacity: 0; /* إخفاء الكارت مبدئياً لتأثير الظهور */
+            opacity: 0;
+            /* إخفاء البطاقة مبدئياً لتأثير الظهور */
             transform: translateY(20px);
             animation: fadeInSlideUp 0.8s ease-out forwards;
         }
@@ -38,6 +47,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -48,87 +58,122 @@
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
-            justify-content: flex-end; /* ضبط الموضع ليكون في نهاية السطر */
-            margin-bottom: 1.5rem; /* مسافة أكبر بين الرأس والقائمة */
+            justify-content: flex-end;
+            /* ضبط الموضع ليكون في نهاية السطر */
+            margin-bottom: 1.5rem;
+            /* مسافة أكبر بين الرأس والقائمة */
             padding-bottom: 1rem;
-            border-bottom: 1px solid #edf2f7; /* خط فاصل أنيق */
+            border-bottom: 1px solid #edf2f7;
+            /* خط فاصل أنيق */
         }
 
         .card-header .title {
-            font-weight: 700; /* خط سميك */
-            font-size: 1rem; /* حجم خط أكبر قليلاً */
-            margin-left: 0.75rem; /* مسافة أكبر بين العنوان والسهم */
-            color: #333; /* لون نص أغمق */
+            font-weight: 700;
+            /* خط سميك */
+            font-size: 1rem;
+            /* حجم خط أكبر قليلاً */
+            margin-left: 0.75rem;
+            /* مسافة أكبر بين العنوان والسهم */
+            color: #333;
+            /* لون نص أغمق */
         }
 
         .card-header .arrow-icon {
-            width: 1.25rem; /* حجم أكبر للسهم */
+            width: 1.25rem;
+            /* حجم أكبر للسهم */
             height: 1.25rem;
-            color: #4a5568; /* لون سهم أغمق قليلاً */
-            transition: transform 0.3s ease; /* إضافة انتقال لسلاسة الحركة */
+            color: #4a5568;
+            /* لون سهم أغمق قليلاً */
+            transition: transform 0.3s ease;
+            /* إضافة انتقال لسلاسة الحركة */
         }
 
         /* تحسين عناصر قائمة الأسئلة */
         .faq-item-div {
             display: flex;
-            flex-direction: row-reverse; /* لجعل السهم على اليمين */
+            flex-direction: row-reverse;
+            /* لجعل السهم على اليمين */
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            padding: 0.85rem; /* حشوة أكبر */
-            border-radius: 0.75rem; /* زوايا مستديرة للعنصر */
+            padding: 0.85rem;
+            /* حشوة أكبر */
+            border-radius: 0.75rem;
+            /* زوايا مستديرة للعنصر */
             transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
             position: relative;
-            z-index: 1; /* لضمان ظهور الظل بشكل صحيح */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* ظل خفيف لكل عنصر */
-            margin-bottom: 0.75rem; /* مسافة بين العناصر */
+            z-index: 1;
+            /* لضمان ظهور الظل بشكل صحيح */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            /* ظل خفيف لكل عنصر */
+            margin-bottom: 0.75rem;
+            /* مسافة بين العناصر */
         }
 
         .faq-item-div:hover {
-            background-color: #f0f4f8; /* خلفية أفتح عند التمرير */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* ظل أقوى عند التمرير */
-            transform: translateY(-2px); /* رفع العنصر قليلاً */
+            background-color: #f0f4f8;
+            /* خلفية أفتح عند التمرير */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            /* ظل أقوى عند التمرير */
+            transform: translateY(-2px);
+            /* رفع العنصر قليلاً */
         }
 
         .faq-item-div .question-text {
-            font-size: 0.85rem; /* حجم خط أصغر قليلاً لمظهر أكثر أناقة */
-            font-weight: 600; /* خط شبه سميك */
-            color: #2d3748; /* لون نص أغمق قليلاً */
-            flex-grow: 1; /* السماح للنص بأخذ المساحة المتاحة */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-right: 0.5rem; /* مسافة بين النص والسهم */
+            font-size: 0.85rem;
+            /* حجم خط أصغر قليلاً لمظهر أكثر أناقة */
+            font-weight: 600;
+            /* خط شبه سميك */
+            color: #2d3748;
+            /* لون نص أغمق قليلاً */
+            flex-grow: 1;
+            /* السماح للنص بأخذ المساحة المتاحة */
+            text-align: right;
+            /* محاذاة النص لليمين */
+            margin-right: 0.5rem;
+            /* مسافة بين النص والسهم */
         }
 
         .faq-item-div .toggle-arrow-icon {
-            width: 1rem; /* حجم أصغر لسهم الفتح/الإغلاق */
+            width: 1rem;
+            /* حجم أصغر لسهم الفتح/الإغلاق */
             height: 1rem;
-            color: #38a169; /* لون أخضر أكثر وضوحاً */
+            color: #38a169;
+            /* لون أخضر أكثر وضوحاً */
             transition: transform 0.3s ease;
         }
 
         .faq-item-div[aria-expanded="true"] .toggle-arrow-icon {
-            transform: rotate(-90deg); /* تدوير السهم عند الفتح */
+            transform: rotate(-90deg);
+            /* تدوير السهم عند الفتح */
         }
 
         .answer-content {
-            background-color: #e6ffed; /* خلفية خضراء فاتحة للإجابة */
-            color: #22543d; /* لون نص أخضر داكن */
-            font-size: 0.75rem; /* حجم خط صغير */
-            line-height: 1.5; /* تباعد أسطر أفضل */
+            background-color: #e6ffed;
+            /* خلفية خضراء فاتحة للإجابة */
+            color: #22543d;
+            /* لون نص أخضر داكن */
+            font-size: 0.75rem;
+            /* حجم خط صغير */
+            line-height: 1.5;
+            /* تباعد أسطر أفضل */
             border-radius: 0.75rem;
             padding: 0.75rem 1rem;
             margin-top: 0.5rem;
             animation: slideDown 0.4s ease-out forwards;
-            overflow: hidden; /* لإخفاء المحتوى قبل ظهور كامل */
+            overflow: hidden;
+            /* لإخفاء المحتوى قبل ظهور كامل */
             max-height: 0;
             opacity: 0;
             transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
         }
 
         .answer-content.show {
-            max-height: 200px; /* قيمة كافية لإظهار معظم الإجابات */
+            max-height: 200px;
+            /* قيمة كافية لإظهار معظم الإجابات */
             opacity: 1;
-            padding: 0.75rem 1rem; /* إعادة تطبيق البادينج بعد الظهور */
+            padding: 0.75rem 1rem;
+            /* إعادة تطبيق البادينج بعد الظهور */
         }
 
         @keyframes slideDown {
@@ -136,27 +181,33 @@
                 max-height: 0;
                 opacity: 0;
             }
+
             to {
-                max-height: 200px; /* يجب أن تكون كافية لتضمين أطول إجابة */
+                max-height: 200px;
+                /* يجب أن تكون كافية لتضمين أطول إجابة */
                 opacity: 1;
             }
         }
 
         /* مربع الإجابة المنبثق (Modal) */
         #answer-modal {
-            background-color: rgba(0, 0, 0, 0.6); /* خلفية داكنة أكثر للمودال */
+            background-color: rgba(0, 0, 0, 0.6);
+            /* خلفية داكنة أكثر للمودال */
             transition: opacity 0.3s ease-in-out;
         }
 
         #answer-modal .modal-content {
             background-color: #ffffff;
             border-radius: 1rem;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); /* ظل أعمق */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            /* ظل أعمق */
             padding: 1.5rem;
             width: 100%;
-            max-width: 360px; /* عرض أكبر للمودال */
+            max-width: 360px;
+            /* عرض أكبر للمودال */
             position: relative;
-            transform: scale(0.9); /* تأثير تكبير عند الظهور */
+            transform: scale(0.9);
+            /* تأثير تكبير عند الظهور */
             opacity: 0;
             animation: modalPopIn 0.3s ease-out forwards;
             box-sizing: border-box;
@@ -167,6 +218,7 @@
                 transform: scale(0.9);
                 opacity: 0;
             }
+
             to {
                 transform: scale(1);
                 opacity: 1;
@@ -175,146 +227,198 @@
 
         #answer-modal .close-button-modal {
             position: absolute;
-            left: 1rem; /* تغيير الموضع ليكون على اليسار */
+            left: 1rem;
+            /* تغيير الموضع ليكون على اليسار */
             top: 1rem;
-            font-size: 1.75rem; /* حجم أكبر للزر */
-            color: #a0aec0; /* لون رمادي ناعم */
+            font-size: 1.75rem;
+            /* حجم أكبر للزر */
+            color: #a0aec0;
+            /* لون رمادي ناعم */
             transition: color 0.2s ease;
-            line-height: 1; /* لضمان محاذاة النص بشكل صحيح */
+            line-height: 1;
+            /* لضمان محاذاة النص بشكل صحيح */
         }
 
         #answer-modal .close-button-modal:hover {
-            color: #718096; /* لون أغمق عند التمرير */
+            color: #718096;
+            /* لون أغمق عند التمرير */
         }
 
         #answer-modal #modal-question {
             font-weight: 700;
-            font-size: 0.9rem; /* حجم خط السؤال */
-            color: #38a169; /* لون أخضر مطابق لسهم الفتح */
+            font-size: 0.9rem;
+            /* حجم خط السؤال */
+            color: #38a169;
+            /* لون أخضر مطابق لسهم الفتح */
             margin-bottom: 0.75rem;
             text-align: right;
-            padding-right: 2rem; /* مسافة لتجنب تداخل زر الإغلاق */
+            padding-right: 2rem;
+            /* مسافة لتجنب تداخل زر الإغلاق */
             padding-left: 0.5rem;
         }
 
         #answer-modal #modal-answer {
-            font-size: 0.8rem; /* حجم خط الإجابة */
-            color: #4a5568; /* لون رمادي داكن */
+            font-size: 0.8rem;
+            /* حجم خط الإجابة */
+            color: #4a5568;
+            /* لون رمادي داكن */
             line-height: 1.6;
             text-align: right;
         }
     </style>
 </head>
+
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="card-container">
         <div class="card-header" onclick="window.history.back()">
-            <span class="title">بطاقة چمعية</span>
+            <span class="title">بطاقة جمعية</span>
             <svg class="arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
         </div>
-        <ul id="faq-list" class="space-y-3"> <li>
-                <div class="faq-item-div" onclick="showAnswer('إيه الأوراق المطلوبة عشان أقدر أقدم على طلب بطاقة چمعية؟', 'صورة بطاقة هوية، صورة شهادة الميلاد، إثبات محل الإقامة، صورة شخصية حديثة.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <ul id="faq-list" class="space-y-3">
+            <li>
+                <div class="faq-item-div"
+                    onclick="showAnswer('ما هي الأوراق المطلوبة عشان أقدر أقدم على طلب بطاقة جمعية؟', 'صورة بطاقة هوية، صورة شهادة الميلاد، إثبات محل الإقامة، صورة شخصية حديثة.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">إيه الأوراق المطلوبة عشان أقدر أقدم على طلب بطاقة چمعية؟</span>
+                    <span class="question-text">ما هي الأوراق المطلوبة عشان أقدر أقدم على طلب بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('إزاي استلم بطاقة چمعية؟', 'بعد تقديم الطلب والموافقة عليه، يمكنك استلام الكارت من أقرب فرع لچمعية أو من خلال مندوب التوصيل.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('كيف استلم بطاقة جمعية؟', 'بعد تقديم الطلب والموافقة عليه، يمكنك استلام البطاقة من أقرب فرع لجمعية أو من خلال مندوب التوصيل.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">إزاي استلم بطاقة چمعية؟</span>
+                    <span class="question-text">كيف استلم بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('إزاي أفعل بطاقة چمعية؟', 'يمكنك تفعيل الكارت من خلال تطبيق چمعية أو الاتصال بخدمة العملاء.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('كيف أفعل بطاقة جمعية؟', 'يمكنك تفعيل البطاقة من خلال تطبيق جمعية أو الاتصال بخدمة العملاء.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">إزاي أفعل بطاقة چمعية؟</span>
+                    <span class="question-text">كيف أفعل بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('هل في رسوم على إصدار الكارت؟', 'لا، إصدار الكارت لأول مرة مجاني تماماً.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل في رسوم على إصدار البطاقة؟', 'لا، إصدار البطاقة لأول مرة مجاني تماماً.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">هل في رسوم على إصدار الكارت؟</span>
+                    <span class="question-text">هل في رسوم على إصدار البطاقة؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('إيه استخدامات بطاقة چمعية؟', 'الكارت يمكن استخدامه للحصول على خصومات في المتاجر المشاركة، ولشراء مستلزماتك اليومية.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('ما هي استخدامات بطاقة جمعية؟', 'البطاقة يمكن استخدامه للحصول على خصومات في المتاجر المشاركة، ولشراء مستلزماتك اليومية.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">إيه استخدامات بطاقة چمعية؟</span>
+                    <span class="question-text">ما هي استخدامات بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('ممكن أجدد الكارت إزاي؟', 'يمكنك تجديد الكارت من خلال التطبيق أو زيارة أقرب فرع لچمعية.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل يمكنني أجدد البطاقة كيف؟', 'يمكنك تجديد البطاقة من خلال التطبيق أو زيارة أقرب فرع لجمعية.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">ممكن أجدد الكارت إزاي؟</span>
+                    <span class="question-text">هل يمكنني أجدد البطاقة كيف؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('ممكن استخدم بطاقة چمعية خارج السعودية؟', 'لا، الكارت مخصص للاستخدام داخل السعودية فقط.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل يمكنني استخدم بطاقة جمعية خارج السعودية؟', 'لا، البطاقة مخصص للاستخدام داخل السعودية فقط.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">ممكن استخدم بطاقة چمعية خارج السعودية؟</span>
+                    <span class="question-text">هل يمكنني استخدم بطاقة جمعية خارج السعودية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('ممكن استخدم بطاقة چمعية في محلات تانية غير اللي مكتوب في الدليل؟', 'نعم، يمكنك استخدام الكارت في أي محل يقبل بطاقة چمعية.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل يمكنني استخدم بطاقة جمعية في محلات تانية غير اللي مكتوب في الدليل؟', 'نعم، يمكنك استخدام البطاقة في أي محل يقبل بطاقة جمعية.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">ممكن استخدم بطاقة چمعية في محلات تانية غير اللي مكتوب في الدليل؟</span>
+                    <span class="question-text">هل يمكنني استخدم بطاقة جمعية في محلات تانية غير اللي مكتوب في
+                        الدليل؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('هل ممكن استخدمه في الصيدليات؟', 'نعم، يمكنك استخدام بطاقة چمعية في الصيدليات المشاركة.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل هل يمكنني استخدمه في الصيدليات؟', 'نعم، يمكنك استخدام بطاقة جمعية في الصيدليات المشاركة.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">هل ممكن استخدمه في الصيدليات؟</span>
+                    <span class="question-text">هل هل يمكنني استخدمه في الصيدليات؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('هل في السحب على بطاقة چمعية؟', 'لا، الكارت لا يدعم السحب النقدي.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل في السحب على بطاقة جمعية؟', 'لا، البطاقة لا يدعم السحب النقدي.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">هل في السحب على بطاقة چمعية؟</span>
+                    <span class="question-text">هل في السحب على بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('ممكن أطلع لأطفالي الصغار من خلال بطاقة چمعية؟', 'نعم، يمكنك إصدار بطاقة چمعية للأطفال فوق سن 12 سنة.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('هل يمكنني أطلع لأطفالي الصغار من خلال بطاقة جمعية؟', 'نعم، يمكنك إصدار بطاقة جمعية للأطفال فوق سن 12 سنة.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">ممكن أطلع لأطفالي الصغار من خلال بطاقة چمعية؟</span>
+                    <span class="question-text">هل يمكنني أطلع لأطفالي الصغار من خلال بطاقة جمعية؟</span>
                 </div>
             </li>
             <li>
-                <div class="faq-item-div" onclick="showAnswer('إزاي أتابع استخدام الكارت؟', 'يمكنك متابعة استخدام الكارت من خلال التطبيق أو من خلال كشف الحساب الشهري.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="faq-item-div"
+                    onclick="showAnswer('كيف أتابع استخدام البطاقة؟', 'يمكنك متابعة استخدام البطاقة من خلال التطبيق أو من خلال كشف الحساب الشهري.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">إزاي أتابع استخدام الكارت؟</span>
+                    <span class="question-text">كيف أتابع استخدام البطاقة؟</span>
                 </div>
             </li>
-             <li>
-                <div class="faq-item-div" onclick="showAnswer('تحصل إيه لو حد حاول يستخدم كارت غير بطاقة چمعية؟', 'في حالة محاولة استخدام كارت غير بطاقة چمعية، سيتم رفض المعاملة فوراً ولن يتمكن المستخدم من الاستفادة من أي خدمات أو عروض خاصة بالكارت. يجب التأكد دائماً من استخدام بطاقة چمعية الأصلي لضمان الحصول على جميع المميزات.')" aria-expanded="false">
-                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <li>
+                <div class="faq-item-div"
+                    onclick="showAnswer('تحصل ما هي لو حد حاول يستخدم بطاقة غير بطاقة جمعية؟', 'في حالة محاولة استخدام بطاقة غير بطاقة جمعية، سيتم رفض المعاملة فوراً ولن يتمكن المستخدم من الاستفادة من أي خدمات أو عروض خاصة بالبطاقة. يجب التأكد دائماً من استخدام بطاقة جمعية الأصلي لضمان الحصول على جميع المميزات.')"
+                    aria-expanded="false">
+                    <svg class="toggle-arrow-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span class="question-text">تحصل إيه لو حد حاول يستخدم كارت غير بطاقة چمعية؟</span>
+                    <span class="question-text">تحصل ما هي لو حد حاول يستخدم بطاقة غير بطاقة جمعية؟</span>
                 </div>
             </li>
         </ul>
@@ -338,14 +442,14 @@
         }
 
         // إغلاق المودال عند النقر خارج المربع
-        document.getElementById('answer-modal').addEventListener('click', function(e) {
+        document.getElementById('answer-modal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeAnswer();
             }
         });
 
         // لتحسين تجربة المستخدم: إغلاق المودال بالضغط على زر ESC
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && !document.getElementById('answer-modal').classList.contains('hidden')) {
                 closeAnswer();
             }

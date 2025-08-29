@@ -319,7 +319,7 @@
       } catch (err) {
         uploadMsg.textContent = (err.message && err.message !== 'Something went wrong!')
           ? err.message
-          : 'حدث خطأ أثناء رفع الملف. تأكد من أن الصورة أقل من 5 ميجا وأن نوعها صحيح.';
+          : 'حدث خطأ أثناء رفع الملف. تأكد من أن الصورة أقل من 5 ميجابايت وأن نوعها صحيح.';
         uploadMsg.className = 'mt-4 text-red-600 font-bold';
       } finally {
         uploadBtn.disabled = false;

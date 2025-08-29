@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>جمعية تحويش</title>
+  <title>جمعية الادخار</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
@@ -67,12 +67,12 @@
         <button onclick="window.history.back()" class="text-gray-600 hover:text-green-600 text-2xl" aria-label="رجوع">
           <i class="bi bi-arrow-right"></i>
         </button>
-        <span class="text-xl font-bold text-gray-800">جمعية تحويش</span>
+        <span class="text-xl font-bold text-gray-800">جمعية الادخار</span>
       </div>
 
       <div class="bg-white p-4 rounded-lg shadow-lg">
         <h2 class="text-2xl font-extrabold mb-6 text-gray-800 flex items-center justify-between">
-          <span>اختار جمعية تحويش</span>
+          <span>اختر جمعية الادخار</span>
           <span class="text-green-500 text-4xl">🌿</span>
         </h2>
 
@@ -81,7 +81,7 @@
         </div>
 
         <p class="text-sm text-blue-500 mt-6 text-center cursor-pointer hover:underline">
-          لم توجد ما تبحث عنه؟ <span class="font-medium">طلب المساعدة</span>
+          لم تجد ما تبحث عنه؟ <span class="font-medium">اطلب المساعدة</span>
         </p>
       </div>
     </div>
@@ -91,7 +91,7 @@
   <div id="duration-modal-overlay" class="modal-overlay">
     <div class="modal-content overflow-y-auto max-h-[90vh]">
       <h2 class="text-2xl font-extrabold mb-6 text-gray-800 flex items-center justify-between">
-        <span>اختار المدة</span>
+        <span>اختر المدة</span>
         <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -101,15 +101,15 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <button class="duration-option p-4 border rounded-lg" data-duration="6">
-          <span class="main-text font-semibold text-lg text-gray-700">6 شهور</span>
+          <span class="main-text font-semibold text-lg text-gray-700">6 أشهر</span>
           <span class="sub-text text-sm text-gray-500 mt-1">-- ر.س/شهريًا</span>
         </button>
         <button class="duration-option p-4 border rounded-lg" data-duration="12">
-          <span class="main-text font-semibold text-lg text-gray-700">12 شهر</span>
+          <span class="main-text font-semibold text-lg text-gray-700">12 شهرًا</span>
           <span class="sub-text text-sm text-gray-500 mt-1">-- ر.س/شهريًا</span>
         </button>
         <button class="duration-option p-4 border rounded-lg" data-duration="24">
-          <span class="main-text font-semibold text-lg text-gray-700">24 شهر</span>
+          <span class="main-text font-semibold text-lg text-gray-700">24 شهرًا</span>
           <span class="sub-text text-sm text-gray-500 mt-1">-- ر.س/شهريًا</span>
         </button>
       </div>
@@ -138,15 +138,15 @@
   <!-- Script -->
   <script>
     const tahwishData = [
-      { title: "تحويش لايت", base: 3000, increase: 0 },
-      { title: "تحويش برونزي", base: 6000, increase: 1000 },
-      { title: "تحويش فضي", base: 12000, increase: 2400 },
-      { title: "تحويش ذهبي", base: 30000, increase: 5000 },
-      { title: "تحويش بلاتيني", base: 60000, increase: 12000 },
-      { title: "تحويش ألماس", base: 100000, increase: 20000 },
-      { title: "تحويش متقدم", base: 250000, increase: 75000 },
-      { title: "تحويش نخبة", base: 500000, increase: 182000 },
-      { title: "تحويش مميز", base: 1000000, increase: 200000 },
+      { title: "الادخار لايت", base: 3000, increase: 0 },
+      { title: "الادخار برونزي", base: 6000, increase: 1000 },
+      { title: "الادخار فضي", base: 12000, increase: 2400 },
+      { title: "الادخار ذهبي", base: 30000, increase: 5000 },
+      { title: "الادخار بلاتيني", base: 60000, increase: 12000 },
+      { title: "الادخار ألماس", base: 100000, increase: 20000 },
+      { title: "الادخار متقدم", base: 250000, increase: 75000 },
+      { title: "الادخار نخبة", base: 500000, increase: 182000 },
+      { title: "الادخار مميز", base: 1000000, increase: 200000 },
     ];
 
     const tahwishOptions = document.getElementById("tahwish-options");
