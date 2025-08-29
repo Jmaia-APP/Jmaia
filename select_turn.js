@@ -26,6 +26,9 @@ const monthlyFeeEl = document.getElementById('monthlyFee');
 const totalFeeEl = document.getElementById('totalFee');
 const nextBtn = document.getElementById('nextBtn');
 
+// Disable "next" until a turn is picked
+if (nextBtn) nextBtn.disabled = true;
+
 // Modal logic
 function showModal(message, onConfirm, onCancel) {
   const modal = document.getElementById('customModal');
@@ -108,7 +111,6 @@ function getTurnPercent(turn) {
   // Can compare to monthlyAmount or totalAmount
   const totalAmount = association.monthlyAmount * turns.length;
   let percent = Math.abs(turn.feeAmount) / totalAmount * 100;
-  // Optional: round to nearest integer for display
   return Math.round(percent);
 }
 
@@ -128,20 +130,23 @@ function renderTabs() {
 
 function renderTurns() {
   turnsGrid.innerHTML = '';
+
+  // Keep "next" button state in sync
+  if (nextBtn) nextBtn.disabled = !selectedTurnId;
+
   tabs[selectedTab].forEach(turn => {
     let percentText = '';
-    // Only show percent if not zero fee
     if (turn.feeAmount !== 0) {
       percentText = ` (${getTurnPercent(turn)}%)`;
     }
-    let turnType = getTurnType(turn);
-    let isCashback = turn.feeAmount < 0;
+    const isCashback = turn.feeAmount < 0;
 
     const card = document.createElement('div');
     card.className = `turn-card border-2 rounded-xl p-3 flex flex-col gap-1 cursor-pointer relative transition ${turn.taken ? 'taken border-gray-300 bg-gray-100' : 'border-teal-400 bg-white'}`;
     card.dataset.id = turn.id;
     if (turn.taken) card.classList.add('pointer-events-none');
     if (selectedTurnId === turn.id) card.classList.add('selected');
+
     card.innerHTML = `
       <div class="flex items-center gap-2 mb-1">
         <input type="radio" name="turn" value="${turn.id}" ${turn.taken ? 'disabled' : ''} ${selectedTurnId === turn.id ? 'checked' : ''} class="accent-teal-500">
@@ -157,24 +162,53 @@ function renderTurns() {
             : 'بدون رسوم'
         }
       </div>
-      ${turn.taken ? `<div class="absolute top-2 left-2 flex items-center gap-1 text-xs lock"><svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm6-10V7a4 4 0 10-8 0v2" /></svg> غير متاح</div>` 
-        : `<button class="lock-btn mt-3 px-3 py-1 rounded bg-green-600 text-white font-bold w-full">احجز الدور</button>`
+      ${turn.taken
+        ? `<div class="absolute top-2 left-2 flex items-center gap-1 text-xs lock"><svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm6-10V7a4 4 0 10-8 0v2" /></svg> غير متاح</div>`
+        : `<button type="button" class="lock-btn mt-3 px-3 py-1 rounded bg-green-600 text-white font-bold w-full">احجز الدور</button>`
       }
     `;
+
     if (!turn.taken) {
-      card.addEventListener('click', () => {
+      // اختيار بالدوس على الكارت (ما عدا الزر)
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.lock-btn')) return; // الزر له هاندل خاص
         selectedTurnId = turn.id;
-        nextBtn.disabled = false;
+        storeTurnNumber(turn.turnName);
+        sessionStorage.setItem('selectedTurnId', String(turn.id)); // optional but useful
+        if (nextBtn) nextBtn.disabled = false;
         renderTurns();
         renderSummary();
-        storeTurnNumber(turn.turnName);
       });
 
+      // ربط تغيير الراديو صراحةً
+      setTimeout(() => {
+        const radio = card.querySelector('input[name="turn"]');
+        if (radio) {
+          radio.addEventListener('change', () => {
+            selectedTurnId = turn.id;
+            storeTurnNumber(turn.turnName);
+            sessionStorage.setItem('selectedTurnId', String(turn.id)); // optional
+            if (nextBtn) nextBtn.disabled = false;
+            renderTurns();
+            renderSummary();
+          });
+        }
+      }, 0);
+
+      // الزر نفسه يختار الدور قبل التأكيد/التحويل
       setTimeout(() => {
         const lockBtn = card.querySelector('.lock-btn');
         if (lockBtn) {
-          lockBtn.addEventListener('click', async (e) => {
+          lockBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (selectedTurnId !== turn.id) {
+              selectedTurnId = turn.id;
+              storeTurnNumber(turn.turnName);
+              sessionStorage.setItem('selectedTurnId', String(turn.id)); // optional
+              if (nextBtn) nextBtn.disabled = false;
+              renderTurns();
+              renderSummary();
+            }
             showModal('هل أنت متأكد أنك تريد اختيار هذا الدور؟', () => {
               window.location.href = 'upload.html';
             });
@@ -182,6 +216,7 @@ function renderTurns() {
         }
       }, 0);
     }
+
     turnsGrid.appendChild(card);
   });
 }
@@ -201,9 +236,10 @@ function renderSummary() {
   const contractFee = association.contractDeliveryFee || 0;
 
   // رسوم الدور كما أرسلت من السيرفر
-  document.getElementById('Fee').innerHTML = selectedTurn
-    ? formatAmount(selectedTurn.feeAmount)
-    : '-';
+  const feeEl = document.getElementById('Fee');
+  if (feeEl) {
+    feeEl.innerHTML = selectedTurn ? formatAmount(selectedTurn.feeAmount) : '-';
+  }
 
   // المبلغ المجمع (الكل دفع)
   let total = association.monthlyAmount * turns.length;
@@ -216,30 +252,30 @@ function renderSummary() {
   }
 
   // عرض المبلغ النهائي
-  totalFeeEl.innerHTML = selectedTurn
-    ? formatAmount(total)
-    : '-';
+  totalFeeEl.innerHTML = selectedTurn ? formatAmount(total) : '-';
 
   // فرق الرسوم (عرض الكاش باك أو الخصم بالنسبة المئوية)
   const diff = (selectedTurn ? selectedTurn.feeAmount : 0);
   const diffEl = document.getElementById('feeDiffText');
-  if (selectedTurn && diff !== 0) {
-    let percentText = ` (${getTurnPercent(selectedTurn)}%)`;
-    if (diff < 0) {
-      diffEl.innerHTML = `كاش باك ${formatAmount(Math.abs(diff))}${percentText}`;
-      diffEl.classList.remove('text-red-500', 'hidden');
-      diffEl.classList.add('text-green-500');
+  if (diffEl) {
+    if (selectedTurn && diff !== 0) {
+      let percentText = ` (${getTurnPercent(selectedTurn)}%)`;
+      if (diff < 0) {
+        diffEl.innerHTML = `كاش باك ${formatAmount(Math.abs(diff))}${percentText}`;
+        diffEl.classList.remove('text-red-500', 'hidden');
+        diffEl.classList.add('text-green-500');
+      } else {
+        diffEl.innerHTML = `خصم قدره ${formatAmount(Math.abs(diff))}${percentText}`;
+        diffEl.classList.remove('text-green-500', 'hidden');
+        diffEl.classList.add('text-red-500');
+      }
     } else {
-      diffEl.innerHTML = `خصم قدره ${formatAmount(Math.abs(diff))}${percentText}`;
-      diffEl.classList.remove('text-green-500', 'hidden');
-      diffEl.classList.add('text-red-500');
+      diffEl.innerHTML = '';
+      diffEl.classList.add('hidden');
     }
-  } else {
-    diffEl.innerHTML = '';
-    diffEl.classList.add('hidden');
   }
 
-  // توضيح رسوم العقد تحت المبلغ النهائي إذا كنت تريد:
+  // توضيح رسوم العقد
   const contractEl = document.getElementById('contractFeeText');
   if (contractEl && selectedTurn) {
     contractEl.innerHTML = contractFee > 0
@@ -248,8 +284,6 @@ function renderSummary() {
     contractEl.classList.toggle('hidden', contractFee <= 0);
   }
 }
-
-
 
 // دالة مساعدة لتخزين رقم الدور
 const storeTurnNumber = turnName => {
