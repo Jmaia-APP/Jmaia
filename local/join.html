@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>انضم إلى الجمعية</title>
-    <link rel="stylesheet" href="mainLayout.css" />
+  <link rel="stylesheet" href="mainLayout.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Tailwind CSS local -->
   <link rel="stylesheet" href="dist/tailwind.css">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Bootstrap Icons  Local & Tailwind-->
+  <!-- Bootstrap Icons  Local & Tailwind-->
   <link rel="stylesheet" href="./Assets/bootstrap-icons/font/bootstrap-icons.css">
   <!-- Google Material Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -25,7 +25,7 @@
         'opsz' 24
     }
 
-     /* Bottom Navbar */
+    /* Bottom Navbar */
     .bottom-navbar {
       position: fixed;
       bottom: 0;
@@ -62,13 +62,14 @@
       color: #16a34a !important;
       font-weight: 700;
     }
-  
   </style>
 </head>
 
 <body class="bg-gray-50">
   <!-- Navbar Top (unchanged) -->
- <div style="background-color:#90D1CA; padding-left: 1.5rem; padding-right: 1.5rem;" class="navbar fixed top-0 left-0 w-full z-50 flex justify-between items-center py-2 shadow-md rounded-b-lg" dir="ltr">
+  <div style="background-color:#90D1CA; padding-left: 1.5rem; padding-right: 1.5rem;"
+    class="navbar fixed top-0 left-0 w-full z-50 flex justify-between items-center py-2 shadow-md rounded-b-lg"
+    dir="ltr">
 
 
     <!-- Left icons -->
@@ -100,13 +101,14 @@
     <!-- User Profile -->
     <div class="relative">
       <button id="profile-toggle" class="focus:outline-none" title="الملف الشخصي / Profile">
-        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل" class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
+        <img id="navbar-profile-img" src="https://via.placeholder.com/40?text=..." alt="صورة البروفايل"
+          class="w-10 h-10 rounded-full border-2 border-white shadow object-cover">
       </button>
       <div id="popup-menu" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-50 p-2">
         <a href="./profile.html" class="block text-sm text-black py-1 hover:text-green-600">Profile</a>
-<a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
-  Settings
-</a>        <button id="logout-btn"
+        <a href="settings.html" class="block text-sm w-full text-left py-1 hover:text-green-600">
+          Settings
+        </a> <button id="logout-btn"
           class="block text-sm w-full text-left text-red-600 py-1 hover:text-red-800">Logout</button>
       </div>
     </div>
@@ -130,9 +132,9 @@
           <i class="bi bi-chevron-double-right text-2xl text-green-600"></i>
         </div>
         <div class="flex-1">
-          <div class="font-semibold text-lg text-gray-700">إشتراك في جمعية</div>
+          <div class="font-semibold text-lg text-gray-700">الاشتراك في جمعية</div>
           <div class="text-gray-600 text-sm leading-relaxed">
-اختر الدور الذي تريده بمبالغ استلام تصل إلى 15,000 ر.س في الجمعية الواحدة.
+            اختر الدور الذي تريده بمبالغ استلام تصل إلى 15,000 ر.س في الجمعية الواحدة.
 
           </div>
         </div>
@@ -145,7 +147,7 @@
           <i class="bi bi-chevron-double-right text-2xl text-green-600"></i>
         </div>
         <div class="flex-1 text-start" dir="rtl">
-          <div class="font-semibold text-lg text-gray-700">إشتراك في برنامج التحويش</div>
+          <div class="font-semibold text-lg text-gray-700">الاشتراك في برنامج الادخار</div>
           <div class="text-gray-600 text-sm leading-relaxed text-start">
             ادخر بالتقسيط مبالغ تصل إلى 1,000,000 ر.س، واستفد من مكافأة نقدية تصل إلى 20٪ عند نهاية المدة.
           </div>
@@ -155,7 +157,8 @@
   </main>
 
   <!-- Navbar Bottom (unchanged) -->
-  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg" style="background-color:#90D1CA; color:#212529; padding-bottom: 9.1px;" dir="rtl">
+  <div class="bottom-navbar flex justify-between items-center px-1 py-0 shadow-md rounded-t-lg"
+    style="background-color:#90D1CA; color:#212529; padding-bottom: 9.1px;" dir="rtl">
     <div onclick="location.href='home.html'" class="p-0">
       <i class="bi bi-house-door-fill  text-xl "></i>
       <div class="label ">الرئيسية</div>
@@ -166,9 +169,9 @@
       <div class="label">جمعياتي</div>
     </div>
 
-    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3 text-[#008D10]" >
+    <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3 text-[#008D10]">
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
-      <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
+      <div class="label" style="color:#16a34a; font-weight:700;">انضم الآن</div>
     </div>
 
     <div onclick="location.href='./wallet.html'" class="p-0">
@@ -195,32 +198,32 @@
     });
   </script>
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const token = localStorage.getItem('token');
-  const navbarImg = document.getElementById('navbar-profile-img');
-  if (token && navbarImg) {
-    fetch('http://localhost:3000/api/userData/profile', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
-      .then(res => res.json())
-      .then(data => {
-        let imgUrl;
-        if (data.profileImage) {
-          imgUrl = `http://localhost:3000/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
-        } else {
-          imgUrl = './Assets/imgs/anynoums.jpg';
-        }
-        navbarImg.src = imgUrl;
-        navbarImg.onerror = function () {
-          navbarImg.src = './Assets/imgs/anynoums.jpg';
-        };
-      })
-      .catch(() => {
-        navbarImg.src = './Assets/imgs/anynoums.jpg';
-      });
-  }
-});
-</script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const navbarImg = document.getElementById('navbar-profile-img');
+      if (token && navbarImg) {
+        fetch('http://localhost:3000/api/userData/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(res => res.json())
+          .then(data => {
+            let imgUrl;
+            if (data.profileImage) {
+              imgUrl = `http://localhost:3000/uploads/${data.profileImage.replace('uploads/', '')}?t=${Date.now()}`;
+            } else {
+              imgUrl = './Assets/imgs/anynoums.jpg';
+            }
+            navbarImg.src = imgUrl;
+            navbarImg.onerror = function () {
+              navbarImg.src = './Assets/imgs/anynoums.jpg';
+            };
+          })
+          .catch(() => {
+            navbarImg.src = './Assets/imgs/anynoums.jpg';
+          });
+      }
+    });
+  </script>
   <script src="./join.js"></script>
   <script src="./MainLayout.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

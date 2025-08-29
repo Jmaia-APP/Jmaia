@@ -118,6 +118,7 @@
       box-shadow: 0 4px 16px rgba(16, 185, 129, 0.11);
       background-color: #ecfdf5;
     }
+
     /* أيقونة العدسة عند تمرير الماوس */
     .group:hover .group-hover\:opacity-100 {
       opacity: 1 !important;
@@ -150,7 +151,8 @@
 
       </div>
       <div class="flex flex-col gap-2 mt-2 relative">
-        <button id="toggle-id-images-btn" class="mb-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium w-full hidden"></button>
+        <button id="toggle-id-images-btn"
+          class="mb-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium w-full hidden"></button>
         <div id="uploaded-id-images" class="flex flex-col gap-2"></div>
       </div>
 
@@ -160,7 +162,8 @@
 
         <div class="flex-grow text-end">
           <p class="text-sm font-medium text-gray-700">إيصال إلتزام السداد</p>
-          <p class="text-xs text-gray-500 mt-1"> عليك التوقيع على مذكرة التأمين في البداية. في حال كنت قد وقعت عليها مسبقاً، فلا حاجة لإعادة التوقيع. </p>
+          <p class="text-xs text-gray-500 mt-1"> عليك التوقيع على مذكرة التأمين في البداية. في حال كنت قد وقعت عليها
+            مسبقاً، فلا حاجة لإعادة التوقيع. </p>
         </div>
       </div>
       <div class="flex justify-end mt-2 mb-2">
@@ -174,7 +177,7 @@
 
         <div class="flex-grow text-end">
           <p class="text-sm font-medium text-gray-700">حدد طريقة استلام أموالك
-</p>
+          </p>
           <p class="text-xs text-gray-500 mt-1">لازم تختار وسيلة قبض عشان تقدر تستلم مبلغ القبض</p>
         </div>
       </div>
@@ -194,18 +197,18 @@
       </div>
     </div>
 
-<div class="mt-8 flex items-center justify-between p-4 installments-header" dir="rtl">
-  <!-- الجهة اليمين: العنوان + أيقونة -->
-  <div class="flex items-center gap-2">
-    <h2 class="text-base font-semibold">الأقساط المستحقة</h2>
-    <i class="fas fa-coins text-2xl text-yellow-600"></i>
-  </div>
+    <div class="mt-8 flex items-center justify-between p-4 installments-header" dir="rtl">
+      <!-- الجهة اليمين: العنوان + أيقونة -->
+      <div class="flex items-center gap-2">
+        <h2 class="text-base font-semibold">الأقساط المستحقة</h2>
+        <i class="fas fa-coins text-2xl text-yellow-600"></i>
+      </div>
 
-  <!-- الجهة الشمال: الأيقونة -->
-  <div class="checked-icon-container">
-    <i class="fas fa-check text-green-600"></i>
-  </div>
-</div>
+      <!-- الجهة الشمال: الأيقونة -->
+      <div class="checked-icon-container">
+        <i class="fas fa-check text-green-600"></i>
+      </div>
+    </div>
 
 
     <div id="installment-log" class="flex flex-col gap-3"></div>
@@ -302,7 +305,7 @@
 
     <div onclick="location.href='join.html'" class="grid justify-center active-footer p-0 mb-3">
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
-      <div class="label" style="color:#16a34a; font-weight:700;">انضم الان</div>
+      <div class="label" style="color:#16a34a; font-weight:700;">انضم الآن</div>
     </div>
 
     <div onclick="location.href='./wallet.html'" class="p-0">
@@ -454,7 +457,7 @@
           renderImages(imagesToShow);
           // زر التبديل
           if (data.images.length > 2) {
-            toggleBtn.onclick = function() {
+            toggleBtn.onclick = function () {
               if (!showingAll) {
                 renderImages(data.images);
                 toggleBtn.innerText = 'إخفاء الصور الإضافية';
@@ -577,7 +580,7 @@
 
     ${payout ? `
     <span class="text-xs text-gray-500">
-      إجمالي القبض: ${payout} ر.س
+      إجمالي الاستلام: ${payout} ر.س
     </span>` : ""}
 
     ${feeAmount ? `

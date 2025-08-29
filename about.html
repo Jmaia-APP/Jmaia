@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>عن چمعية</title>
+  <title>عن جمعية</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --primary: #90D1CA; }
+    :root {
+      --primary: #90D1CA;
+    }
   </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans">
 
   <!-- Navbar -->
-<header class="bg-white border-b shadow-sm fixed w-full z-10">
-  <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+  <header class="bg-white border-b shadow-sm fixed w-full z-10">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
 
-    <!-- زر الرجوع -->
-    <button onclick="history.back()" class="w-10 h-10 text-green-300 hover:text-[var(--primary)] text-4xl">
-      <i class="bi bi-arrow-right-circle-fill"></i>
-    </button>
+      <!-- زر الرجوع -->
+      <button onclick="history.back()" class="w-10 h-10 text-green-300 hover:text-[var(--primary)] text-4xl">
+        <i class="bi bi-arrow-right-circle-fill"></i>
+      </button>
 
-    <!-- اللوجو -->
-    <a href="index.html" class="flex items-center space-x-2 text-[var(--primary)]">
-      <img src="./Assets/imgs/logoJmaia.svg" alt="" class="h-10 w-10 rounded-full ml-3">
-      <span class="text-2xl font-extrabold">چمعية</span>
-    </a>
+      <!-- اللوجو -->
+      <a href="index.html" class="flex items-center space-x-2 text-[var(--primary)]">
+        <img src="./Assets/imgs/logoJmaia.svg" alt="" class="h-10 w-10 rounded-full ml-3">
+        <span class="text-2xl font-extrabold">جمعية</span>
+      </a>
 
-  </div>
-</header>
+    </div>
+  </header>
 
 
   <main class="pt-24">
@@ -38,12 +42,12 @@
     <section class="relative bg-[var(--primary)] text-white overflow-hidden">
       <div class="container mx-auto px-6 py-24 flex flex-col-reverse lg:flex-row items-center justify-between">
         <div class="lg:w-1/2 text-center lg:text-left space-y-6">
-          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">مرحبًا بك في چمعية</h1>
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">مرحبًا بك في جمعية</h1>
           <p class="text-lg md:text-xl">أحدث تطبيق لإدارة جمعياتك في المملكة العربية السعودية.</p>
           <!-- <a href="download.html" class="inline-block bg-white text-[var(--primary)] px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition">حمل التطبيق الآن</a> -->
         </div>
         <div class="lg:w-1/2 mb-10 lg:mb-0">
-          <img src="assets/hero-app.svg" alt="تطبيق چمعية" class="w-full h-auto">
+          <img src="assets/hero-app.svg" alt="تطبيق جمعية" class="w-full h-auto">
         </div>
       </div>
       <div class="absolute -bottom-20 right-0 w-96 opacity-10">
@@ -55,16 +59,21 @@
     <section class="container mx-auto px-6 py-20">
       <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
         <div class="lg:w-1/2">
-          <img src="assets/about-illustration.svg" alt="عن چمعية" class="w-full h-full object-cover">
+          <img src="assets/about-illustration.svg" alt="عن جمعية" class="w-full h-full object-cover">
         </div>
         <div class="lg:w-1/2 p-10 space-y-6">
-          <h2 class="text-3xl font-bold text-[var(--primary)]">ما هو چمعية؟</h2>
-          <p class="text-gray-600 leading-relaxed">چمعية هو تطبيق يهدف لتسهيل إدارة الجمعيات والخزانات وبناء مجتمع من الثقة بين الأعضاء، مع توفير تجربة استخدام سلسة وعصرية.</p>
+          <h2 class="text-3xl font-bold text-[var(--primary)]">ما هي جمعية؟</h2>
+          <p class="text-gray-600 leading-relaxed">جمعية هو تطبيق يهدف لتسهيل إدارة الجمعيات والخزانات وبناء مجتمع من
+            الثقة بين الأعضاء، مع توفير تجربة استخدام سلسة وعصرية.</p>
           <ul class="list-inside space-y-3">
-            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>إدارة اشتراكات الأعضاء بسهولة</li>
-            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>مدفوعات إلكترونية آمنة</li>
-            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>تقارير مالية دقيقة بلمسة واحدة</li>
-            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>إشعارات وتنبيهات دورية</li>
+            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>إدارة اشتراكات
+              الأعضاء بسهولة</li>
+            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>مدفوعات إلكترونية
+              آمنة</li>
+            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>تقارير مالية دقيقة
+              بلمسة واحدة</li>
+            <li class="flex items-start"><span class="text-[var(--primary)] text-2xl ml-3">✓</span>إشعارات وتنبيهات
+              دورية</li>
           </ul>
         </div>
       </div>
@@ -73,7 +82,7 @@
     <!-- How It Works -->
     <section class="bg-gray-50 py-20">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">كيف يعمل چمعية؟</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">كيف يعمل تطبيق جمعية؟</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="p-8 bg-white rounded-2xl shadow-md transform hover:-translate-y-2 transition">
             <div class="text-5xl mb-4 text-[var(--primary)]">1</div>
@@ -96,15 +105,17 @@
 
     <!-- CTA -->
     <section class="container mx-auto px-6 py-20 text-center">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">هل أنت جاهز للانضمام إلى چمعية؟</h2>
-      <a href="home.html" class="inline-block bg-[var(--primary)] text-white px-12 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition">ابدأ الآن مجانًا</a>
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">هل أنت جاهز للانضمام إلى جمعية؟</h2>
+      <a href="home.html"
+        class="inline-block bg-[var(--primary)] text-white px-12 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition">ابدأ
+        الآن مجانًا</a>
     </section>
   </main>
 
   <!-- Footer -->
   <footer class="bg-white border-t py-8">
     <div class="container mx-auto px-6 text-center space-y-4">
-      <p class="text-gray-600">© 2025 چمعية. جميع الحقوق محفوظة.</p>
+      <p class="text-gray-600">© 2025 جمعية. جميع الحقوق محفوظة.</p>
       <div class="space-x-6">
         <a href="#" class="text-gray-600 hover:text-[var(--primary)]">سياسة الخصوصية</a>
         <a href="#" class="text-gray-600 hover:text-[var(--primary)]">الشروط والأحكام</a>
@@ -121,4 +132,5 @@
     });
   </script>
 </body>
+
 </html>
