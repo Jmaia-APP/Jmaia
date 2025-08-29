@@ -93,13 +93,20 @@
     }
 
     @media (max-width: 400px) {
-      .months-bar { gap: 0.15rem; }
-      .month-box { width: 15px; height: 8px; }
+      .months-bar {
+        gap: 0.15rem;
+      }
+
+      .month-box {
+        width: 15px;
+        height: 8px;
+      }
     }
 
     #slider {
       overflow: hidden;
     }
+
     #slides {
       /* Remove px-6 to avoid extra padding on sides */
       /* Remove gap-x-6 to avoid visible next slide */
@@ -109,7 +116,8 @@
       /* Ensure full width */
       width: 100%;
     }
-    #slides > div {
+
+    #slides>div {
       min-width: 100% !important;
       max-width: 100% !important;
       flex: 0 0 100% !important;
@@ -314,7 +322,7 @@
           <img src="./Assets/imgs/Group 13987.svg" alt="" class="h-8">
           <button id="invite-btn"
             class="bg-white text-[#1E1E1E] font-semibold text-sm px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-100 transition">
-ارسل دعوة
+            ارسل دعوة
           </button>
         </div>
       </div>
@@ -383,7 +391,7 @@
         arrow_circle_left
       </span> -->
       <img src="./Assets/imgs/SubscribeIcon.svg" class="" alt="">
-      <div class="label" style=" font-weight:700;">انضم الان</div>
+      <div class="label" style=" font-weight:700;">انضم الآن</div>
     </div>
 
     <div onclick="location.href='./wallet.html'" class="p-0">
@@ -558,12 +566,12 @@
       slides.classList.remove('transition-transform');
       slides.style.userSelect = 'none';
       animationID = requestAnimationFrame(animation);
-    }, {passive: true});
+    }, { passive: true });
     slides.addEventListener('touchmove', e => {
       if (!isDragging) return;
       const dx = getEventX(e) - startX;
       currentTranslate = prevTranslate + dx;
-    }, {passive: false});
+    }, { passive: false });
     slides.addEventListener('touchend', finishDrag);
 
     // Responsive: recalculate slide position on resize
@@ -602,13 +610,13 @@
     );
 
     // ← Arrow navigation
-    document.getElementById('slider-arrow-left').addEventListener('click', function() {
+    document.getElementById('slider-arrow-left').addEventListener('click', function () {
       if (currentIndex > 0) {
         currentIndex--;
         setPositionByIndex();
       }
     });
-    document.getElementById('slider-arrow-right').addEventListener('click', function() {
+    document.getElementById('slider-arrow-right').addEventListener('click', function () {
       if (currentIndex < total - 1) {
         currentIndex++;
         setPositionByIndex();
@@ -721,7 +729,7 @@
               <!-- شريط الشهور -->
               <div class="bg-[#F7F7F9] rounded-lg px-2 py-2 mt-2 mb-1">
                 <div class="months-bar">
-                  ${Array.from({length: months}).map((_, i) => `
+                  ${Array.from({ length: months }).map((_, i) => `
                     <span class="month-box${i === userTurnIndex ? ' user-turn' : ''}">
                       ${i === userTurnIndex ? '<i class="bi bi-person" style="color:#0FA451;font-size:12px;position:absolute;left:50%;top:50%;transform:translate(-50%,-60%);background:#fff;border-radius:50%;padding:0 1px;"></i>' : ''}
                     </span>

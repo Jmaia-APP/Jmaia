@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تسجيل الجمعية</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Tailwind -->
+  <!-- Tailwind -->
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <link rel="stylesheet" href="dist/tailwind.css">
 
 </head>
+
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
     <label class="block mb-2 font-bold text-blue-700">اختر الجمعية</label>
@@ -17,7 +19,9 @@
     <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">تسجيل الجمعية</h2>
     <div id="turns-list" class="space-y-3 mb-6"></div>
     <div id="turn-info" class="mb-4 text-lg text-gray-700 text-center"></div>
-    <button id="join-btn" class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition mb-4" disabled>تسجيل في الجمعية</button>
+    <button id="join-btn"
+      class="w-full py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition mb-4" disabled>تسجيل
+      في الجمعية</button>
     <div id="result" class="text-center text-lg font-bold mt-4"></div>
   </div>
   <script>
@@ -52,14 +56,14 @@
           <div>
             <div class="font-bold">${turn.turnName}</div>
             <div class="text-sm text-gray-600">${new Date(turn.scheduledDate).toLocaleDateString('ar-EG')}</div>
-            <div class="text-sm">رسوم: <span class="font-semibold">${turn.feeAmount} ج</span></div>
+            <div class="text-sm">رسوم: <span class="font-semibold">${turn.feeAmount} ر.س</span></div>
           </div>
           <button ${turn.taken ? 'disabled' : ''} class="select-btn px-4 py-2 rounded bg-blue-500 text-white font-bold hover:bg-blue-600 transition" data-turn='${JSON.stringify(turn)}'>اختر</button>
         `;
         list.appendChild(div);
       });
       document.querySelectorAll('.select-btn').forEach(btn => {
-        btn.onclick = function() {
+        btn.onclick = function () {
           const turn = JSON.parse(this.getAttribute('data-turn'));
           // Extract turnNumber from turnName
           const match = turn.turnName.match(/\d+/);
@@ -80,7 +84,7 @@
       if (turnObj) {
         try {
           turnNumber = JSON.parse(turnObj).turnNumber;
-        } catch {}
+        } catch { }
       }
       document.getElementById('turn-info').textContent = turnNumber ? `الدور المختار: ${turnNumber}` : '';
     }
@@ -106,7 +110,7 @@
         option.textContent = assoc.name + (assoc.status ? ` (${assoc.status})` : '');
         select.appendChild(option);
       });
-      select.onchange = function() {
+      select.onchange = function () {
         if (this.value) {
           localStorage.setItem('selectedAssociationId', this.value);
           fetchTurns();
@@ -129,7 +133,7 @@
 
     fetchAssociations();
 
-    document.getElementById('join-btn').onclick = async function() {
+    document.getElementById('join-btn').onclick = async function () {
       const turnObj = localStorage.getItem('turnNumber');
       if (!turnObj) return alert('يرجى اختيار دور أولاً');
       const { turnNumber } = JSON.parse(turnObj);
@@ -149,8 +153,10 @@
       this.disabled = true;
       const res = await fetch(`http://localhost:3000/api/associations/${associationId}/join`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json',
-                 'Authorization': `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ turnNumber })
       });
       const data = await res.json();
@@ -158,4 +164,5 @@
     };
   </script>
 </body>
+
 </html>
